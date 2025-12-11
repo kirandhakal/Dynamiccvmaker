@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Edit2, Plus, Trash2, Download, Eye, EyeOff, GripVertical } from 'lucide-react';
+import { Edit2, Plus, Trash2, Download, Eye,
+  //  EyeOff, GripVertical
+   } from 'lucide-react';
 
 const DynamicCVMaker = () => {
   const [editMode, setEditMode] = useState(true);
