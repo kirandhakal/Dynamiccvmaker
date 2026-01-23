@@ -36,10 +36,152 @@ const templateStyles = {
 };
 
 const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
+  // --- State with Local Storage Initialization ---
   const [editMode, setEditMode] = useState(true);
-  const [customColor, setCustomColor] = useState('#3498db');
-  const [selectedFont, setSelectedFont] = useState('Arial, sans-serif');
+  const [activeTarget, setActiveTarget] = useState('global'); // 'global', 'header', 'section', 'body'
+
+  // Initialize Styles from LocalStorage or Default
+  const [styleConfig, setStyleConfig] = useState(() => {
+    const saved = localStorage.getItem('cv_style_config');
+    return saved ? JSON.parse(saved) : {
+      global: { color: '#3498db', font: 'Arial, sans-serif', size: 'medium', lineHeight: 'normal' },
+      header: { color: '#2c3e50', font: 'inherit', size: 'inherit' },
+      section: { color: '#2c3e50', font: 'inherit', size: 'inherit' },
+      body: { color: 'inherit', font: 'inherit', size: 'inherit' } // Inherit body from global by default
+    };
+  });
+
+  // Initialize CV Content from LocalStorage
+  const [cv, setCv] = useState(() => {
+    const saved = localStorage.getItem('cv_data');
+    return saved ? JSON.parse(saved) : {
+      name: "JOHN DOE",
+      title: "Full Stack Developer",
+      contact: {
+        location: "San Francisco, CA",
+        email: "john.doe@example.com",
+        portfolio: "https://johndoe.dev",
+        linkedin: "https://www.linkedin.com/in/johndoe",
+        github: "https://github.com/johndoe"
+      },
+      sections: [
+        {
+          id: 1,
+          title: "PROFESSIONAL SUMMARY",
+          type: "text",
+          content: "Results-driven full stack developer with 5+ years of experience building scalable web applications. Proficient in modern JavaScript frameworks, cloud technologies, and agile methodologies. Passionate about creating elegant solutions to complex problems and delivering exceptional user experiences."
+        },
+        {
+          id: 2,
+          title: "TECHNICAL SKILLS",
+          type: "skills",
+          items: [
+            { category: "Frontend", items: "React.js, Vue.js, HTML5, CSS3, TypeScript, Tailwind CSS" },
+            { category: "Backend", items: "Node.js, Python, Django, Express.js, RESTful APIs" },
+            { category: "Database", items: "MongoDB, PostgreSQL, MySQL, Redis" },
+            { category: "DevOps", items: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions" },
+            { category: "Tools", items: "Git, VS Code, Figma, Jira, Postman" },
+            { category: "Soft Skills", items: "Team Leadership, Agile/Scrum, Problem Solving, Communication" }
+          ]
+        },
+        {
+          id: 3,
+          title: "EDUCATION",
+          type: "education",
+          items: [
+            {
+              degree: "Bachelor of Science in Computer Science",
+              institution: "University of California, Berkeley",
+              period: "September 2015 - May 2019"
+            },
+            {
+              degree: "Full Stack Web Development Bootcamp",
+              institution: "Tech Academy",
+              period: "January 2020 - April 2020"
+            }
+          ]
+        },
+        {
+          id: 4,
+          title: "PROJECTS",
+          type: "projects",
+          items: [
+            {
+              name: "E-Commerce Platform",
+              link: "https://github.com/johndoe/ecommerce-platform",
+              description: "Built a full-featured e-commerce platform with React, Node.js, and MongoDB. Implemented user authentication, payment processing with Stripe, inventory management, and admin dashboard. Achieved 99.9% uptime and processed over $100K in transactions."
+            },
+            {
+              name: "Task Management App",
+              link: "https://github.com/johndoe/task-manager",
+              description: "Developed a collaborative task management application using Vue.js and Firebase. Features include real-time updates, drag-and-drop interface, team collaboration, and email notifications. Used by 500+ active users."
+            }
+          ]
+        },
+        {
+          id: 5,
+          title: "WORK EXPERIENCE",
+          type: "experience",
+          items: [
+            {
+              position: "Senior Software Engineer",
+              company: "Tech Corp Inc.",
+              period: "June 2021 - Present",
+              description: "Lead development of microservices architecture serving 1M+ users. Mentor junior developers and conduct code reviews. Reduced API response time by 40% through optimization."
+            },
+            {
+              position: "Frontend Developer",
+              company: "StartUp XYZ",
+              period: "January 2019 - May 2021",
+              description: "Built responsive web applications using React and TypeScript. Collaborated with designers to implement pixel-perfect UIs. Improved page load time by 60%."
+            }
+          ]
+        },
+        {
+          id: 6,
+          title: "LANGUAGES",
+          type: "text",
+          content: "English (Native) • Spanish (Professional Working Proficiency) • French (Conversational)"
+        },
+        {
+          id: 7,
+          title: "INTERESTS & ACTIVITIES",
+          type: "text",
+          content: "Open source contribution • Tech blogging and writing tutorials • Marathon running and fitness • Photography and travel • Mentoring junior developers"
+        }
+      ]
+    };
+  });
+
   const [draggedSectionIndex, setDraggedSectionIndex] = useState(null);
+
+  // --- Persistence Hooks ---
+  React.useEffect(() => {
+    localStorage.setItem('cv_data', JSON.stringify(cv));
+  }, [cv]);
+
+  React.useEffect(() => {
+    localStorage.setItem('cv_style_config', JSON.stringify(styleConfig));
+  }, [styleConfig]);
+
+  // Helper to update specific style target
+  const updateStyle = (property, value) => {
+    setStyleConfig(prev => ({
+      ...prev,
+      [activeTarget]: {
+        ...prev[activeTarget],
+        [property]: value
+      }
+    }));
+  };
+
+  // Helper to get effective value
+  const getStyleValue = (target, property) => {
+    const val = styleConfig[target][property];
+    if (val !== 'inherit') return val;
+    return styleConfig.global[property]; // Fallback to global
+  };
+
 
   const fontOptions = [
     { name: 'Default (Arial)', value: 'Arial, sans-serif' },
@@ -48,6 +190,20 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
     { name: 'Elegant (Merriweather)', value: "'Merriweather', serif" },
     { name: 'Classic (Playfair)', value: "'Playfair Display', serif" },
   ];
+
+  const fontSizeMapping = {
+    small: { h1: '20px', h2: '14px', h3: '12px', body: '10px' },
+    medium: { h1: '24px', h2: '16px', h3: '14px', body: '12px' },
+    large: { h1: '28px', h2: '18px', h3: '16px', body: '14px' },
+    xl: { h1: '32px', h2: '20px', h3: '18px', body: '16px' },
+  };
+
+  const lineHeightMapping = {
+    compact: '1.2',
+    normal: '1.4',
+    loose: '1.6',
+    relaxed: '1.8',
+  };
 
   const getStyles = () => {
     const baseStyles = templateStyles[selectedTemplate] || templateStyles[1];
@@ -59,103 +215,8 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
   };
 
   const styles = getStyles();
-  const [cv, setCv] = useState({
-    name: "JOHN DOE",
-    title: "Full Stack Developer",
-    contact: {
-      location: "San Francisco, CA",
-      email: "john.doe@example.com",
-      portfolio: "https://johndoe.dev",
-      linkedin: "https://www.linkedin.com/in/johndoe",
-      github: "https://github.com/johndoe"
-    },
-    sections: [
-      {
-        id: 1,
-        title: "PROFESSIONAL SUMMARY",
-        type: "text",
-        content: "Results-driven full stack developer with 5+ years of experience building scalable web applications. Proficient in modern JavaScript frameworks, cloud technologies, and agile methodologies. Passionate about creating elegant solutions to complex problems and delivering exceptional user experiences."
-      },
-      {
-        id: 2,
-        title: "TECHNICAL SKILLS",
-        type: "skills",
-        items: [
-          { category: "Frontend", items: "React.js, Vue.js, HTML5, CSS3, TypeScript, Tailwind CSS" },
-          { category: "Backend", items: "Node.js, Python, Django, Express.js, RESTful APIs" },
-          { category: "Database", items: "MongoDB, PostgreSQL, MySQL, Redis" },
-          { category: "DevOps", items: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions" },
-          { category: "Tools", items: "Git, VS Code, Figma, Jira, Postman" },
-          { category: "Soft Skills", items: "Team Leadership, Agile/Scrum, Problem Solving, Communication" }
-        ]
-      },
-      {
-        id: 3,
-        title: "EDUCATION",
-        type: "education",
-        items: [
-          {
-            degree: "Bachelor of Science in Computer Science",
-            institution: "University of California, Berkeley",
-            period: "September 2015 - May 2019"
-          },
-          {
-            degree: "Full Stack Web Development Bootcamp",
-            institution: "Tech Academy",
-            period: "January 2020 - April 2020"
-          }
-        ]
-      },
-      {
-        id: 4,
-        title: "PROJECTS",
-        type: "projects",
-        items: [
-          {
-            name: "E-Commerce Platform",
-            link: "https://github.com/johndoe/ecommerce-platform",
-            description: "Built a full-featured e-commerce platform with React, Node.js, and MongoDB. Implemented user authentication, payment processing with Stripe, inventory management, and admin dashboard. Achieved 99.9% uptime and processed over $100K in transactions."
-          },
-          {
-            name: "Task Management App",
-            link: "https://github.com/johndoe/task-manager",
-            description: "Developed a collaborative task management application using Vue.js and Firebase. Features include real-time updates, drag-and-drop interface, team collaboration, and email notifications. Used by 500+ active users."
-          }
-        ]
-      },
-      {
-        id: 5,
-        title: "WORK EXPERIENCE",
-        type: "experience",
-        items: [
-          {
-            position: "Senior Software Engineer",
-            company: "Tech Corp Inc.",
-            period: "June 2021 - Present",
-            description: "Lead development of microservices architecture serving 1M+ users. Mentor junior developers and conduct code reviews. Reduced API response time by 40% through optimization."
-          },
-          {
-            position: "Frontend Developer",
-            company: "StartUp XYZ",
-            period: "January 2019 - May 2021",
-            description: "Built responsive web applications using React and TypeScript. Collaborated with designers to implement pixel-perfect UIs. Improved page load time by 60%."
-          }
-        ]
-      },
-      {
-        id: 6,
-        title: "LANGUAGES",
-        type: "text",
-        content: "English (Native) • Spanish (Professional Working Proficiency) • French (Conversational)"
-      },
-      {
-        id: 7,
-        title: "INTERESTS & ACTIVITIES",
-        type: "text",
-        content: "Open source contribution • Tech blogging and writing tutorials • Marathon running and fitness • Photography and travel • Mentoring junior developers"
-      }
-    ]
-  });
+  // Removed initialization of default CV to prevent overwrite of localStorage logic above
+
 
   const updateField = (path, value) => {
     setCv(prev => {
@@ -761,15 +822,29 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
         {/* Control Panel */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-4 print:hidden">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-gray-800">Dynamic CV Maker</h1>
+            {/* <h1 className="text-2xl font-bold text-gray-800">Dynamic CV Maker</h1> */}
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-2">
-                <label className="text-sm font-semibold text-gray-700">Theme Color:</label>
+                <label className="text-sm font-semibold text-gray-700">Target:</label>
+                <select
+                  value={activeTarget}
+                  onChange={(e) => setActiveTarget(e.target.value)}
+                  className="border border-gray-300 rounded p-1 text-sm bg-white font-bold"
+                >
+                  <option value="global">Entire Resume</option>
+                  <option value="header">Main Header</option>
+                  <option value="section">Section Titles</option>
+                  <option value="body">Body Text</option>
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Color:</label>
                 <input
                   type="color"
-                  value={customColor}
-                  onChange={(e) => setCustomColor(e.target.value)}
+                  value={styleConfig[activeTarget].color !== 'inherit' && styleConfig[activeTarget].color !== undefined ? styleConfig[activeTarget].color : styleConfig.global.color}
+                  onChange={(e) => updateStyle('color', e.target.value)}
                   className="w-8 h-8 rounded cursor-pointer border-0 p-0"
                 />
               </div>
@@ -777,15 +852,47 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
               <div className="flex items-center gap-2">
                 <label className="text-sm font-semibold text-gray-700">Font:</label>
                 <select
-                  value={selectedFont}
-                  onChange={(e) => setSelectedFont(e.target.value)}
+                  value={styleConfig[activeTarget].font !== 'inherit' ? styleConfig[activeTarget].font : styleConfig.global.font}
+                  onChange={(e) => updateStyle('font', e.target.value)}
                   className="border border-gray-300 rounded p-1 text-sm bg-white"
                 >
+                  {activeTarget !== 'global' && <option value="inherit">Inherit (Use Global)</option>}
                   {fontOptions.map((font, idx) => (
                     <option key={idx} value={font.value}>{font.name}</option>
                   ))}
                 </select>
               </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Size:</label>
+                <select
+                  value={styleConfig[activeTarget].size !== 'inherit' ? styleConfig[activeTarget].size : styleConfig.global.size}
+                  onChange={(e) => updateStyle('size', e.target.value)}
+                  className="border border-gray-300 rounded p-1 text-sm bg-white"
+                >
+                  {activeTarget !== 'global' && <option value="inherit">Inherit (Use Global)</option>}
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                  <option value="xl">Extra Large</option>
+                </select>
+              </div>
+
+              {activeTarget === 'global' && (
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-semibold text-gray-700">Spacing:</label>
+                  <select
+                    value={styleConfig.global.lineHeight}
+                    onChange={(e) => updateStyle('lineHeight', e.target.value)}
+                    className="border border-gray-300 rounded p-1 text-sm bg-white"
+                  >
+                    <option value="compact">Compact</option>
+                    <option value="normal">Normal</option>
+                    <option value="loose">Loose</option>
+                    <option value="relaxed">Relaxed</option>
+                  </select>
+                </div>
+              )}
 
               <div className="flex gap-2">
                 <button
@@ -846,7 +953,27 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
         </div>
 
         {/* CV Document */}
-        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content" style={{ '--theme-color': customColor }}>
+        {/* CV Document */}
+        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content" style={{
+          // Theme Colors
+          '--theme-color': getStyleValue('global', 'color'), // Global/Links
+          '--section-title-color': getStyleValue('section', 'color'), // Section Titles Separate
+          '--header-text-color': getStyleValue('header', 'color'),
+          '--cv-body-color': getStyleValue('body', 'color'),
+
+          // Fonts
+          '--cv-font': getStyleValue('global', 'font'),
+          '--cv-header-font': getStyleValue('header', 'font'),
+          '--cv-body-font': getStyleValue('body', 'font'),
+
+          // Sizes (Resolved)
+          '--cv-h1-size': fontSizeMapping[getStyleValue('header', 'size')].h1,
+          '--cv-h2-size': fontSizeMapping[getStyleValue('section', 'size')].h2,
+          '--cv-h3-size': fontSizeMapping[getStyleValue('body', 'size')].h3,
+          '--cv-body-size': fontSizeMapping[getStyleValue('body', 'size')].body,
+
+          '--cv-line-height': lineHeightMapping[styleConfig.global.lineHeight],
+        }}>
           <style>{`
             @media print {
               body * {
@@ -877,17 +1004,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
               color: #333;
             }
             
-            @media screen and (max-width: 768px) {
-              .cv-page {
-                width: 100%;
-              }
-            }
-            .cv-page {
-               font-family: var(--cv-font);
             }
           `}</style>
 
-          <div className="cv-page" style={{ '--cv-font': selectedFont }}>
+          <div className="cv-page">
+
             {/* Header with template styling */}
             <div className={`${styles.headerBg} p-6 mb-4`}>
               {editMode ? (
@@ -983,7 +1104,6 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
             </div>
 
             {/* Dynamic Sections */}
-            {/* Dynamic Sections */}
             <div className="p-6">
               {cv.sections.map((section, index) => (
                 <div
@@ -1008,7 +1128,7 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </div >
   );
 };
