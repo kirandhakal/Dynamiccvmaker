@@ -3,8 +3,40 @@ import { Edit2, Plus, Trash2, Download, Eye,
   //  EyeOff, GripVertical
    } from 'lucide-react';
 
-const DynamicCVMaker = () => {
+// Template style configurations
+const templateStyles = {
+  1: { // Classic - Clean black & white
+    headerBg: 'bg-white',
+    headerText: 'text-gray-900',
+    accentColor: 'text-gray-700',
+    borderColor: 'border-gray-300',
+    sectionTitle: 'text-gray-800 border-b-2 border-gray-800',
+    linkColor: 'text-gray-600 hover:text-gray-900',
+    pageBg: 'bg-white',
+  },
+  2: { // Modern - Blue accent
+    headerBg: 'bg-blue-600',
+    headerText: 'text-white',
+    accentColor: 'text-blue-600',
+    borderColor: 'border-blue-300',
+    sectionTitle: 'text-blue-700 border-b-2 border-blue-500',
+    linkColor: 'text-blue-600 hover:text-blue-800',
+    pageBg: 'bg-white',
+  },
+  3: { // Creative - Purple/gradient feel
+    headerBg: 'bg-gradient-to-r from-purple-600 to-indigo-600',
+    headerText: 'text-white',
+    accentColor: 'text-purple-600',
+    borderColor: 'border-purple-300',
+    sectionTitle: 'text-purple-700 border-b-2 border-purple-500',
+    linkColor: 'text-purple-600 hover:text-purple-800',
+    pageBg: 'bg-gray-50',
+  },
+};
+
+const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
   const [editMode, setEditMode] = useState(true);
+  const styles = templateStyles[selectedTemplate] || templateStyles[1];
   const [cv, setCv] = useState({
     name: "JOHN DOE",
     title: "Full Stack Developer",
@@ -243,10 +275,10 @@ const DynamicCVMaker = () => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1 focus:outline-none focus:border-blue-500"
+                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
                 />
               ) : (
-                <h2 className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1">
+                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
                   {section.title}
                 </h2>
               )}
@@ -284,10 +316,10 @@ const DynamicCVMaker = () => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1 focus:outline-none focus:border-blue-500"
+                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
                 />
               ) : (
-                <h2 className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1">
+                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
                   {section.title}
                 </h2>
               )}
@@ -356,10 +388,10 @@ const DynamicCVMaker = () => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1 focus:outline-none focus:border-blue-500"
+                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
                 />
               ) : (
-                <h2 className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1">
+                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
                   {section.title}
                 </h2>
               )}
@@ -435,10 +467,10 @@ const DynamicCVMaker = () => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1 focus:outline-none focus:border-blue-500"
+                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
                 />
               ) : (
-                <h2 className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1">
+                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
                   {section.title}
                 </h2>
               )}
@@ -495,7 +527,7 @@ const DynamicCVMaker = () => {
                 ) : (
                   <>
                     <div className="font-bold text-xs">
-                      {project.name} <a href={project.link} className="text-blue-600 hover:underline">View</a>
+                      {project.name} <a href={project.link} className={`${styles.linkColor} underline`}>View</a>
                     </div>
                     <p className="text-xs">{project.description}</p>
                   </>
@@ -515,10 +547,10 @@ const DynamicCVMaker = () => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1 focus:outline-none focus:border-blue-500"
+                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
                 />
               ) : (
-                <h2 className="text-sm font-bold text-gray-800 border-b border-gray-300 pb-1 flex-1">
+                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
                   {section.title}
                 </h2>
               )}
@@ -662,7 +694,7 @@ const DynamicCVMaker = () => {
         </div>
 
         {/* CV Document */}
-        <div className="bg-white shadow-lg" id="cv-content">
+        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content">
           <style>{`
             @media print {
               body * {
@@ -687,7 +719,6 @@ const DynamicCVMaker = () => {
               width: 8.5in;
               min-height: 11in;
               margin: 0 auto;
-              padding: 0.5in;
               font-family: Arial, sans-serif;
               font-size: 11px;
               line-height: 1.4;
@@ -697,14 +728,13 @@ const DynamicCVMaker = () => {
             @media screen and (max-width: 768px) {
               .cv-page {
                 width: 100%;
-                padding: 1rem;
               }
             }
           `}</style>
           
           <div className="cv-page">
-            {/* Header */}
-            <div className="mb-4">
+            {/* Header with template styling */}
+            <div className={`${styles.headerBg} p-6 mb-4`}>
               {editMode ? (
                 <>
                   <input
@@ -712,70 +742,72 @@ const DynamicCVMaker = () => {
                     value={cv.name}
                     onChange={(e) => updateField('name', e.target.value)}
                     placeholder="YOUR FULL NAME"
-                    className="text-2xl font-bold text-gray-800 w-full border-b-2 border-blue-300 focus:outline-none focus:border-blue-500 mb-1"
+                    className={`text-2xl font-bold w-full bg-transparent border-b-2 ${styles.headerText} ${styles.borderColor} focus:outline-none mb-1`}
                   />
                   <input
                     type="text"
                     value={cv.title}
                     onChange={(e) => updateField('title', e.target.value)}
                     placeholder="Your Job Title"
-                    className="text-base text-gray-600 w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 mb-2"
+                    className={`text-base w-full bg-transparent border-b ${styles.headerText} opacity-90 ${styles.borderColor} focus:outline-none mb-2`}
                   />
                   <div className="space-y-1">
                     <input
                       type="text"
                       value={cv.contact.location}
                       onChange={(e) => updateField('contact.location', e.target.value)}
-                      className="w-full border-b border-gray-200 focus:outline-none focus:border-blue-500 text-xs"
+                      className={`w-full bg-transparent border-b ${styles.headerText} opacity-80 ${styles.borderColor} focus:outline-none text-xs`}
                       placeholder="City, State/Country"
                     />
                     <input
                       type="email"
                       value={cv.contact.email}
                       onChange={(e) => updateField('contact.email', e.target.value)}
-                      className="w-full border-b border-gray-200 focus:outline-none focus:border-blue-500 text-xs"
+                      className={`w-full bg-transparent border-b ${styles.headerText} opacity-80 ${styles.borderColor} focus:outline-none text-xs`}
                       placeholder="your.email@example.com"
                     />
                     <input
                       type="url"
                       value={cv.contact.portfolio}
                       onChange={(e) => updateField('contact.portfolio', e.target.value)}
-                      className="w-full border-b border-gray-200 focus:outline-none focus:border-blue-500 text-xs"
+                      className={`w-full bg-transparent border-b ${styles.headerText} opacity-80 ${styles.borderColor} focus:outline-none text-xs`}
                       placeholder="https://yourportfolio.com"
                     />
                     <input
                       type="url"
                       value={cv.contact.linkedin}
                       onChange={(e) => updateField('contact.linkedin', e.target.value)}
-                      className="w-full border-b border-gray-200 focus:outline-none focus:border-blue-500 text-xs"
+                      className={`w-full bg-transparent border-b ${styles.headerText} opacity-80 ${styles.borderColor} focus:outline-none text-xs`}
                       placeholder="https://linkedin.com/in/yourprofile"
                     />
                     <input
                       type="url"
                       value={cv.contact.github}
                       onChange={(e) => updateField('contact.github', e.target.value)}
-                      className="w-full border-b border-gray-200 focus:outline-none focus:border-blue-500 text-xs"
+                      className={`w-full bg-transparent border-b ${styles.headerText} opacity-80 ${styles.borderColor} focus:outline-none text-xs`}
                       placeholder="https://github.com/yourusername"
                     />
                   </div>
                 </>
               ) : (
                 <>
-                  <h1 className="text-2xl font-bold text-gray-800 mb-1">{cv.name}</h1>
-                  <div className="text-base text-gray-600 mb-2">{cv.title}</div>
-                  <div className="text-xs text-gray-700">
-                    {cv.contact.location} | {cv.contact.email} | <a href={cv.contact.portfolio} className="text-blue-600 hover:underline">{cv.contact.portfolio}</a> | <a href={cv.contact.linkedin} className="text-blue-600 hover:underline">LinkedIn</a> | <a href={cv.contact.github} className="text-blue-600 hover:underline">GitHub</a>
+                  <h1 className={`text-2xl font-bold ${styles.headerText} mb-1`}>{cv.name}</h1>
+                  <div className={`text-base ${styles.headerText} opacity-90 mb-2`}>{cv.title}</div>
+                  <div className={`text-xs ${styles.headerText} opacity-80`}>
+                    {cv.contact.location} | {cv.contact.email} | <a href={cv.contact.portfolio} className="underline">{cv.contact.portfolio}</a> | <a href={cv.contact.linkedin} className="underline">LinkedIn</a> | <a href={cv.contact.github} className="underline">GitHub</a>
                   </div>
                 </>
               )}
             </div>
 
             {/* Dynamic Sections */}
-            {cv.sections.map(section => (
-              <div key={section.id}>
-                {renderSection(section)}
-              </div>
-            ))}
+            <div className="p-6">
+              {cv.sections.map(section => (
+                <div key={section.id}>
+                  {renderSection(section)}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
