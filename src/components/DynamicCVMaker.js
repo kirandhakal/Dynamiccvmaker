@@ -824,13 +824,13 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
           <div className="flex items-center justify-between mb-4">
             {/* <h1 className="text-2xl font-bold text-gray-800">Dynamic CV Maker</h1> */}
 
-            <div className="flex items-center gap-4 flex-wrap">
-              <div className="flex items-center gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-gray-700">Target:</label>
                 <select
                   value={activeTarget}
                   onChange={(e) => setActiveTarget(e.target.value)}
-                  className="border border-gray-300 rounded p-1 text-sm bg-white font-bold"
+                  className="border border-gray-300 rounded p-2 text-sm bg-white font-bold w-full"
                 >
                   <option value="global">Entire Resume</option>
                   <option value="header">Main Header</option>
@@ -839,22 +839,25 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                 </select>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-gray-700">Color:</label>
-                <input
-                  type="color"
-                  value={styleConfig[activeTarget].color !== 'inherit' && styleConfig[activeTarget].color !== undefined ? styleConfig[activeTarget].color : styleConfig.global.color}
-                  onChange={(e) => updateStyle('color', e.target.value)}
-                  className="w-8 h-8 rounded cursor-pointer border-0 p-0"
-                />
+                <div className="flex items-center gap-2 border border-gray-300 rounded p-1 bg-white w-full">
+                  <input
+                    type="color"
+                    value={styleConfig[activeTarget].color !== 'inherit' && styleConfig[activeTarget].color !== undefined ? styleConfig[activeTarget].color : styleConfig.global.color}
+                    onChange={(e) => updateStyle('color', e.target.value)}
+                    className="w-8 h-8 rounded cursor-pointer border-0 p-0"
+                  />
+                  <span className="text-xs text-gray-500">{styleConfig[activeTarget].color}</span>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-gray-700">Font:</label>
                 <select
                   value={styleConfig[activeTarget].font !== 'inherit' ? styleConfig[activeTarget].font : styleConfig.global.font}
                   onChange={(e) => updateStyle('font', e.target.value)}
-                  className="border border-gray-300 rounded p-1 text-sm bg-white"
+                  className="border border-gray-300 rounded p-2 text-sm bg-white w-full"
                 >
                   {activeTarget !== 'global' && <option value="inherit">Inherit (Use Global)</option>}
                   {fontOptions.map((font, idx) => (
@@ -863,12 +866,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                 </select>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-gray-700">Size:</label>
                 <select
                   value={styleConfig[activeTarget].size !== 'inherit' ? styleConfig[activeTarget].size : styleConfig.global.size}
                   onChange={(e) => updateStyle('size', e.target.value)}
-                  className="border border-gray-300 rounded p-1 text-sm bg-white"
+                  className="border border-gray-300 rounded p-2 text-sm bg-white w-full"
                 >
                   {activeTarget !== 'global' && <option value="inherit">Inherit (Use Global)</option>}
                   <option value="small">Small</option>
@@ -879,12 +882,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
               </div>
 
               {activeTarget === 'global' && (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-1">
                   <label className="text-sm font-semibold text-gray-700">Spacing:</label>
                   <select
                     value={styleConfig.global.lineHeight}
                     onChange={(e) => updateStyle('lineHeight', e.target.value)}
-                    className="border border-gray-300 rounded p-1 text-sm bg-white"
+                    className="border border-gray-300 rounded p-2 text-sm bg-white w-full"
                   >
                     <option value="compact">Compact</option>
                     <option value="normal">Normal</option>
@@ -1002,8 +1005,62 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
               font-size: 11px;
               line-height: 1.4;
               color: #333;
+              box-sizing: border-box;
             }
             
+            /* Tablet responsiveness */
+            @media screen and (max-width: 1024px) {
+              .cv-page {
+                width: 100%;
+                max-width: 800px;
+                padding: 20px;
+              }
+            }
+            
+            /* Mobile responsiveness */
+            @media screen and (max-width: 768px) {
+              .cv-page {
+                width: 100%;
+                min-height: auto;
+                padding: 16px;
+                font-size: 12px;
+              }
+              
+              #cv-content {
+                border-radius: 0;
+                margin: 0;
+              }
+              
+              .cv-header-name {
+                font-size: 20px !important;
+              }
+              
+              .cv-section-title {
+                font-size: 14px !important;
+              }
+            }
+            
+            /* Small mobile devices */
+            @media screen and (max-width: 480px) {
+              .cv-page {
+                padding: 12px;
+                font-size: 11px;
+              }
+              
+              .cv-header-name {
+                font-size: 18px !important;
+              }
+              
+              .cv-section-title {
+                font-size: 13px !important;
+              }
+              
+              /* Stack flex layouts */
+              .flex.justify-between {
+                flex-direction: column;
+                align-items: flex-start !important;
+              }
+            }
             }
           `}</style>
 
