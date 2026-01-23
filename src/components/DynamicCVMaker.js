@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Edit2, Plus, Trash2, Download, Eye,
-  //  EyeOff, GripVertical
-   } from 'lucide-react';
+import {
+  Edit2, Plus, Trash2, Download, Eye, GripVertical
+} from 'lucide-react';
 
 // Template style configurations
 const templateStyles = {
@@ -14,137 +14,220 @@ const templateStyles = {
     linkColor: 'text-gray-600 hover:text-gray-900',
     pageBg: 'bg-white',
   },
-  2: { // Modern - Blue accent
-    headerBg: 'bg-blue-600',
-    headerText: 'text-white',
-    accentColor: 'text-blue-600',
-    borderColor: 'border-blue-300',
-    sectionTitle: 'text-blue-700 border-b-2 border-blue-500',
-    linkColor: 'text-blue-600 hover:text-blue-800',
+
+  4: { // Professional - Minimalist
+    headerBg: 'bg-white',
+    headerText: 'text-[#2c3e50]',
+    accentColor: 'text-[#3498db]',
+    borderColor: 'border-[#333]',
+    sectionTitle: 'text-[#2c3e50] text-[16px] font-bold border-b-[1.5px] border-[#333] pb-[3px] uppercase tracking-[0.5px]',
+    linkColor: 'text-[#3498db] no-underline',
     pageBg: 'bg-white',
   },
-  3: { // Creative - Purple/gradient feel
-    headerBg: 'bg-gradient-to-r from-purple-600 to-indigo-600',
-    headerText: 'text-white',
-    accentColor: 'text-purple-600',
-    borderColor: 'border-purple-300',
-    sectionTitle: 'text-purple-700 border-b-2 border-purple-500',
-    linkColor: 'text-purple-600 hover:text-purple-800',
-    pageBg: 'bg-gray-50',
+  5: { // Minimalist - Centered
+    headerBg: 'bg-white text-center mb-[18px]',
+    headerText: 'text-black',
+    accentColor: 'text-[#0066cc]',
+    borderColor: 'border-black',
+    sectionTitle: 'text-black text-[11px] font-bold border-b border-black pb-[2px] mb-[8px] mt-[16px] uppercase',
+    linkColor: 'text-[#0066cc] underline',
+    pageBg: 'bg-white',
   },
 };
 
 const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
+  // --- State with Local Storage Initialization ---
   const [editMode, setEditMode] = useState(true);
-  const styles = templateStyles[selectedTemplate] || templateStyles[1];
-  const [cv, setCv] = useState({
-    name: "JOHN DOE",
-    title: "Full Stack Developer",
-    contact: {
-      location: "San Francisco, CA",
-      email: "john.doe@example.com",
-      portfolio: "https://johndoe.dev",
-      linkedin: "https://www.linkedin.com/in/johndoe",
-      github: "https://github.com/johndoe"
-    },
-    sections: [
-      {
-        id: 1,
-        title: "PROFESSIONAL SUMMARY",
-        type: "text",
-        content: "Results-driven full stack developer with 5+ years of experience building scalable web applications. Proficient in modern JavaScript frameworks, cloud technologies, and agile methodologies. Passionate about creating elegant solutions to complex problems and delivering exceptional user experiences."
-      },
-      {
-        id: 2,
-        title: "TECHNICAL SKILLS",
-        type: "skills",
-        items: [
-          { category: "Frontend", items: "React.js, Vue.js, HTML5, CSS3, TypeScript, Tailwind CSS" },
-          { category: "Backend", items: "Node.js, Python, Django, Express.js, RESTful APIs" },
-          { category: "Database", items: "MongoDB, PostgreSQL, MySQL, Redis" },
-          { category: "DevOps", items: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions" },
-          { category: "Tools", items: "Git, VS Code, Figma, Jira, Postman" },
-          { category: "Soft Skills", items: "Team Leadership, Agile/Scrum, Problem Solving, Communication" }
-        ]
-      },
-      {
-        id: 3,
-        title: "EDUCATION",
-        type: "education",
-        items: [
-          {
-            degree: "Bachelor of Science in Computer Science",
-            institution: "University of California, Berkeley",
-            period: "September 2015 - May 2019"
-          },
-          {
-            degree: "Full Stack Web Development Bootcamp",
-            institution: "Tech Academy",
-            period: "January 2020 - April 2020"
-          }
-        ]
-      },
-      {
-        id: 4,
-        title: "PROJECTS",
-        type: "projects",
-        items: [
-          {
-            name: "E-Commerce Platform",
-            link: "https://github.com/johndoe/ecommerce-platform",
-            description: "Built a full-featured e-commerce platform with React, Node.js, and MongoDB. Implemented user authentication, payment processing with Stripe, inventory management, and admin dashboard. Achieved 99.9% uptime and processed over $100K in transactions."
-          },
-          {
-            name: "Task Management App",
-            link: "https://github.com/johndoe/task-manager",
-            description: "Developed a collaborative task management application using Vue.js and Firebase. Features include real-time updates, drag-and-drop interface, team collaboration, and email notifications. Used by 500+ active users."
-          }
-        ]
-      },
-      {
-        id: 5,
-        title: "WORK EXPERIENCE",
-        type: "experience",
-        items: [
-          {
-            position: "Senior Software Engineer",
-            company: "Tech Corp Inc.",
-            period: "June 2021 - Present",
-            description: "Lead development of microservices architecture serving 1M+ users. Mentor junior developers and conduct code reviews. Reduced API response time by 40% through optimization."
-          },
-          {
-            position: "Frontend Developer",
-            company: "StartUp XYZ",
-            period: "January 2019 - May 2021",
-            description: "Built responsive web applications using React and TypeScript. Collaborated with designers to implement pixel-perfect UIs. Improved page load time by 60%."
-          }
-        ]
-      },
-      {
-        id: 6,
-        title: "LANGUAGES",
-        type: "text",
-        content: "English (Native) • Spanish (Professional Working Proficiency) • French (Conversational)"
-      },
-      {
-        id: 7,
-        title: "INTERESTS & ACTIVITIES",
-        type: "text",
-        content: "Open source contribution • Tech blogging and writing tutorials • Marathon running and fitness • Photography and travel • Mentoring junior developers"
-      }
-    ]
+  const [activeTarget, setActiveTarget] = useState('global'); // 'global', 'header', 'section', 'body'
+
+  // Initialize Styles from LocalStorage or Default
+  const [styleConfig, setStyleConfig] = useState(() => {
+    const saved = localStorage.getItem('cv_style_config');
+    return saved ? JSON.parse(saved) : {
+      global: { color: '#3498db', font: 'Arial, sans-serif', size: 'medium', lineHeight: 'normal' },
+      header: { color: '#2c3e50', font: 'inherit', size: 'inherit' },
+      section: { color: '#2c3e50', font: 'inherit', size: 'inherit' },
+      body: { color: 'inherit', font: 'inherit', size: 'inherit' } // Inherit body from global by default
+    };
   });
+
+  // Initialize CV Content from LocalStorage
+  const [cv, setCv] = useState(() => {
+    const saved = localStorage.getItem('cv_data');
+    return saved ? JSON.parse(saved) : {
+      name: "JOHN DOE",
+      title: "Full Stack Developer",
+      contact: {
+        location: "San Francisco, CA",
+        email: "john.doe@example.com",
+        portfolio: "https://johndoe.dev",
+        linkedin: "https://www.linkedin.com/in/johndoe",
+        github: "https://github.com/johndoe"
+      },
+      sections: [
+        {
+          id: 1,
+          title: "PROFESSIONAL SUMMARY",
+          type: "text",
+          content: "Results-driven full stack developer with 5+ years of experience building scalable web applications. Proficient in modern JavaScript frameworks, cloud technologies, and agile methodologies. Passionate about creating elegant solutions to complex problems and delivering exceptional user experiences."
+        },
+        {
+          id: 2,
+          title: "TECHNICAL SKILLS",
+          type: "skills",
+          items: [
+            { category: "Frontend", items: "React.js, Vue.js, HTML5, CSS3, TypeScript, Tailwind CSS" },
+            { category: "Backend", items: "Node.js, Python, Django, Express.js, RESTful APIs" },
+            { category: "Database", items: "MongoDB, PostgreSQL, MySQL, Redis" },
+            { category: "DevOps", items: "Docker, Kubernetes, AWS, CI/CD, GitHub Actions" },
+            { category: "Tools", items: "Git, VS Code, Figma, Jira, Postman" },
+            { category: "Soft Skills", items: "Team Leadership, Agile/Scrum, Problem Solving, Communication" }
+          ]
+        },
+        {
+          id: 3,
+          title: "EDUCATION",
+          type: "education",
+          items: [
+            {
+              degree: "Bachelor of Science in Computer Science",
+              institution: "University of California, Berkeley",
+              period: "September 2015 - May 2019"
+            },
+            {
+              degree: "Full Stack Web Development Bootcamp",
+              institution: "Tech Academy",
+              period: "January 2020 - April 2020"
+            }
+          ]
+        },
+        {
+          id: 4,
+          title: "PROJECTS",
+          type: "projects",
+          items: [
+            {
+              name: "E-Commerce Platform",
+              link: "https://github.com/johndoe/ecommerce-platform",
+              description: "Built a full-featured e-commerce platform with React, Node.js, and MongoDB. Implemented user authentication, payment processing with Stripe, inventory management, and admin dashboard. Achieved 99.9% uptime and processed over $100K in transactions."
+            },
+            {
+              name: "Task Management App",
+              link: "https://github.com/johndoe/task-manager",
+              description: "Developed a collaborative task management application using Vue.js and Firebase. Features include real-time updates, drag-and-drop interface, team collaboration, and email notifications. Used by 500+ active users."
+            }
+          ]
+        },
+        {
+          id: 5,
+          title: "WORK EXPERIENCE",
+          type: "experience",
+          items: [
+            {
+              position: "Senior Software Engineer",
+              company: "Tech Corp Inc.",
+              period: "June 2021 - Present",
+              description: "Lead development of microservices architecture serving 1M+ users. Mentor junior developers and conduct code reviews. Reduced API response time by 40% through optimization."
+            },
+            {
+              position: "Frontend Developer",
+              company: "StartUp XYZ",
+              period: "January 2019 - May 2021",
+              description: "Built responsive web applications using React and TypeScript. Collaborated with designers to implement pixel-perfect UIs. Improved page load time by 60%."
+            }
+          ]
+        },
+        {
+          id: 6,
+          title: "LANGUAGES",
+          type: "text",
+          content: "English (Native) • Spanish (Professional Working Proficiency) • French (Conversational)"
+        },
+        {
+          id: 7,
+          title: "INTERESTS & ACTIVITIES",
+          type: "text",
+          content: "Open source contribution • Tech blogging and writing tutorials • Marathon running and fitness • Photography and travel • Mentoring junior developers"
+        }
+      ]
+    };
+  });
+
+  const [draggedSectionIndex, setDraggedSectionIndex] = useState(null);
+
+  // --- Persistence Hooks ---
+  React.useEffect(() => {
+    localStorage.setItem('cv_data', JSON.stringify(cv));
+  }, [cv]);
+
+  React.useEffect(() => {
+    localStorage.setItem('cv_style_config', JSON.stringify(styleConfig));
+  }, [styleConfig]);
+
+  // Helper to update specific style target
+  const updateStyle = (property, value) => {
+    setStyleConfig(prev => ({
+      ...prev,
+      [activeTarget]: {
+        ...prev[activeTarget],
+        [property]: value
+      }
+    }));
+  };
+
+  // Helper to get effective value
+  const getStyleValue = (target, property) => {
+    const val = styleConfig[target][property];
+    if (val !== 'inherit') return val;
+    return styleConfig.global[property]; // Fallback to global
+  };
+
+
+  const fontOptions = [
+    { name: 'Default (Arial)', value: 'Arial, sans-serif' },
+    { name: 'Modern (Inter)', value: "'Inter', sans-serif" },
+    { name: 'Clean (Roboto)', value: "'Roboto', sans-serif" },
+    { name: 'Elegant (Merriweather)', value: "'Merriweather', serif" },
+    { name: 'Classic (Playfair)', value: "'Playfair Display', serif" },
+  ];
+
+  const fontSizeMapping = {
+    small: { h1: '20px', h2: '14px', h3: '12px', body: '10px' },
+    medium: { h1: '24px', h2: '16px', h3: '14px', body: '12px' },
+    large: { h1: '28px', h2: '18px', h3: '16px', body: '14px' },
+    xl: { h1: '32px', h2: '20px', h3: '18px', body: '16px' },
+  };
+
+  const lineHeightMapping = {
+    compact: '1.2',
+    normal: '1.4',
+    loose: '1.6',
+    relaxed: '1.8',
+  };
+
+  const getStyles = () => {
+    const baseStyles = templateStyles[selectedTemplate] || templateStyles[1];
+    // Inject custom color into specific classes if customized
+    // Note: Tailwind classes are static, so we might need inline styles for dynamic colors
+    // However, the request asks to "add choose color template".
+    // We will return baseStyles but also have a way to apply dynamic color.
+    return baseStyles;
+  };
+
+  const styles = getStyles();
+  // Removed initialization of default CV to prevent overwrite of localStorage logic above
+
 
   const updateField = (path, value) => {
     setCv(prev => {
       const newCv = { ...prev };
       const keys = path.split('.');
       let current = newCv;
-      
+
       for (let i = 0; i < keys.length - 1; i++) {
         current = current[keys[i]];
       }
-      
+
       current[keys[keys.length - 1]] = value;
       return newCv;
     });
@@ -165,11 +248,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
       sections: prev.sections.map(section =>
         section.id === sectionId
           ? {
-              ...section,
-              items: section.items.map((item, i) =>
-                i === itemIndex ? { ...item, [field]: value } : item
-              )
-            }
+            ...section,
+            items: section.items.map((item, i) =>
+              i === itemIndex ? { ...item, [field]: value } : item
+            )
+          }
           : section
       )
     }));
@@ -259,6 +342,29 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
     });
   };
 
+  const handleDragStart = (e, index) => {
+    setDraggedSectionIndex(index);
+    // e.dataTransfer.effectAllowed = "move"; // Optional
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (draggedSectionIndex === null || draggedSectionIndex === index) return;
+
+    setCv(prev => {
+      const sections = [...prev.sections];
+      const draggedItem = sections[draggedSectionIndex];
+      sections.splice(draggedSectionIndex, 1);
+      sections.splice(index, 0, draggedItem);
+      return { ...prev, sections };
+    });
+    setDraggedSectionIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedSectionIndex(null);
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -275,10 +381,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
-                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
+                <h2
+                  className="cv-section-title"
+                >
                   {section.title}
                 </h2>
               )}
@@ -287,7 +395,7 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   <button onClick={() => moveSection(section.id, 'up')} className="text-gray-500 hover:text-gray-700">↑</button>
                   <button onClick={() => moveSection(section.id, 'down')} className="text-gray-500 hover:text-gray-700">↓</button>
                   <button onClick={() => removeSection(section.id)} className="text-red-500 hover:text-red-700">
-                    <Trash2 size={14} />
+                    <Trash2 size={18} />
                   </button>
                 </div>
               )}
@@ -316,10 +424,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
-                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
+                <h2
+                  className="cv-section-title"
+                >
                   {section.title}
                 </h2>
               )}
@@ -331,15 +441,15 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                     onClick={() => addSectionItem(section.id, { category: 'New Category', items: 'Skill 1, Skill 2' })}
                     className="text-green-600 hover:text-green-800"
                   >
-                    <Plus size={14} />
+                    <Plus size={18} />
                   </button>
                   <button onClick={() => removeSection(section.id)} className="text-red-500 hover:text-red-700">
-                    <Trash2 size={14} />
+                    <Trash2 size={18} />
                   </button>
                 </div>
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div className={selectedTemplate === 4 ? "flex flex-col gap-1 pl-5" : "grid grid-cols-1 md:grid-cols-2 gap-2"}>
               {section.items.map((skill, index) => (
                 <div key={index} className="text-xs">
                   {editMode ? (
@@ -364,12 +474,18 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                         onClick={() => removeSectionItem(section.id, index)}
                         className="text-red-500 hover:text-red-700"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={18} />
                       </button>
                     </div>
                   ) : (
                     <div>
-                      <strong>{skill.category}:</strong> {skill.items}
+                      {selectedTemplate === 4 ? (
+                        <div><strong className="inline-block min-w-[90px]">{skill.category}</strong> {skill.items}</div>
+                      ) : selectedTemplate === 5 ? (
+                        <div><strong className="cv-subheading inline-block min-w-[85px]">{skill.category}:</strong> {skill.items}</div>
+                      ) : (
+                        <><strong>{skill.category}:</strong> {skill.items}</>
+                      )}
                     </div>
                   )}
                 </div>
@@ -388,10 +504,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
-                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
+                <h2
+                  className="cv-section-title"
+                >
                   {section.title}
                 </h2>
               )}
@@ -403,10 +521,10 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                     onClick={() => addSectionItem(section.id, { degree: 'Degree', institution: 'Institution', period: 'Period' })}
                     className="text-green-600 hover:text-green-800"
                   >
-                    <Plus size={14} />
+                    <Plus size={18} />
                   </button>
                   <button onClick={() => removeSection(section.id)} className="text-red-500 hover:text-red-700">
-                    <Trash2 size={14} />
+                    <Trash2 size={18} />
                   </button>
                 </div>
               )}
@@ -427,7 +545,7 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                         onClick={() => removeSectionItem(section.id, index)}
                         className="ml-2 text-red-500 hover:text-red-700"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={18} />
                       </button>
                     </div>
                     <input
@@ -447,9 +565,24 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   </div>
                 ) : (
                   <>
-                    <div className="font-bold text-xs">{edu.degree}</div>
-                    <div className="text-xs">{edu.institution}</div>
-                    <div className="text-xs">{edu.period}</div>
+                    {selectedTemplate === 4 ? (
+                      <div className="education-item flex justify-between items-baseline mb-1">
+                        <div>
+                          <strong className="cv-subheading">{edu.degree},</strong> <span className="cv-subheading font-normal">{edu.institution}</span>
+                        </div>
+                        <div className="cv-text-meta">{edu.period}</div>
+                      </div>
+                    ) : selectedTemplate === 5 ? (
+                      <div className="mb-1">
+                        <strong className="cv-subheading">{edu.degree}</strong> — <span className="cv-text-desc">{edu.institution} ({edu.period})</span>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="font-bold text-xs">{edu.degree}</div>
+                        <div className="text-xs">{edu.institution}</div>
+                        <div className="text-xs">{edu.period}</div>
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -467,10 +600,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
-                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
+                <h2
+                  className="cv-section-title"
+                >
                   {section.title}
                 </h2>
               )}
@@ -482,10 +617,10 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                     onClick={() => addSectionItem(section.id, { name: 'Project', link: 'https://...', description: 'Description...' })}
                     className="text-green-600 hover:text-green-800"
                   >
-                    <Plus size={14} />
+                    <Plus size={18} />
                   </button>
                   <button onClick={() => removeSection(section.id)} className="text-red-500 hover:text-red-700">
-                    <Trash2 size={14} />
+                    <Trash2 size={18} />
                   </button>
                 </div>
               )}
@@ -506,7 +641,7 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                         onClick={() => removeSectionItem(section.id, index)}
                         className="ml-2 text-red-500 hover:text-red-700"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={18} />
                       </button>
                     </div>
                     <input
@@ -526,10 +661,36 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   </div>
                 ) : (
                   <>
-                    <div className="font-bold text-xs">
-                      {project.name} <a href={project.link} className={`${styles.linkColor} underline`}>View</a>
-                    </div>
-                    <p className="text-xs">{project.description}</p>
+                    {selectedTemplate === 4 ? (
+                      <div className="project-item">
+                        <div className="flex justify-between items-baseline mb-1">
+                          <div className="cv-subheading">
+                            {project.name}
+                          </div>
+                          <a href={project.link} className="cv-link">View</a>
+                        </div>
+                        <p className="cv-text-desc pl-5 border-l-2 border-gray-100">{project.description}</p>
+                      </div>
+                    ) : selectedTemplate === 5 ? (
+                      <div className="mb-[10px]">
+                        <div className="flex justify-between items-baseline">
+                          <div className="cv-subheading">
+                            {project.name}
+                          </div>
+                          <div><a href={project.link} className="cv-link underline">Link</a></div>
+                        </div>
+                        <ul className="cv-list">
+                          <li className="cv-list-item">{project.description}</li>
+                        </ul>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="font-bold text-xs">
+                          {project.name} <a href={project.link} className="cv-link underline">View</a>
+                        </div>
+                        <p className="text-xs">{project.description}</p>
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -547,10 +708,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
-                <h2 className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}>
+                <h2
+                  className="cv-section-title"
+                >
                   {section.title}
                 </h2>
               )}
@@ -562,10 +725,10 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                     onClick={() => addSectionItem(section.id, { position: 'Position', company: 'Company', period: 'Period', description: 'Description...' })}
                     className="text-green-600 hover:text-green-800"
                   >
-                    <Plus size={14} />
+                    <Plus size={18} />
                   </button>
                   <button onClick={() => removeSection(section.id)} className="text-red-500 hover:text-red-700">
-                    <Trash2 size={14} />
+                    <Trash2 size={18} />
                   </button>
                 </div>
               )}
@@ -586,7 +749,7 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                         onClick={() => removeSectionItem(section.id, index)}
                         className="ml-2 text-red-500 hover:text-red-700"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={18} />
                       </button>
                     </div>
                     <input
@@ -613,10 +776,34 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   </div>
                 ) : (
                   <>
-                    <div className="font-bold text-xs">{exp.position}</div>
-                    <div className="text-xs">{exp.company}</div>
-                    <div className="text-xs italic">{exp.period}</div>
-                    <p className="text-xs">{exp.description}</p>
+                    {selectedTemplate === 4 ? (
+                      <div className="job-item">
+                        <div className="flex justify-between items-baseline mb-0">
+                          <div className="cv-subheading">{exp.position}</div>
+                          <div className="cv-text-meta">{exp.period}</div>
+                        </div>
+                        <div className="cv-text-meta italic mb-1">{exp.company}</div>
+                        <p className="cv-text-desc pl-5 border-l-2 border-gray-100">{exp.description}</p>
+                      </div>
+                    ) : selectedTemplate === 5 ? (
+                      <div className="mb-[10px]">
+                        <div className="flex justify-between items-baseline">
+                          <div className="cv-subheading">{exp.position}</div>
+                          <div className="cv-text-meta italic">{exp.period}</div>
+                        </div>
+                        <div className="cv-text-meta mb-0">{exp.company}</div>
+                        <ul className="cv-list">
+                          <li className="cv-list-item">{exp.description}</li>
+                        </ul>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="font-bold text-xs">{exp.position}</div>
+                        <div className="text-xs">{exp.company}</div>
+                        <div className="text-xs italic">{exp.period}</div>
+                        <p className="text-xs">{exp.description}</p>
+                      </>
+                    )}
                   </>
                 )}
               </div>
@@ -635,25 +822,97 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
         {/* Control Panel */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-4 print:hidden">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-gray-800">Dynamic CV Maker</h1>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setEditMode(!editMode)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-              >
-                {editMode ? <Eye size={18} /> : <Edit2 size={18} />}
-                {editMode ? 'Preview' : 'Edit'}
-              </button>
-              <button
-                onClick={handlePrint}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-              >
-                <Download size={18} />
-                Print/Save PDF
-              </button>
+            {/* <h1 className="text-2xl font-bold text-gray-800">Dynamic CV Maker</h1> */}
+
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Target:</label>
+                <select
+                  value={activeTarget}
+                  onChange={(e) => setActiveTarget(e.target.value)}
+                  className="border border-gray-300 rounded p-1 text-sm bg-white font-bold"
+                >
+                  <option value="global">Entire Resume</option>
+                  <option value="header">Main Header</option>
+                  <option value="section">Section Titles</option>
+                  <option value="body">Body Text</option>
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Color:</label>
+                <input
+                  type="color"
+                  value={styleConfig[activeTarget].color !== 'inherit' && styleConfig[activeTarget].color !== undefined ? styleConfig[activeTarget].color : styleConfig.global.color}
+                  onChange={(e) => updateStyle('color', e.target.value)}
+                  className="w-8 h-8 rounded cursor-pointer border-0 p-0"
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Font:</label>
+                <select
+                  value={styleConfig[activeTarget].font !== 'inherit' ? styleConfig[activeTarget].font : styleConfig.global.font}
+                  onChange={(e) => updateStyle('font', e.target.value)}
+                  className="border border-gray-300 rounded p-1 text-sm bg-white"
+                >
+                  {activeTarget !== 'global' && <option value="inherit">Inherit (Use Global)</option>}
+                  {fontOptions.map((font, idx) => (
+                    <option key={idx} value={font.value}>{font.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Size:</label>
+                <select
+                  value={styleConfig[activeTarget].size !== 'inherit' ? styleConfig[activeTarget].size : styleConfig.global.size}
+                  onChange={(e) => updateStyle('size', e.target.value)}
+                  className="border border-gray-300 rounded p-1 text-sm bg-white"
+                >
+                  {activeTarget !== 'global' && <option value="inherit">Inherit (Use Global)</option>}
+                  <option value="small">Small</option>
+                  <option value="medium">Medium</option>
+                  <option value="large">Large</option>
+                  <option value="xl">Extra Large</option>
+                </select>
+              </div>
+
+              {activeTarget === 'global' && (
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-semibold text-gray-700">Spacing:</label>
+                  <select
+                    value={styleConfig.global.lineHeight}
+                    onChange={(e) => updateStyle('lineHeight', e.target.value)}
+                    className="border border-gray-300 rounded p-1 text-sm bg-white"
+                  >
+                    <option value="compact">Compact</option>
+                    <option value="normal">Normal</option>
+                    <option value="loose">Loose</option>
+                    <option value="relaxed">Relaxed</option>
+                  </select>
+                </div>
+              )}
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setEditMode(!editMode)}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                >
+                  {editMode ? <Eye size={18} /> : <Edit2 size={18} />}
+                  {editMode ? 'Preview' : 'Edit'}
+                </button>
+                <button
+                  onClick={handlePrint}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                >
+                  <Download size={18} />
+                  Print/Save PDF
+                </button>
+              </div>
             </div>
           </div>
-          
+
           {editMode && (
             <div className="border-t pt-4">
               <p className="text-sm font-semibold mb-2">Add New Section:</p>
@@ -694,7 +953,27 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
         </div>
 
         {/* CV Document */}
-        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content">
+        {/* CV Document */}
+        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content" style={{
+          // Theme Colors
+          '--theme-color': getStyleValue('global', 'color'), // Global/Links
+          '--section-title-color': getStyleValue('section', 'color'), // Section Titles Separate
+          '--header-text-color': getStyleValue('header', 'color'),
+          '--cv-body-color': getStyleValue('body', 'color'),
+
+          // Fonts
+          '--cv-font': getStyleValue('global', 'font'),
+          '--cv-header-font': getStyleValue('header', 'font'),
+          '--cv-body-font': getStyleValue('body', 'font'),
+
+          // Sizes (Resolved)
+          '--cv-h1-size': fontSizeMapping[getStyleValue('header', 'size')].h1,
+          '--cv-h2-size': fontSizeMapping[getStyleValue('section', 'size')].h2,
+          '--cv-h3-size': fontSizeMapping[getStyleValue('body', 'size')].h3,
+          '--cv-body-size': fontSizeMapping[getStyleValue('body', 'size')].body,
+
+          '--cv-line-height': lineHeightMapping[styleConfig.global.lineHeight],
+        }}>
           <style>{`
             @media print {
               body * {
@@ -725,14 +1004,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
               color: #333;
             }
             
-            @media screen and (max-width: 768px) {
-              .cv-page {
-                width: 100%;
-              }
             }
           `}</style>
-          
+
           <div className="cv-page">
+
             {/* Header with template styling */}
             <div className={`${styles.headerBg} p-6 mb-4`}>
               {editMode ? (
@@ -791,27 +1067,69 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                 </>
               ) : (
                 <>
-                  <h1 className={`text-2xl font-bold ${styles.headerText} mb-1`}>{cv.name}</h1>
-                  <div className={`text-base ${styles.headerText} opacity-90 mb-2`}>{cv.title}</div>
-                  <div className={`text-xs ${styles.headerText} opacity-80`}>
-                    {cv.contact.location} | {cv.contact.email} | <a href={cv.contact.portfolio} className="underline">{cv.contact.portfolio}</a> | <a href={cv.contact.linkedin} className="underline">LinkedIn</a> | <a href={cv.contact.github} className="underline">GitHub</a>
-                  </div>
+                  {selectedTemplate === 4 ? (
+                    <div className="mb-2">
+                      <h1 className="cv-header-name">{cv.name}</h1>
+                      <div className="cv-header-contact mb-[16px]">
+                        {cv.contact.location} <span className="mx-1">|</span>
+                        <a href={`mailto:${cv.contact.email}`} className="cv-link">{cv.contact.email}</a> <span className="mx-1">|</span>
+                        {cv.contact.portfolio && <><a href={cv.contact.portfolio} className="cv-link">Portfolio</a> <span className="mx-1">|</span></>}
+                        {cv.contact.linkedin && <><a href={cv.contact.linkedin} className="cv-link">LinkedIn</a> <span className="mx-1">|</span></>}
+                        {cv.contact.github && <><a href={cv.contact.github} className="cv-link">GitHub</a></>}
+                      </div>
+                    </div>
+                  ) : selectedTemplate === 5 ? (
+                    <div className="mb-[18px] text-center">
+                      <h1 className="cv-header-name text-[24px] text-black">{cv.name}</h1>
+                      <div className="cv-header-contact">
+                        {cv.contact.location && <>{cv.contact.location} | </>}
+                        <a href={`mailto:${cv.contact.email}`} className="cv-link underline">{cv.contact.email}</a>
+                        {cv.contact.portfolio && <> | <a href={cv.contact.portfolio} className="cv-link underline">Portfolio</a></>}
+                        {cv.contact.linkedin && <> | <a href={cv.contact.linkedin} className="cv-link underline">LinkedIn</a></>}
+                        {cv.contact.github && <> | <a href={cv.contact.github} className="cv-link underline">GitHub</a></>}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <h1 className={`text-2xl font-bold ${styles.headerText} mb-1`}>{cv.name}</h1>
+                      <div className={`text-base ${styles.headerText} opacity-90 mb-2`}>{cv.title}</div>
+                      <div className={`text-xs ${styles.headerText} opacity-80`}>
+                        {cv.contact.location} | {cv.contact.email} | <a href={cv.contact.portfolio} className="underline">{cv.contact.portfolio}</a> | <a href={cv.contact.linkedin} className="underline">LinkedIn</a> | <a href={cv.contact.github} className="underline">GitHub</a>
+                      </div>
+                    </>
+                  )}
+
                 </>
               )}
             </div>
 
             {/* Dynamic Sections */}
             <div className="p-6">
-              {cv.sections.map(section => (
-                <div key={section.id}>
-                  {renderSection(section)}
+              {cv.sections.map((section, index) => (
+                <div
+                  key={section.id}
+                  className={`transition-opacity duration-200 ${draggedSectionIndex === index ? 'opacity-50 bg-gray-50' : ''}`}
+                  draggable={editMode}
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDragEnd={handleDragEnd}
+                >
+                  <div className="relative group">
+                    {/* Drag Handle visible only in edit mode and on hover/always if desired */}
+                    {editMode && (
+                      <div className="absolute left-[-20px] top-[10px] cursor-grab text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" title="Drag to reorder">
+                        <GripVertical size={16} />
+                      </div>
+                    )}
+                    {renderSection(section)}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 
