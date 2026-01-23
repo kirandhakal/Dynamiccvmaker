@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Edit2, Plus, Trash2, Download, Eye,
-  //  EyeOff, GripVertical
+  Edit2, Plus, Trash2, Download, Eye, GripVertical
 } from 'lucide-react';
 
 // Template style configurations
@@ -39,6 +38,16 @@ const templateStyles = {
 const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
   const [editMode, setEditMode] = useState(true);
   const [customColor, setCustomColor] = useState('#3498db');
+  const [selectedFont, setSelectedFont] = useState('Arial, sans-serif');
+  const [draggedSectionIndex, setDraggedSectionIndex] = useState(null);
+
+  const fontOptions = [
+    { name: 'Default (Arial)', value: 'Arial, sans-serif' },
+    { name: 'Modern (Inter)', value: "'Inter', sans-serif" },
+    { name: 'Clean (Roboto)', value: "'Roboto', sans-serif" },
+    { name: 'Elegant (Merriweather)', value: "'Merriweather', serif" },
+    { name: 'Classic (Playfair)', value: "'Playfair Display', serif" },
+  ];
 
   const getStyles = () => {
     const baseStyles = templateStyles[selectedTemplate] || templateStyles[1];
@@ -272,6 +281,29 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
     });
   };
 
+  const handleDragStart = (e, index) => {
+    setDraggedSectionIndex(index);
+    // e.dataTransfer.effectAllowed = "move"; // Optional
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (draggedSectionIndex === null || draggedSectionIndex === index) return;
+
+    setCv(prev => {
+      const sections = [...prev.sections];
+      const draggedItem = sections[draggedSectionIndex];
+      sections.splice(draggedSectionIndex, 1);
+      sections.splice(index, 0, draggedItem);
+      return { ...prev, sections };
+    });
+    setDraggedSectionIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedSectionIndex(null);
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -288,13 +320,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
                 <h2
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title"
                 >
                   {section.title}
                 </h2>
@@ -333,13 +363,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
                 <h2
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title"
                 >
                   {section.title}
                 </h2>
@@ -393,7 +421,7 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                       {selectedTemplate === 4 ? (
                         <div><strong className="inline-block min-w-[90px]">{skill.category}</strong> {skill.items}</div>
                       ) : selectedTemplate === 5 ? (
-                        <div><strong className="inline-block min-w-[85px]">{skill.category}:</strong> {skill.items}</div>
+                        <div><strong className="cv-subheading inline-block min-w-[85px]">{skill.category}:</strong> {skill.items}</div>
                       ) : (
                         <><strong>{skill.category}:</strong> {skill.items}</>
                       )}
@@ -415,13 +443,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
                 <h2
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title"
                 >
                   {section.title}
                 </h2>
@@ -481,13 +507,13 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                     {selectedTemplate === 4 ? (
                       <div className="education-item flex justify-between items-baseline mb-1">
                         <div>
-                          <strong className="text-[14px]">{edu.degree},</strong> <span className="text-[14px]">{edu.institution}</span>
+                          <strong className="cv-subheading">{edu.degree},</strong> <span className="cv-subheading font-normal">{edu.institution}</span>
                         </div>
-                        <div className="text-[12px] text-[#555]">{edu.period}</div>
+                        <div className="cv-text-meta">{edu.period}</div>
                       </div>
                     ) : selectedTemplate === 5 ? (
                       <div className="mb-1">
-                        <strong>{edu.degree}</strong> — {edu.institution} ({edu.period})
+                        <strong className="cv-subheading">{edu.degree}</strong> — <span className="cv-text-desc">{edu.institution} ({edu.period})</span>
                       </div>
                     ) : (
                       <>
@@ -513,13 +539,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
                 <h2
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title"
                 >
                   {section.title}
                 </h2>
@@ -579,29 +603,29 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                     {selectedTemplate === 4 ? (
                       <div className="project-item">
                         <div className="flex justify-between items-baseline mb-1">
-                          <div className="font-bold text-[14px]">
+                          <div className="cv-subheading">
                             {project.name}
                           </div>
-                          <a href={project.link} className={`${styles.linkColor} text-[12px]`} style={{ color: customColor }}>View</a>
+                          <a href={project.link} className="cv-link">View</a>
                         </div>
-                        <p className="text-[12px] pl-5 border-l-2 border-gray-100">{project.description}</p>
+                        <p className="cv-text-desc pl-5 border-l-2 border-gray-100">{project.description}</p>
                       </div>
                     ) : selectedTemplate === 5 ? (
                       <div className="mb-[10px]">
                         <div className="flex justify-between items-baseline">
-                          <div className="font-bold text-[11px]">
+                          <div className="cv-subheading">
                             {project.name}
                           </div>
-                          <div><a href={project.link} className={`${styles.linkColor} text-[10px]`} style={{ color: customColor }}>Link</a></div>
+                          <div><a href={project.link} className="cv-link underline">Link</a></div>
                         </div>
-                        <ul className="list-disc ml-[18px] mt-0">
-                          <li className="mb-[2px]">{project.description}</li>
+                        <ul className="cv-list">
+                          <li className="cv-list-item">{project.description}</li>
                         </ul>
                       </div>
                     ) : (
                       <>
                         <div className="font-bold text-xs">
-                          {project.name} <a href={project.link} className={`${styles.linkColor} underline`} style={{ color: customColor }}>View</a>
+                          {project.name} <a href={project.link} className="cv-link underline">View</a>
                         </div>
                         <p className="text-xs">{project.description}</p>
                       </>
@@ -623,13 +647,11 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   value={section.title}
                   onChange={(e) => updateSection(section.id, 'title', e.target.value)}
                   placeholder="SECTION TITLE"
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1 focus:outline-none`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title focus:outline-none bg-transparent"
                 />
               ) : (
                 <h2
-                  className={`text-sm font-bold ${styles.sectionTitle} pb-1 flex-1`}
-                  style={{ color: customColor, borderColor: customColor }}
+                  className="cv-section-title"
                 >
                   {section.title}
                 </h2>
@@ -696,21 +718,21 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                     {selectedTemplate === 4 ? (
                       <div className="job-item">
                         <div className="flex justify-between items-baseline mb-0">
-                          <div className="font-bold text-[14px]">{exp.position}</div>
-                          <div className="text-[12px] text-[#555]">{exp.period}</div>
+                          <div className="cv-subheading">{exp.position}</div>
+                          <div className="cv-text-meta">{exp.period}</div>
                         </div>
-                        <div className="italic text-[12px] text-[#555] mb-1">{exp.company}</div>
-                        <p className="text-[12px] pl-5 border-l-2 border-gray-100">{exp.description}</p>
+                        <div className="cv-text-meta italic mb-1">{exp.company}</div>
+                        <p className="cv-text-desc pl-5 border-l-2 border-gray-100">{exp.description}</p>
                       </div>
                     ) : selectedTemplate === 5 ? (
                       <div className="mb-[10px]">
                         <div className="flex justify-between items-baseline">
-                          <div className="font-bold text-[11px]">{exp.position}</div>
-                          <div className="text-[10px] italic">{exp.period}</div>
+                          <div className="cv-subheading">{exp.position}</div>
+                          <div className="cv-text-meta italic">{exp.period}</div>
                         </div>
-                        <div className="text-[10px] mb-0">{exp.company}</div>
-                        <ul className="list-disc ml-[18px] mt-0">
-                          <li className="mb-[2px]">{exp.description}</li>
+                        <div className="cv-text-meta mb-0">{exp.company}</div>
+                        <ul className="cv-list">
+                          <li className="cv-list-item">{exp.description}</li>
                         </ul>
                       </div>
                     ) : (
@@ -750,6 +772,19 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                   onChange={(e) => setCustomColor(e.target.value)}
                   className="w-8 h-8 rounded cursor-pointer border-0 p-0"
                 />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Font:</label>
+                <select
+                  value={selectedFont}
+                  onChange={(e) => setSelectedFont(e.target.value)}
+                  className="border border-gray-300 rounded p-1 text-sm bg-white"
+                >
+                  {fontOptions.map((font, idx) => (
+                    <option key={idx} value={font.value}>{font.name}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="flex gap-2">
@@ -811,7 +846,7 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
         </div>
 
         {/* CV Document */}
-        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content">
+        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content" style={{ '--theme-color': customColor }}>
           <style>{`
             @media print {
               body * {
@@ -847,9 +882,12 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                 width: 100%;
               }
             }
+            .cv-page {
+               font-family: var(--cv-font);
+            }
           `}</style>
 
-          <div className="cv-page">
+          <div className="cv-page" style={{ '--cv-font': selectedFont }}>
             {/* Header with template styling */}
             <div className={`${styles.headerBg} p-6 mb-4`}>
               {editMode ? (
@@ -910,24 +948,24 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
                 <>
                   {selectedTemplate === 4 ? (
                     <div className="mb-2">
-                      <h1 className={`text-[24px] font-bold ${styles.headerText} mb-[4px]`}>{cv.name}</h1>
-                      <div className="text-[12px] mb-[16px]">
+                      <h1 className="cv-header-name">{cv.name}</h1>
+                      <div className="cv-header-contact mb-[16px]">
                         {cv.contact.location} <span className="mx-1">|</span>
-                        <a href={`mailto:${cv.contact.email}`} className={`${styles.accentColor} no-underline`} style={{ color: customColor }}>{cv.contact.email}</a> <span className="mx-1">|</span>
-                        {cv.contact.portfolio && <><a href={cv.contact.portfolio} className={`${styles.accentColor} no-underline`} style={{ color: customColor }}>Portfolio</a> <span className="mx-1">|</span></>}
-                        {cv.contact.linkedin && <><a href={cv.contact.linkedin} className={`${styles.accentColor} no-underline`} style={{ color: customColor }}>LinkedIn</a> <span className="mx-1">|</span></>}
-                        {cv.contact.github && <><a href={cv.contact.github} className={`${styles.accentColor} no-underline`} style={{ color: customColor }}>GitHub</a></>}
+                        <a href={`mailto:${cv.contact.email}`} className="cv-link">{cv.contact.email}</a> <span className="mx-1">|</span>
+                        {cv.contact.portfolio && <><a href={cv.contact.portfolio} className="cv-link">Portfolio</a> <span className="mx-1">|</span></>}
+                        {cv.contact.linkedin && <><a href={cv.contact.linkedin} className="cv-link">LinkedIn</a> <span className="mx-1">|</span></>}
+                        {cv.contact.github && <><a href={cv.contact.github} className="cv-link">GitHub</a></>}
                       </div>
                     </div>
                   ) : selectedTemplate === 5 ? (
                     <div className="mb-[18px] text-center">
-                      <h1 className="text-[18px] font-bold mb-[3px] text-black">{cv.name}</h1>
-                      <div className="text-[10px]">
+                      <h1 className="cv-header-name text-[24px] text-black">{cv.name}</h1>
+                      <div className="cv-header-contact">
                         {cv.contact.location && <>{cv.contact.location} | </>}
-                        <a href={`mailto:${cv.contact.email}`} className="text-[#0066cc] underline" style={{ color: customColor }}>{cv.contact.email}</a>
-                        {cv.contact.portfolio && <> | <a href={cv.contact.portfolio} className="text-[#0066cc] underline" style={{ color: customColor }}>Portfolio</a></>}
-                        {cv.contact.linkedin && <> | <a href={cv.contact.linkedin} className="text-[#0066cc] underline" style={{ color: customColor }}>LinkedIn</a></>}
-                        {cv.contact.github && <> | <a href={cv.contact.github} className="text-[#0066cc] underline" style={{ color: customColor }}>GitHub</a></>}
+                        <a href={`mailto:${cv.contact.email}`} className="cv-link underline">{cv.contact.email}</a>
+                        {cv.contact.portfolio && <> | <a href={cv.contact.portfolio} className="cv-link underline">Portfolio</a></>}
+                        {cv.contact.linkedin && <> | <a href={cv.contact.linkedin} className="cv-link underline">LinkedIn</a></>}
+                        {cv.contact.github && <> | <a href={cv.contact.github} className="cv-link underline">GitHub</a></>}
                       </div>
                     </div>
                   ) : (
@@ -945,10 +983,26 @@ const DynamicCVMaker = ({ selectedTemplate = 1 }) => {
             </div>
 
             {/* Dynamic Sections */}
+            {/* Dynamic Sections */}
             <div className="p-6">
-              {cv.sections.map(section => (
-                <div key={section.id}>
-                  {renderSection(section)}
+              {cv.sections.map((section, index) => (
+                <div
+                  key={section.id}
+                  className={`transition-opacity duration-200 ${draggedSectionIndex === index ? 'opacity-50 bg-gray-50' : ''}`}
+                  draggable={editMode}
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDragEnd={handleDragEnd}
+                >
+                  <div className="relative group">
+                    {/* Drag Handle visible only in edit mode and on hover/always if desired */}
+                    {editMode && (
+                      <div className="absolute left-[-20px] top-[10px] cursor-grab text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" title="Drag to reorder">
+                        <GripVertical size={16} />
+                      </div>
+                    )}
+                    {renderSection(section)}
+                  </div>
                 </div>
               ))}
             </div>
