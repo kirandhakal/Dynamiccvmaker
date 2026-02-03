@@ -3,13 +3,13 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <header className="relative pt-16 pb-20">
+    <header id="home" className="relative pt-16 pb-20">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-6">
+            {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-6">
               <Sparkles size={14} /> Free Resume Builder
-            </div>
+            </div> */}
             <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-slate-900 leading-tight mb-6">
               Build Your Perfect
               <br />
@@ -18,7 +18,7 @@ export default function Hero() {
               </span>
             </h1>
             <p className="text-xl text-slate-500 leading-relaxed max-w-xl font-medium mb-8">
-              Choose a template for your profession—IT, Chef, Designer—and create a stunning resume with our easy-to-use editor.
+              Choose a template for your profession IT, Chef, Designer and create a stunning resume with our easy to use editor.
             </p>
             <a
               href="#templates"

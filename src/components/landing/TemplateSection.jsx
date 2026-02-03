@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { professions } from '../../data/professions';
 
-export default function TemplateSection({ onSelectTemplate }) {
+export default function TemplateSection() {
+  const navigate = useNavigate();
+
   return (
     <section id="templates" className="py-20 bg-white border-y border-slate-100">
       <div className="max-w-7xl mx-auto px-6">
@@ -56,7 +59,7 @@ export default function TemplateSection({ onSelectTemplate }) {
                 </div>
 
                 <button
-                  onClick={() => onSelectTemplate(profession)}
+                  onClick={() => navigate(`/editor/${profession.id}`)}
                   className={`w-full py-3 rounded-xl font-semibold transition-all bg-gradient-to-r ${profession.color} text-white hover:opacity-90 active:scale-98 flex items-center justify-center gap-2`}
                 >
                   Use This Template <ArrowRight size={18} />
