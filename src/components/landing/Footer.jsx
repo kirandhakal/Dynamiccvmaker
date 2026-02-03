@@ -16,6 +16,20 @@ export default function Footer() {
       links: ["About Us", "Contact", "Privacy", "Terms"]
     }
   ];
+  const footerHrefByLabel = {
+    "Templates": "#templates",
+    "Features": "#features",
+    "Pricing": "#pricing",
+    "Editor": "#editor",
+    "Resume Guide": "#resume-guide",
+    "Blog": "#blog",
+    "FAQ": "#faq",
+    "Support": "#support",
+    "About Us": "#about",
+    "Contact": "#contact",
+    "Privacy": "#privacy",
+    "Terms": "#terms",
+  };
 
   return (
     <footer className="pt-20 pb-10 border-t border-slate-100 bg-white">
@@ -50,7 +64,10 @@ export default function Footer() {
               <ul className="space-y-4">
                 {section.links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-slate-500 hover:text-indigo-600 font-medium transition-colors">
+                    <a
+                      href={footerHrefByLabel[link] || "/"}
+                      className="text-slate-500 hover:text-indigo-600 font-medium transition-colors"
+                    >
                       {link}
                     </a>
                   </li>

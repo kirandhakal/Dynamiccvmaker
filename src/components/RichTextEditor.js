@@ -9,7 +9,7 @@ import { TextAlign } from '@tiptap/extension-text-align';
 import { FontSize } from '../extensions/FontSize';
 import {
     Bold, Italic, Underline as UnderlineIcon, AlignLeft, AlignCenter, AlignRight,
-    Type, Palette, Sparkles
+    Palette
 } from 'lucide-react';
 
 const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', className = '' }) => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Edit2, Plus, Trash2, Download, Eye, GripVertical,
+  Edit2, Plus, Download, Eye, GripVertical,
   Sparkles, FileText, Briefcase, GraduationCap, Code, User
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
