@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, Send } from 'lucide-react';
 
 export default function ContactSection() {
   const [status, setStatus] = useState('');
