@@ -1,9 +1,6 @@
-/**
- * Visual style configs for CV templates (Classic, Professional, Minimalist).
- */
-
 export const templateStyles = {
   1: {
+    name: 'Standard Resume',
     headerBg: 'bg-white',
     headerText: 'text-gray-900',
     accentColor: 'text-gray-700',
@@ -13,6 +10,7 @@ export const templateStyles = {
     pageBg: 'bg-white',
   },
   4: {
+    name: 'Professional',
     headerBg: 'bg-white',
     headerText: 'text-[#2c3e50]',
     accentColor: 'text-[#3498db]',
@@ -23,6 +21,7 @@ export const templateStyles = {
     pageBg: 'bg-white',
   },
   5: {
+    name: 'Minimalist',
     headerBg: 'bg-white text-center mb-[18px]',
     headerText: 'text-black',
     accentColor: 'text-[#0066cc]',
@@ -30,6 +29,76 @@ export const templateStyles = {
     sectionTitle:
       'text-black text-[11px] font-bold border-b border-black pb-[2px] mb-[8px] mt-[16px] uppercase',
     linkColor: 'text-[#0066cc] underline',
+    pageBg: 'bg-white',
+  },
+  6: {
+    name: 'Reverse Chronological',
+    headerBg: 'bg-slate-50',
+    headerText: 'text-slate-900',
+    accentColor: 'text-slate-600',
+    borderColor: 'border-slate-300',
+    sectionTitle: 'text-slate-800 border-l-4 border-slate-800 pl-3 mb-4 uppercase tracking-[1px]',
+    linkColor: 'text-slate-600',
+    pageBg: 'bg-white',
+  },
+  7: {
+    name: 'Combination (Hybrid)',
+    headerBg: 'bg-indigo-900 text-white',
+    headerText: 'text-white',
+    accentColor: 'text-indigo-200',
+    borderColor: 'border-indigo-100',
+    sectionTitle: 'text-indigo-900 border-b border-indigo-200 pb-1 mb-4 font-extrabold',
+    linkColor: 'text-indigo-600',
+    pageBg: 'bg-white',
+  },
+  8: {
+    name: 'American Academic CV',
+    headerBg: 'bg-white text-center border-b-2 border-black pb-4',
+    headerText: 'text-black',
+    accentColor: 'text-black',
+    borderColor: 'border-black',
+    sectionTitle: 'text-black text-center border-y border-black py-1 my-4 uppercase font-serif',
+    linkColor: 'text-black underline',
+    pageBg: 'bg-white',
+  },
+  9: {
+    name: 'UK Academic CV',
+    headerBg: 'bg-white',
+    headerText: 'text-gray-800',
+    accentColor: 'text-gray-600',
+    borderColor: 'border-gray-200',
+    sectionTitle: 'text-gray-800 border-b border-gray-400 pb-1 font-serif italic text-lg',
+    linkColor: 'text-gray-700',
+    pageBg: 'bg-white font-serif',
+  },
+  10: {
+    name: 'University-Referenced Style',
+    headerBg: 'bg-blue-50 p-8 border-l-8 border-blue-600',
+    headerText: 'text-blue-900',
+    accentColor: 'text-blue-700',
+    borderColor: 'border-blue-200',
+    sectionTitle: 'text-blue-900 border-b-2 border-blue-600 pb-1 font-bold tracking-tight',
+    linkColor: 'text-blue-600',
+    pageBg: 'bg-white',
+  },
+  11: {
+    name: 'Europass CV',
+    headerBg: 'bg-white border-b-2 border-[#003399]',
+    headerText: 'text-[#003399]',
+    accentColor: 'text-[#003399]',
+    borderColor: 'border-[#003399]',
+    sectionTitle: 'text-[#003399] font-bold text-lg border-l-4 border-[#003399] pl-3 py-1 bg-blue-50/50 uppercase tracking-wide',
+    linkColor: 'text-[#003399]',
+    pageBg: 'bg-white',
+  },
+  12: {
+    name: 'Canadian Resume Format',
+    headerBg: 'bg-white border-t-8 border-red-600',
+    headerText: 'text-gray-900',
+    accentColor: 'text-red-700',
+    borderColor: 'border-gray-200',
+    sectionTitle: 'text-gray-900 border-b-2 border-red-600 pb-1 uppercase font-black tracking-tighter',
+    linkColor: 'text-red-600',
     pageBg: 'bg-white',
   },
 };
