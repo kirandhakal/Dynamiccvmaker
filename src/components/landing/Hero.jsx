@@ -22,14 +22,14 @@ export default function Hero() {
             </p>
             <a
               href="#templates"
-              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-95"
+              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-smshadow-indigo-200 active:scale-95"
             >
               Choose a Template <ArrowRight size={20} />
             </a>
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-[2rem] blur-2xl opacity-20" />
+            <div className="absolute -inset-4 rounded-[2rem] blur-2xl opacity-0" />
             <div className="relative bg-white rounded-2xl shadow-2xl border border-slate-200 p-6 max-w-md mx-auto">
               <div className="border-b border-slate-100 pb-4 mb-4">
                 <h3 className="text-xl font-bold text-slate-900">JOHN DOE</h3>
@@ -59,9 +59,9 @@ export default function Hero() {
                   ))}
                 </div>
               </div>
-              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+              {/* <div className="absolute -top-3 -right-3 bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                 Preview
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

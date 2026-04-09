@@ -122,10 +122,10 @@ export function renderSection(section, ctx) {
                   </div>
                 ) : (
                   <div>
-                    {templateStyleId === 4 ? (
-                      <div><strong className="inline-block min-w-[90px]">{skill.category}</strong> <span dangerouslySetInnerHTML={{ __html: skill.items }} /></div>
-                    ) : templateStyleId === 5 ? (
-                      <div><strong className="cv-subheading inline-block min-w-[85px]">{skill.category}:</strong> <span dangerouslySetInnerHTML={{ __html: skill.items }} /></div>
+                    {[4, 6, 7, 10, 11, 12].includes(templateStyleId) ? (
+                      <div><strong className="inline-block min-w-[100px]">{skill.category}</strong> <span dangerouslySetInnerHTML={{ __html: skill.items }} /></div>
+                    ) : [5, 8, 9].includes(templateStyleId) ? (
+                      <div className={templateStyleId === 8 ? 'text-center' : ''}><strong className="cv-subheading inline-block min-w-[85px]">{skill.category}:</strong> <span dangerouslySetInnerHTML={{ __html: skill.items }} /></div>
                     ) : (
                       <><strong>{skill.category}:</strong> <span dangerouslySetInnerHTML={{ __html: skill.items }} /></>
                     )}
@@ -190,7 +190,7 @@ export function renderSection(section, ctx) {
                   </div>
                 ) : (
                   <>
-                    {templateStyleId === 4 ? (
+                    {[4, 6, 7, 10, 11, 12].includes(templateStyleId) ? (
                       <div className="education-item flex justify-between items-baseline mb-1">
                         <div>
                           <strong className="cv-subheading">{edu.degree},</strong> <span className="cv-subheading font-normal">{edu.institution}</span>
@@ -198,8 +198,8 @@ export function renderSection(section, ctx) {
                         </div>
                         <div className="cv-text-meta">{edu.period}</div>
                       </div>
-                    ) : templateStyleId === 5 ? (
-                      <div className="mb-1">
+                    ) : [5, 8, 9].includes(templateStyleId) ? (
+                      <div className={`mb-1 ${templateStyleId === 8 ? 'text-center' : ''}`}>
                         <strong className="cv-subheading">{edu.degree}</strong> — <span className="cv-text-desc">{edu.institution} ({edu.period})</span>
                         {edu.description && <div className="text-xs text-gray-600 mt-1" dangerouslySetInnerHTML={{ __html: edu.description }} />}
                       </div>
@@ -259,21 +259,21 @@ export function renderSection(section, ctx) {
                   </div>
                 ) : (
                   <>
-                    {templateStyleId === 4 ? (
+                    {[4, 6, 7, 10, 11, 12].includes(templateStyleId) ? (
                       <div className="project-item">
                         <div className="flex justify-between items-baseline mb-1">
                           <div className="cv-subheading">{project.name}</div>
-                          <a href={project.link} className="cv-link">View</a>
+                          <a href={project.link} className="cv-link">View Project</a>
                         </div>
                         <div className="cv-text-desc pl-5 border-l-2 border-gray-100" dangerouslySetInnerHTML={{ __html: project.description }} />
                       </div>
-                    ) : templateStyleId === 5 ? (
-                      <div className="mb-[10px]">
+                    ) : [5, 8, 9].includes(templateStyleId) ? (
+                      <div className={`mb-4 ${templateStyleId === 8 ? 'text-center' : ''}`}>
                         <div className="flex justify-between items-baseline">
                           <div className="cv-subheading">{project.name}</div>
                           <div><a href={project.link} className="cv-link underline">Link</a></div>
                         </div>
-                        <ul className="cv-list"><li className="cv-list-item" dangerouslySetInnerHTML={{ __html: project.description }} /></ul>
+                        <div className="cv-text-desc mt-1" dangerouslySetInnerHTML={{ __html: project.description }} />
                       </div>
                     ) : (
                       <>
@@ -332,7 +332,7 @@ export function renderSection(section, ctx) {
                   </div>
                 ) : (
                   <>
-                    {templateStyleId === 4 ? (
+                    {[4, 6, 7, 10, 11, 12].includes(templateStyleId) ? (
                       <div className="job-item">
                         <div className="flex justify-between items-baseline mb-0">
                           <div className="cv-subheading">{exp.position}</div>
@@ -341,14 +341,14 @@ export function renderSection(section, ctx) {
                         <div className="cv-text-meta italic mb-1">{exp.company}</div>
                         <div className="cv-text-desc pl-5 border-l-2 border-gray-100" dangerouslySetInnerHTML={{ __html: exp.description }} />
                       </div>
-                    ) : templateStyleId === 5 ? (
-                      <div className="mb-[10px]">
+                    ) : [5, 8, 9].includes(templateStyleId) ? (
+                      <div className={`mb-4 ${templateStyleId === 8 ? 'text-center' : ''}`}>
                         <div className="flex justify-between items-baseline">
                           <div className="cv-subheading">{exp.position}</div>
                           <div className="cv-text-meta italic">{exp.period}</div>
                         </div>
-                        <div className="cv-text-meta mb-0">{exp.company}</div>
-                        <ul className="cv-list"><li className="cv-list-item" dangerouslySetInnerHTML={{ __html: exp.description }} /></ul>
+                        <div className="cv-text-meta mb-1 font-semibold">{exp.company}</div>
+                        <div className="cv-text-desc" dangerouslySetInnerHTML={{ __html: exp.description }} />
                       </div>
                     ) : (
                       <>

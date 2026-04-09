@@ -6,6 +6,7 @@ import {
 import RichTextEditor from './RichTextEditor';
 import { getTemplateStyle } from '../config/templateStyles';
 import { renderSection } from './cv/SectionRenderers';
+import { SelectTemplate } from './SelectTemplate';
 
 const DEFAULT_CV = {
   name: 'JOHN DOE',
@@ -29,6 +30,14 @@ const DEFAULT_CV = {
 const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv }) => {
   const [editMode, setEditMode] = useState(true);
   const storageKey = professionId ? `cv_data_${professionId}` : 'cv_data';
+  const templateKey = professionId ? `cv_template_${professionId}` : 'cv_template';
+
+  const [currentTemplateId, setCurrentTemplateId] = useState(() => {
+    const saved = localStorage.getItem(templateKey);
+    return saved ? parseInt(saved) : templateStyleId;
+  });
+
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
   const [cv, setCv] = useState(() => {
     const saved = localStorage.getItem(storageKey);
@@ -42,7 +51,11 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
     localStorage.setItem(storageKey, JSON.stringify(cv));
   }, [cv, storageKey]);
 
-  const styles = getTemplateStyle(templateStyleId);
+  React.useEffect(() => {
+    localStorage.setItem(templateKey, currentTemplateId.toString());
+  }, [currentTemplateId, templateKey]);
+
+  const styles = getTemplateStyle(currentTemplateId);
 
 
   const updateField = (path, value) => {
@@ -201,7 +214,7 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
 
     // Create a new window for printing
     const printWindow = window.open('', '_blank', 'width=800,height=600');
-    
+
     // Get all stylesheets from current document
     const styles = Array.from(document.styleSheets)
       .map(styleSheet => {
@@ -263,16 +276,16 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
         </body>
       </html>
     `);
-    
+
     printWindow.document.close();
-    
+
     // Wait for content to load then print
     printWindow.onload = () => {
       printWindow.focus();
       printWindow.print();
       printWindow.close();
     };
-    
+
     // Fallback if onload doesn't fire
     setTimeout(() => {
       if (!printWindow.closed) {
@@ -285,7 +298,7 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
 
   const sectionCtx = {
     editMode,
-    templateStyleId,
+    templateStyleId: currentTemplateId,
     updateSection,
     updateSectionItem,
     addSectionItem,
@@ -298,20 +311,31 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 p-4 md:p-8" id="cv-editor-wrapper">
       <div className="max-w-4xl mx-auto">
         {/* Control Panel */}
-        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-100 p-6 mb-6 print:hidden print-hidden">
+        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-smborder border-gray-100 p-6 mb-6 print:hidden print-hidden">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-bold text-gray-800">Resume Editor</h2>
             </div>
 
             <div className="flex gap-3">
+              {editMode && (
+                <button
+                  onClick={() => setShowTemplateSelector(!showTemplateSelector)}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${showTemplateSelector
+                    ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white'
+                    : 'bg-white text-gray-700 border border-gray-200'
+                    }`}
+                >
+                  <Sparkles size={18} />
+                  {showTemplateSelector ? 'Close Templates' : 'Change Template'}
+                </button>
+              )}
               <button
                 onClick={() => setEditMode(!editMode)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${
-                  editMode 
-                    ? 'bg-gradient-to-r from-violet-500 to-purple-600 text-white' 
-                    : 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white'
-                }`}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${editMode
+                  ? 'bg-gradient-to-r from-violet-500 to-purple-600 text-white'
+                  : 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white'
+                  }`}
               >
                 {editMode ? <Eye size={18} /> : <Edit2 size={18} />}
                 {editMode ? 'Preview' : 'Edit'}
@@ -327,6 +351,18 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
               )}
             </div>
           </div>
+
+          {showTemplateSelector && editMode && (
+            <div className="mt-6 animate-in fade-in slide-in-from-top-4 duration-300">
+              <SelectTemplate
+                selectedTemplate={currentTemplateId}
+                onSelectTemplate={(id) => {
+                  setCurrentTemplateId(id);
+                  // setShowTemplateSelector(false);
+                }}
+              />
+            </div>
+          )}
 
           {editMode && (
             <div className="border-t border-gray-100 pt-5 mt-5">
@@ -581,7 +617,7 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
                 </div>
               ) : (
                 <>
-                  {templateStyleId === 4 ? (
+                  {currentTemplateId === 4 ? (
                     <div className="mb-2">
                       <h1 className="cv-header-name" dangerouslySetInnerHTML={{ __html: cv.name }} />
                       <div className="cv-header-contact mb-[16px]">
@@ -592,7 +628,7 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
                         {cv.contact.github && <><a href={cv.contact.github} className="cv-link">GitHub</a></>}
                       </div>
                     </div>
-                  ) : templateStyleId === 5 ? (
+                  ) : currentTemplateId === 5 ? (
                     <div className="mb-[18px] text-center">
                       <h1 className="cv-header-name text-[24px] text-black" dangerouslySetInnerHTML={{ __html: cv.name }} />
                       <div className="cv-header-contact">
@@ -601,6 +637,13 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
                         {cv.contact.portfolio && <> | <a href={cv.contact.portfolio} className="cv-link underline">Portfolio</a></>}
                         {cv.contact.linkedin && <> | <a href={cv.contact.linkedin} className="cv-link underline">LinkedIn</a></>}
                         {cv.contact.github && <> | <a href={cv.contact.github} className="cv-link underline">GitHub</a></>}
+                      </div>
+                    </div>
+                  ) : currentTemplateId === 8 || currentTemplateId === 9 ? (
+                    <div className={`${currentTemplateId === 8 ? 'text-center' : ''} mb-6`}>
+                      <h1 className={`text-3xl font-serif font-bold uppercase ${styles.headerText}`} dangerouslySetInnerHTML={{ __html: cv.name }} />
+                      <div className="mt-2 text-sm italic opacity-80">
+                        {cv.contact.location} | {cv.contact.email} | {cv.contact.linkedin && <><a href={cv.contact.linkedin} className="underline">LinkedIn</a> | </>} {cv.contact.github && <a href={cv.contact.github} className="underline">GitHub</a>}
                       </div>
                     </div>
                   ) : (
