@@ -7,6 +7,7 @@ import RichTextEditor from './RichTextEditor';
 import { getTemplateStyle } from '../config/templateStyles';
 import { renderSection } from './cv/SectionRenderers';
 import { SelectTemplate } from './SelectTemplate';
+import { professions } from '../data/professions';
 
 const DEFAULT_CV = {
   name: 'JOHN DOE',
@@ -39,10 +40,14 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
 
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
+  // Find the default CV for the selected profession
+  const profession = professions.find((p) => p.id === professionId);
+  const defaultCv = profession ? profession.defaultCv : DEFAULT_CV;
+
   const [cv, setCv] = useState(() => {
     const saved = localStorage.getItem(storageKey);
     if (saved) return JSON.parse(saved);
-    return initialCv ? JSON.parse(JSON.stringify(initialCv)) : DEFAULT_CV;
+    return initialCv ? JSON.parse(JSON.stringify(initialCv)) : JSON.parse(JSON.stringify(defaultCv));
   });
 
   const [draggedSectionIndex, setDraggedSectionIndex] = useState(null);

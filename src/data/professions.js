@@ -1,28 +1,23 @@
-/**
- * Profession-based template configs.
- * Each profession has its own title, subtitle, description, and default CV content.
- */
-
 export const professions = [
   {
     id: 'it',
     name: 'IT Professional',
     title: 'Software & Tech',
     subtitle: 'Full Stack Developer • DevOps • Data Engineer',
-    description: 'Clean, ATS-friendly layout for software engineers and tech roles.',
+    description: 'ATS-optimized CV for developers with project and code showcase.',
     color: 'from-gray-700 to-gray-900',
     accent: 'bg-gray-800',
-    features: ['ATS Friendly', 'Clean Layout', 'Technical Focus'],
+    features: ['ATS Friendly', 'GitHub Showcase', 'Project Focus'],
     templateStyleId: 1,
     defaultCv: {
-      name: 'JOHN DOE',
+      name: 'ARJUN SHARMA',
       title: 'Full Stack Developer',
       contact: {
-        location: 'San Francisco, CA',
-        email: 'john.doe@example.com',
-        portfolio: 'https://johndoe.dev',
-        linkedin: 'https://www.linkedin.com/in/johndoe',
-        github: 'https://github.com/johndoe',
+        location: 'Bangalore, India',
+        email: 'arjun.sharma.dev@gmail.com',
+        portfolio: 'https://arjun-dev.vercel.app',
+        linkedin: 'https://linkedin.com/in/arjunsharma',
+        github: 'https://github.com/arjunsharma',
       },
       sections: [
         {
@@ -30,78 +25,80 @@ export const professions = [
           title: 'PROFESSIONAL SUMMARY',
           type: 'text',
           content:
-            'Results-driven full stack developer with 5+ years of experience building scalable web applications.',
+            'Full Stack Developer with 4+ years of experience building scalable web apps using modern JavaScript frameworks and cloud technologies.',
         },
         {
           id: 2,
-          title: 'TECHNICAL SKILLS',
+          title: 'TECH STACK',
           type: 'skills',
           items: [
-            { category: 'Frontend', items: 'React.js, Vue.js, HTML5, CSS3, TypeScript' },
-            { category: 'Backend', items: 'Node.js, Python, Django, Express.js' },
-            { category: 'Database', items: 'MongoDB, PostgreSQL, MySQL' },
-            { category: 'Tools', items: 'Git, Docker, AWS, VS Code' },
+            { category: 'Frontend', items: 'React, Next.js, Tailwind CSS' },
+            { category: 'Backend', items: 'Node.js, Express, Django' },
+            { category: 'Database', items: 'MongoDB, PostgreSQL' },
+            { category: 'DevOps', items: 'Docker, AWS, CI/CD' },
           ],
         },
         {
           id: 3,
-          title: 'WORK EXPERIENCE',
-          type: 'experience',
+          title: 'PROJECTS',
+          type: 'projects',
           items: [
             {
-              position: 'Senior Software Engineer',
-              company: 'Tech Corp Inc.',
-              period: 'June 2021 - Present',
-              description: 'Lead development of microservices architecture serving 1M+ users.',
+              name: 'Job Portal Platform',
+              link: 'https://github.com/arjunsharma/job-portal',
+              description:
+                'Built a full-stack job portal with authentication, resume parsing, and recruiter dashboard.',
             },
           ],
         },
         {
           id: 4,
-          title: 'EDUCATION',
-          type: 'education',
+          title: 'WORK EXPERIENCE',
+          type: 'experience',
           items: [
             {
-              degree: 'Bachelor of Science in Computer Science',
-              institution: 'University of California, Berkeley',
-              period: '2015 - 2019',
+              position: 'Software Engineer',
+              company: 'TechNova Solutions',
+              period: '2022 - Present',
+              description:
+                'Developed scalable REST APIs and improved application performance by 30%.',
             },
           ],
         },
         {
           id: 5,
-          title: 'PROJECTS',
-          type: 'projects',
+          title: 'EDUCATION',
+          type: 'education',
           items: [
             {
-              name: 'E-Commerce Platform',
-              link: 'https://github.com/johndoe/ecommerce',
-              description: 'Built a full-featured e-commerce platform with React and Node.js.',
+              degree: 'B.Tech in Computer Science',
+              institution: 'VTU University',
+              period: '2017 - 2021',
             },
           ],
         },
       ],
     },
   },
+
   {
     id: 'chef',
     name: 'Chef / Culinary',
     title: 'Culinary Professional',
-    subtitle: 'Executive Chef • Head Chef • Pastry Chef',
-    description: 'Elegant layout for chefs and kitchen professionals.',
+    subtitle: 'Executive Chef • Sous Chef • Pastry Chef',
+    description: 'Showcase culinary expertise, menus, and kitchen leadership.',
     color: 'from-amber-600 to-orange-700',
     accent: 'bg-amber-600',
-    features: ['Elegant Design', 'Menu Highlights', 'Kitchen Focus'],
+    features: ['Menu Highlights', 'Kitchen Leadership', 'Certifications'],
     templateStyleId: 4,
     defaultCv: {
-      name: 'MARIA SANTOS',
+      name: 'RAJIV GURUNG',
       title: 'Executive Chef',
       contact: {
-        location: 'New York, NY',
-        email: 'maria.santos@example.com',
+        location: 'Kathmandu, Nepal',
+        email: 'chef.rajiv@gmail.com',
         portfolio: '',
-        linkedin: 'https://www.linkedin.com/in/mariasantos',
-        github: '',
+        linkedin: 'https://linkedin.com/in/rajivchef',
       },
       sections: [
         {
@@ -109,82 +106,16 @@ export const professions = [
           title: 'CULINARY PROFILE',
           type: 'text',
           content:
-            'Award-winning Executive Chef with 12+ years in fine dining and kitchen leadership. Passionate about seasonal ingredients and modern techniques.',
+            'Creative Executive Chef with 10+ years of experience in fine dining and international cuisine. Expert in menu innovation and kitchen operations.',
         },
         {
           id: 2,
-          title: 'CULINARY SKILLS',
+          title: 'SPECIALTIES',
           type: 'skills',
           items: [
-            { category: 'Cuisines', items: 'French, Mediterranean, Farm-to-Table, Fusion' },
-            { category: 'Kitchen', items: 'Sous Vide, Butchery, Pastry, Plating' },
-            { category: 'Management', items: 'Team Leadership, Menu Design, Cost Control' },
-          ],
-        },
-        {
-          id: 3,
-          title: 'PROFESSIONAL EXPERIENCE',
-          type: 'experience',
-          items: [
-            {
-              position: 'Executive Chef',
-              company: 'The Grand Hotel',
-              period: '2019 - Present',
-              description: 'Lead kitchen operations for 200+ covers daily. Developed seasonal tasting menus and trained 15+ staff.',
-            },
-          ],
-        },
-        {
-          id: 4,
-          title: 'EDUCATION & CERTIFICATIONS',
-          type: 'education',
-          items: [
-            {
-              degree: 'Le Cordon Bleu, Paris',
-              institution: 'Grand Diplôme',
-              period: '2008 - 2010',
-            },
-          ],
-        },
-      ],
-    },
-  },
-  {
-    id: 'designer',
-    name: 'Designer',
-    title: 'Creative & Design',
-    subtitle: 'UX Designer • Graphic Designer • Product Designer',
-    description: 'Minimalist, portfolio-ready layout for creatives.',
-    color: 'from-violet-600 to-purple-700',
-    accent: 'bg-violet-600',
-    features: ['Portfolio Ready', 'Clean Lines', 'Creative Focus'],
-    templateStyleId: 5,
-    defaultCv: {
-      name: 'ALEX CHEN',
-      title: 'Senior UX Designer',
-      contact: {
-        location: 'Austin, TX',
-        email: 'alex.chen@example.com',
-        portfolio: 'https://alexchen.design',
-        linkedin: 'https://www.linkedin.com/in/alexchen',
-        github: '',
-      },
-      sections: [
-        {
-          id: 1,
-          title: 'ABOUT',
-          type: 'text',
-          content:
-            'User-centered designer with 8+ years crafting digital products. Focus on research-driven UX and accessible, beautiful interfaces.',
-        },
-        {
-          id: 2,
-          title: 'SKILLS',
-          type: 'skills',
-          items: [
-            { category: 'Design', items: 'Figma, Sketch, Adobe XD, Prototyping' },
-            { category: 'Research', items: 'User Interviews, Usability Testing, Journey Mapping' },
-            { category: 'Collaboration', items: 'Design Systems, Cross-functional Teams' },
+            { category: 'Cuisine', items: 'Nepali, Indian, Continental' },
+            { category: 'Techniques', items: 'Grilling, Sous Vide, Plating' },
+            { category: 'Management', items: 'Staff Training, Cost Control' },
           ],
         },
         {
@@ -193,34 +124,103 @@ export const professions = [
           type: 'experience',
           items: [
             {
-              position: 'Senior UX Designer',
-              company: 'Product Labs Inc.',
-              period: '2020 - Present',
-              description: 'Lead design for B2B SaaS platform. Reduced support tickets by 40% through UX improvements.',
+              position: 'Head Chef',
+              company: 'Himalayan Resort',
+              period: '2019 - Present',
+              description:
+                'Managed a team of 20+ kitchen staff and designed seasonal menus for international guests.',
             },
           ],
         },
         {
           id: 4,
-          title: 'EDUCATION',
+          title: 'CERTIFICATIONS',
           type: 'education',
           items: [
             {
-              degree: 'BFA in Graphic Design',
-              institution: 'School of Visual Arts',
-              period: '2012 - 2016',
+              degree: 'Diploma in Culinary Arts',
+              institution: 'Nepal Academy of Tourism & Hotel Management',
+              period: '2012 - 2014',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    id: 'designer',
+    name: 'Designer',
+    title: 'Creative & Design',
+    subtitle: 'UX Designer • UI Designer • Product Designer',
+    description: 'Portfolio-first CV with strong visual and case study focus.',
+    color: 'from-violet-600 to-purple-700',
+    accent: 'bg-violet-600',
+    features: ['Portfolio Ready', 'Case Studies', 'Visual Focus'],
+    templateStyleId: 5,
+    defaultCv: {
+      name: 'SOPHIA LEE',
+      title: 'Product Designer',
+      contact: {
+        location: 'Singapore',
+        email: 'sophia.lee.design@gmail.com',
+        portfolio: 'https://sophialee.design',
+        linkedin: 'https://linkedin.com/in/sophialee',
+      },
+      sections: [
+        {
+          id: 1,
+          title: 'PROFILE',
+          type: 'text',
+          content:
+            'Product Designer focused on creating intuitive user experiences backed by research and data-driven decisions.',
+        },
+        {
+          id: 2,
+          title: 'DESIGN SKILLS',
+          type: 'skills',
+          items: [
+            { category: 'Tools', items: 'Figma, Adobe XD, Photoshop' },
+            { category: 'UX', items: 'Wireframing, Prototyping, User Testing' },
+            { category: 'UI', items: 'Design Systems, Typography, Color Theory' },
+          ],
+        },
+        {
+          id: 3,
+          title: 'CASE STUDIES',
+          type: 'projects',
+          items: [
+            {
+              name: 'E-Wallet App Redesign',
+              link: 'https://sophialee.design/wallet',
+              description:
+                'Improved onboarding flow resulting in 35% increase in user retention.',
+            },
+          ],
+        },
+        {
+          id: 4,
+          title: 'EXPERIENCE',
+          type: 'experience',
+          items: [
+            {
+              position: 'UX Designer',
+              company: 'Designify Studio',
+              period: '2021 - Present',
+              description:
+                'Collaborated with product teams to design user-centered digital products.',
             },
           ],
         },
         {
           id: 5,
-          title: 'SELECTED PROJECTS',
-          type: 'projects',
+          title: 'EDUCATION',
+          type: 'education',
           items: [
             {
-              name: 'Mobile Banking App Redesign',
-              link: 'https://alexchen.design/banking',
-              description: 'End-to-end redesign improving NPS by 25%.',
+              degree: 'BA in Interaction Design',
+              institution: 'NUS',
+              period: '2016 - 2020',
             },
           ],
         },
@@ -228,7 +228,6 @@ export const professions = [
     },
   },
 ];
-
 export const getProfessionById = (id) => professions.find((p) => p.id === id);
 
 export const getProfessionByTemplateStyleId = (templateStyleId) =>
