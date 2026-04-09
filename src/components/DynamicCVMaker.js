@@ -7,6 +7,7 @@ import RichTextEditor from './RichTextEditor';
 import { getTemplateStyle } from '../config/templateStyles';
 import { renderSection } from './cv/SectionRenderers';
 import { SelectTemplate } from './SelectTemplate';
+import { professions } from '../data/professions';
 
 const DEFAULT_CV = {
   name: 'JOHN DOE',
@@ -27,6 +28,49 @@ const DEFAULT_CV = {
   ],
 };
 
+const CONTACT_FIELD_LABELS = {
+  location: { label: '📍 Location', placeholder: 'City, State/Country' },
+  email: { label: '✉️ Email', placeholder: 'your.email@example.com', type: 'email' },
+  portfolio: { label: '🌐 Portfolio', placeholder: 'https://yourportfolio.com', type: 'url' },
+  linkedin: { label: '💼 LinkedIn', placeholder: 'https://linkedin.com/in/yourprofile', type: 'url' },
+  github: { label: '🐙 GitHub', placeholder: 'https://github.com/yourusername', type: 'url' },
+};
+
+const renderContactFields = (contact, updateField, editMode) => {
+  return Object.entries(contact).map(([key, value]) => {
+    const fieldConfig = CONTACT_FIELD_LABELS[key];
+    if (!fieldConfig) return null;
+    
+    if (editMode) {
+      return (
+        <div key={key}>
+          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">{fieldConfig.label}</label>
+          <input
+            type={fieldConfig.type || 'text'}
+            value={value || ''}
+            onChange={(e) => updateField(`contact.${key}`, e.target.value)}
+            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            placeholder={fieldConfig.placeholder}
+          />
+        </div>
+      );
+    }
+    return null;
+  });
+};
+
+const renderContactPreview = (contact) => {
+  const fields = [];
+  
+  if (contact.location) fields.push(<span key="location">{contact.location}</span>);
+  if (contact.email) fields.push(<a key="email" href={`mailto:${contact.email}`} className="cv-link">{contact.email}</a>);
+  if (contact.portfolio) fields.push(<a key="portfolio" href={contact.portfolio} className="cv-link">Portfolio</a>);
+  if (contact.linkedin) fields.push(<a key="linkedin" href={contact.linkedin} className="cv-link">LinkedIn</a>);
+  if (contact.github) fields.push(<a key="github" href={contact.github} className="cv-link">GitHub</a>);
+  
+  return fields;
+};
+
 const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv }) => {
   const [editMode, setEditMode] = useState(true);
   const storageKey = professionId ? `cv_data_${professionId}` : 'cv_data';
@@ -39,10 +83,14 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
 
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
 
+  // Find the default CV for the selected profession
+  const profession = professions.find((p) => p.id === professionId);
+  const defaultCv = profession ? profession.defaultCv : DEFAULT_CV;
+
   const [cv, setCv] = useState(() => {
     const saved = localStorage.getItem(storageKey);
     if (saved) return JSON.parse(saved);
-    return initialCv ? JSON.parse(JSON.stringify(initialCv)) : DEFAULT_CV;
+    return initialCv ? JSON.parse(JSON.stringify(initialCv)) : JSON.parse(JSON.stringify(defaultCv));
   });
 
   const [draggedSectionIndex, setDraggedSectionIndex] = useState(null);
@@ -563,56 +611,7 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
                     />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">📍 Location</label>
-                      <input
-                        type="text"
-                        value={cv.contact.location}
-                        onChange={(e) => updateField('contact.location', e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="City, State/Country"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">✉️ Email</label>
-                      <input
-                        type="email"
-                        value={cv.contact.email}
-                        onChange={(e) => updateField('contact.email', e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="your.email@example.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">🌐 Portfolio</label>
-                      <input
-                        type="url"
-                        value={cv.contact.portfolio}
-                        onChange={(e) => updateField('contact.portfolio', e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="https://yourportfolio.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">💼 LinkedIn</label>
-                      <input
-                        type="url"
-                        value={cv.contact.linkedin}
-                        onChange={(e) => updateField('contact.linkedin', e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="https://linkedin.com/in/yourprofile"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">🐙 GitHub</label>
-                      <input
-                        type="url"
-                        value={cv.contact.github}
-                        onChange={(e) => updateField('contact.github', e.target.value)}
-                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        placeholder="https://github.com/yourusername"
-                      />
-                    </div>
+                    {renderContactFields(cv.contact, updateField, editMode)}
                   </div>
                 </div>
               ) : (
@@ -621,29 +620,36 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
                     <div className="mb-2">
                       <h1 className="cv-header-name" dangerouslySetInnerHTML={{ __html: cv.name }} />
                       <div className="cv-header-contact mb-[16px]">
-                        {cv.contact.location} <span className="mx-1">|</span>
-                        <a href={`mailto:${cv.contact.email}`} className="cv-link">{cv.contact.email}</a> <span className="mx-1">|</span>
-                        {cv.contact.portfolio && <><a href={cv.contact.portfolio} className="cv-link">Portfolio</a> <span className="mx-1">|</span></>}
-                        {cv.contact.linkedin && <><a href={cv.contact.linkedin} className="cv-link">LinkedIn</a> <span className="mx-1">|</span></>}
-                        {cv.contact.github && <><a href={cv.contact.github} className="cv-link">GitHub</a></>}
+                        {renderContactPreview(cv.contact).map((item, index) => (
+                          <React.Fragment key={index}>
+                            {index > 0 && <span className="mx-1">|</span>}
+                            {item}
+                          </React.Fragment>
+                        ))}
                       </div>
                     </div>
                   ) : currentTemplateId === 5 ? (
                     <div className="mb-[18px] text-center">
                       <h1 className="cv-header-name text-[24px] text-black" dangerouslySetInnerHTML={{ __html: cv.name }} />
                       <div className="cv-header-contact">
-                        {cv.contact.location && <>{cv.contact.location} | </>}
-                        <a href={`mailto:${cv.contact.email}`} className="cv-link underline">{cv.contact.email}</a>
-                        {cv.contact.portfolio && <> | <a href={cv.contact.portfolio} className="cv-link underline">Portfolio</a></>}
-                        {cv.contact.linkedin && <> | <a href={cv.contact.linkedin} className="cv-link underline">LinkedIn</a></>}
-                        {cv.contact.github && <> | <a href={cv.contact.github} className="cv-link underline">GitHub</a></>}
+                        {renderContactPreview(cv.contact).map((item, index) => (
+                          <React.Fragment key={index}>
+                            {index > 0 && <span className="mx-1">|</span>}
+                            {item}
+                          </React.Fragment>
+                        ))}
                       </div>
                     </div>
                   ) : currentTemplateId === 8 || currentTemplateId === 9 ? (
                     <div className={`${currentTemplateId === 8 ? 'text-center' : ''} mb-6`}>
                       <h1 className={`text-3xl font-serif font-bold uppercase ${styles.headerText}`} dangerouslySetInnerHTML={{ __html: cv.name }} />
                       <div className="mt-2 text-sm italic opacity-80">
-                        {cv.contact.location} | {cv.contact.email} | {cv.contact.linkedin && <><a href={cv.contact.linkedin} className="underline">LinkedIn</a> | </>} {cv.contact.github && <a href={cv.contact.github} className="underline">GitHub</a>}
+                        {renderContactPreview(cv.contact).map((item, index) => (
+                          <React.Fragment key={index}>
+                            {index > 0 && <span className="mx-1">|</span>}
+                            {item}
+                          </React.Fragment>
+                        ))}
                       </div>
                     </div>
                   ) : (
@@ -651,7 +657,12 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
                       <h1 className={`text-2xl font-bold ${styles.headerText} mb-1`} dangerouslySetInnerHTML={{ __html: cv.name }} />
                       <div className={`text-base ${styles.headerText} opacity-90 mb-2`} dangerouslySetInnerHTML={{ __html: cv.title }} />
                       <div className={`text-xs ${styles.headerText} opacity-80`}>
-                        {cv.contact.location} | {cv.contact.email} | <a href={cv.contact.portfolio} className="underline">{cv.contact.portfolio}</a> | <a href={cv.contact.linkedin} className="underline">LinkedIn</a> | <a href={cv.contact.github} className="underline">GitHub</a>
+                        {renderContactPreview(cv.contact).map((item, index) => (
+                          <React.Fragment key={index}>
+                            {index > 0 && <span className="mx-1">|</span>}
+                            {item}
+                          </React.Fragment>
+                        ))}
                       </div>
                     </>
                   )}
