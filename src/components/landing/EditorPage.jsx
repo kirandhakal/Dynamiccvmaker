@@ -50,32 +50,25 @@ export default function EditorPage() {
   // Role Selection Screen
   if (hasRoles && !editorMode) {
     return (
-      <div className="fixed inset-0 z-[100] bg-gray-150 overflow-y-auto">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl" />
-        </div>
-
+      <div className="fixed inset-0 z-[100] bg-gray-100 overflow-y-auto">
         {/* Header */}
-        <div className="sticky top-0 z-[110] flex justify-between items-center px-6 py-4 bg-slate-950/80 backdrop-blur-xl border-b border-white/5">
+        <div className="sticky top-0 z-[110] flex justify-between items-center px-6 py-4 bg-white border-b border-gray-200">
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all"
             >
               <ArrowLeft size={18} />
               <span className="text-sm font-medium hidden sm:inline">Back</span>
             </button>
-            <div className="w-px h-8 bg-white/10" />
+            <div className="w-px h-8 bg-gray-300" />
             <div className="flex items-center gap-2">
-              <div className={`w-10 h-10 bg-gradient-to-tr ${profession.color} rounded-xl flex items-center justify-center text-white font-bold shadow-lg`}>
+              <div className="w-10 h-10 bg-gray-200 rounded-xl flex items-center justify-center text-gray-700 font-bold shadow">
                 <Cpu size={20} />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-white leading-none text-lg">{profession.name}</span>
-                <span className="text-indigo-400 text-xs font-bold uppercase tracking-wider">
+                <span className="font-bold text-gray-800 leading-none text-lg">{profession.name}</span>
+                <span className="text-gray-500 text-xs font-bold uppercase tracking-wider">
                   Choose Your Role
                 </span>
               </div>
@@ -83,9 +76,9 @@ export default function EditorPage() {
           </div>
           <button
             onClick={() => navigate('/')}
-            className="p-2 hover:bg-white/5 rounded-full transition-all group"
+            className="p-2 hover:bg-gray-100 rounded-full transition-all"
           >
-            <X size={24} className="text-slate-500 group-hover:text-white" />
+            <X size={24} className="text-gray-500 hover:text-gray-800" />
           </button>
         </div>
 
@@ -93,11 +86,10 @@ export default function EditorPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
           {/* Title */}
           <div className="text-center mb-12">
-          
-            <h1 className="text-4xl md:text-5xl font-black  mb-4">
-              What's your <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">role</span>?
+            <h1 className="text-4xl md:text-5xl font-black mb-4">
+              What's your <span className="text-indigo-600">role</span>?
             </h1>
-            <p className="text-slate-400 text-lg max-w-xl mx-auto">
+            <p className="text-gray-500 text-lg max-w-xl mx-auto">
               Choose your specific role to get a tailored CV template with relevant skills, projects, and experience pre-filled.
             </p>
           </div>
@@ -109,8 +101,8 @@ export default function EditorPage() {
                 key={role.id}
                 onClick={() => handleRoleSelect(role)}
                 className={`group relative text-left rounded-2xl border overflow-hidden transition-all duration-500 transform hover:-translate-y-1 ${selectedRole?.id === role.id
-                  ? 'border-indigo-500 bg-indigo-500/10 shadow-2xl shadow-indigo-500/20 scale-[1.02]'
-                  : 'border-white/10 bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/20'
+                  ? 'border-indigo-500 bg-indigo-100 shadow-md scale-[1.02]'
+                  : 'border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300'
                   }`}
               >
                 {/* Selected indicator */}
@@ -122,36 +114,29 @@ export default function EditorPage() {
                   </div>
                 )}
 
-                {/* Card gradient top bar */}
-                <div className={`h-1.5 bg-gradient-to-r ${role.color} transition-all duration-300 ${selectedRole?.id === role.id ? 'h-2' : ''}`} />
-
                 <div className="p-6">
                   {/* Icon and name */}
                   <div className="flex items-center gap-4 mb-4">
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${role.color} flex items-center justify-center text-2xl shadow-lg transition-transform duration-300 group-hover:scale-110`}>
+                    <div className="w-14 h-14 rounded-2xl bg-gray-200 flex items-center justify-center text-2xl shadow">
                       {role.icon}
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors">
+                      <h3 className="text-lg font-bold text-gray-800">
                         {role.name}
                       </h3>
-                      <p className="text-slate-500 text-sm">{role.description}</p>
+                      <p className="text-gray-500 text-sm">{role.description}</p>
                     </div>
                   </div>
 
                   {/* Preview of what's included */}
                   <div className="flex flex-wrap gap-2 mt-3">
                     {role.defaultCv.sections.slice(0, 3).map((section, idx) => (
-                      <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-lg bg-white/5 text-slate-400 text-xs border border-white/5">
+                      <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600 text-xs border border-gray-200">
                         {section.title}
                       </span>
                     ))}
                   </div>
                 </div>
-
-                {/* Hover glow effect */}
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br ${role.color} mix-blend-overlay`}
-                  style={{ opacity: selectedRole?.id === role.id ? 0.05 : undefined }} />
               </button>
             ))}
           </div>
@@ -171,7 +156,7 @@ export default function EditorPage() {
           )}
 
           {/* Selected role preview */}
-          {selectedRole && (
+          {/* {selectedRole && (
             <div className="mt-12 max-w-2xl mx-auto animate-fade-in">
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm">
                 <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Preview — {selectedRole.name}</h3>
@@ -201,7 +186,7 @@ export default function EditorPage() {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
 
         <style>{`
