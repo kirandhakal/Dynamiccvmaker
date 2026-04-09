@@ -50,7 +50,7 @@ export default function EditorPage() {
   // Role Selection Screen
   if (hasRoles && !editorMode) {
     return (
-      <div className="fixed inset-0 z-[100] bg-gradient-to-br from-slate-950 via-slate-900 to-gray-900 overflow-y-auto">
+      <div className="fixed inset-0 z-[100] bg-gray-150 overflow-y-auto">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" />
@@ -93,11 +93,8 @@ export default function EditorPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
           {/* Title */}
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium mb-4">
-              <Sparkles size={14} />
-              Select Your Specialization
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
+          
+            <h1 className="text-4xl md:text-5xl font-black  mb-4">
               What's your <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">role</span>?
             </h1>
             <p className="text-slate-400 text-lg max-w-xl mx-auto">
@@ -220,7 +217,7 @@ export default function EditorPage() {
     );
   }
 
-  // Editor Mode with 3-panel layout
+
   const currentCv = selectedRole ? selectedRole.defaultCv : profession.defaultCv;
 
   return (
