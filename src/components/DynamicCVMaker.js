@@ -318,16 +318,18 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
             </div>
 
             <div className="flex gap-3">
-              <button
-                onClick={() => setShowTemplateSelector(!showTemplateSelector)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${showTemplateSelector
-                  ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white'
-                  : 'bg-white text-gray-700 border border-gray-200'
-                  }`}
-              >
-                <Sparkles size={18} />
-                {showTemplateSelector ? 'Close Templates' : 'Change Template'}
-              </button>
+              {editMode && (
+                <button
+                  onClick={() => setShowTemplateSelector(!showTemplateSelector)}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${showTemplateSelector
+                    ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white'
+                    : 'bg-white text-gray-700 border border-gray-200'
+                    }`}
+                >
+                  <Sparkles size={18} />
+                  {showTemplateSelector ? 'Close Templates' : 'Change Template'}
+                </button>
+              )}
               <button
                 onClick={() => setEditMode(!editMode)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${editMode
