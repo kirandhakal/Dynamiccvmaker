@@ -17,12 +17,12 @@ export const professions = [
         email: 'arjun.sharma.dev@gmail.com',
         portfolio: 'https://arjun-dev.vercel.app',
         linkedin: 'https://linkedin.com/in/arjunsharma',
-        github: 'https://github.com/arjunsharma',
+  
       },
       sections: [
         {
           id: 1,
-          title: 'PROFESSIONAL SUMMARY',
+          title: 'PROFESSIONAL SUMMARY',      github: undefined,
           type: 'text',
           content:
             'Full Stack Developer with 4+ years of experience building scalable web apps using modern JavaScript frameworks and cloud technologies.',
