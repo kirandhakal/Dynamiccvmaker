@@ -311,7 +311,7 @@ const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv })
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 p-4 md:p-8" id="cv-editor-wrapper">
       <div className="max-w-4xl mx-auto">
         {/* Control Panel */}
-        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-100 p-6 mb-6 print:hidden print-hidden">
+        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-smborder border-gray-100 p-6 mb-6 print:hidden print-hidden">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-bold text-gray-800">Resume Editor</h2>

@@ -22,7 +22,7 @@ export default function Hero() {
             </p>
             <a
               href="#templates"
-              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 active:scale-95"
+              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-smshadow-indigo-200 active:scale-95"
             >
               Choose a Template <ArrowRight size={20} />
             </a>

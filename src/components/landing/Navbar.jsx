@@ -67,7 +67,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-200 shadow-xl animate-in slide-in-from-top duration-300">
+        <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-slate-200 shadow-smanimate-in slide-in-from-top duration-300">
           <div className="flex flex-col p-6 gap-4">
             {navLinks.map((link) => (
               <Link 
