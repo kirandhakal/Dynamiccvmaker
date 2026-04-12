@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { X, Cpu, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
+import { X, Cpu, ArrowRight, ArrowLeft, Sparkles, Search } from 'lucide-react';
 import DynamicCVMaker from '../DynamicCVMaker';
 import { professions } from '../../data/professions';
 
@@ -11,6 +11,13 @@ export default function EditorPage() {
   const profession = professions.find(p => p.id === professionId);
   const [selectedRole, setSelectedRole] = useState(null);
   const [editorMode, setEditorMode] = useState(false);
+  const [roleQuery, setRoleQuery] = useState('');
+
+  useEffect(() => {
+    setRoleQuery('');
+    setSelectedRole(null);
+    setEditorMode(false);
+  }, [professionId]);
 
   useEffect(() => {
     if (!profession) {
@@ -24,6 +31,19 @@ export default function EditorPage() {
       setEditorMode(true);
     }
   }, [profession]);
+
+  const roles = profession?.roles;
+
+  const filteredRoles = useMemo(() => {
+    const list = roles || [];
+    const q = roleQuery.trim().toLowerCase();
+    if (!q) return list;
+    return list.filter(
+      (r) =>
+        r.name.toLowerCase().includes(q) ||
+        (r.description && r.description.toLowerCase().includes(q))
+    );
+  }, [roles, roleQuery]);
 
   if (!profession) return null;
 
@@ -94,9 +114,33 @@ export default function EditorPage() {
             </p>
           </div>
 
+          <div className="max-w-xl mx-auto mb-10">
+            <label className="sr-only" htmlFor="role-search">
+              Search role types
+            </label>
+            <div className="relative">
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+                aria-hidden
+              />
+              <input
+                id="role-search"
+                type="search"
+                value={roleQuery}
+                onChange={(e) => setRoleQuery(e.target.value)}
+                placeholder="Search roles (e.g. nurse, developer, chef)…"
+                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              />
+            </div>
+            <p className="text-center text-sm text-gray-500 mt-2">
+              Showing {filteredRoles.length} of {profession.roles.length} role types
+            </p>
+          </div>
+
           {/* Role Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {profession.roles.map((role) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
+            {filteredRoles.map((role) => (
               <button
                 key={role.id}
                 onClick={() => handleRoleSelect(role)}
@@ -140,6 +184,12 @@ export default function EditorPage() {
               </button>
             ))}
           </div>
+
+          {filteredRoles.length === 0 && (
+            <p className="text-center text-gray-500 mb-8">
+              No roles match your search. Try a different keyword.
+            </p>
+          )}
 
           {/* CTA */}
           {selectedRole && (

@@ -16,7 +16,7 @@ export default function TemplateSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {professions.map((profession) => {
             const hasRoles = profession.roles && profession.roles.length > 0;
             return (
@@ -25,7 +25,7 @@ export default function TemplateSection() {
                 className="group relative bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-2xl hover:shadow-indigo-100 transition-all duration-500 hover:-translate-y-2"
               >
                 <div
-                  className={`h-56 bg-gradient-to-br ${profession.color} p-6 relative overflow-hidden`}
+                  className={`h-48 sm:h-52 bg-gradient-to-br ${profession.color} p-5 relative overflow-hidden`}
                 >
                   <div className="bg-white rounded-xl shadow-2xl p-4 transform group-hover:scale-105 transition-transform duration-500">
                     <div className="flex items-start gap-3 mb-4">
