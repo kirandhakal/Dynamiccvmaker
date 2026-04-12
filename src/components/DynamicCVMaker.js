@@ -71,7 +71,7 @@ const renderContactPreview = (contact) => {
   return fields;
 };
 
-const DynamicCVMaker = ({ professionId = 'it', templateStyleId = 1, initialCv }) => {
+const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, initialCv }) => {
   const [editMode, setEditMode] = useState(true);
   const storageKey = professionId ? `cv_data_${professionId}` : 'cv_data';
   const templateKey = professionId ? `cv_template_${professionId}` : 'cv_template';

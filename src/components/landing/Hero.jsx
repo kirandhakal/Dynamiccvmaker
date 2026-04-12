@@ -18,7 +18,7 @@ export default function Hero() {
               </span>
             </h1>
             <p className="text-xl text-slate-500 leading-relaxed max-w-xl font-medium mb-8">
-              Choose a template for your profession IT, Chef, Designer and create a stunning resume with our easy to use editor.
+              Pick from 14 industries and 75+ role types—then tailor your CV in the editor.
             </p>
             <a
               href="#templates"
