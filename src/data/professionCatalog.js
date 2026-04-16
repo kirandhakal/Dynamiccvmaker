@@ -6,7 +6,7 @@
 export const PROFESSION_CATALOG_RAW = [
   {
     id: 'it-technology',
-    name: '💻 IT & Technology',
+    name: 'IT & Technology',
     title: 'Software & Technology',
     subtitle: 'Developers, DevOps, design, data & cloud',
     description: 'ATS-friendly layouts with space for technical skills, projects, and certifications.',
@@ -18,7 +18,7 @@ export const PROFESSION_CATALOG_RAW = [
     roles: [
       {
         name: 'Frontend Developer',
-        icon: '🎨',
+        icon: '💻',
         color: 'from-pink-500 to-rose-600',
         description: 'UI engineering, modern frameworks, and polished web experiences',
         includeGithub: true,
@@ -140,7 +140,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'hospitality-tourism',
-    name: '🏨 Hospitality & Tourism',
+    name: ' Hospitality & Tourism',
     title: 'Hospitality & Guest Experience',
     subtitle: 'Kitchen, F&B, hotels & travel',
     description: 'Highlight service excellence, operations, and guest-facing achievements.',
@@ -166,7 +166,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'education-training',
-    name: '🎓 Education & Training',
+    name: ' Education & Training',
     title: 'Teaching & Learning',
     subtitle: 'Schools, universities & corporate training',
     description: 'Show curriculum impact, pedagogy, and learner outcomes.',
@@ -181,7 +181,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Leadership', items: 'Mentoring, parent/stakeholder communication, safeguarding' },
     ],
     roles: [
-      { name: 'School Teacher', icon: '📚', color: 'from-blue-500 to-indigo-600', description: 'K–12 or subject teaching and student development' },
+      { name: 'School Teacher', icon: '🎓', color: 'from-blue-500 to-indigo-600', description: 'K–12 or subject teaching and student development' },
       { name: 'Lecturer / Professor', icon: '🎓', color: 'from-violet-500 to-purple-700', description: 'Higher education, research supervision, and seminars' },
       { name: 'Tutor', icon: '✏️', color: 'from-sky-500 to-blue-600', description: 'One-to-one or small-group academic support' },
       { name: 'Trainer (Corporate / Skills)', icon: '💼', color: 'from-slate-600 to-slate-800', description: 'Workplace training, workshops, and capability building' },
@@ -190,7 +190,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'healthcare-medical',
-    name: '🏥 Healthcare & Medical',
+    name: ' Healthcare & Medical',
     title: 'Health & Care',
     subtitle: 'Clinical and allied health roles',
     description: 'Structured for clinical skills, compliance, and patient-centered care.',
@@ -215,7 +215,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'engineering-construction',
-    name: '🏗️ Engineering & Construction',
+    name: ' Engineering & Construction',
     title: 'Built Environment',
     subtitle: 'Design, site, and technical engineering',
     description: 'Emphasize projects, standards, certifications, and site delivery.',
@@ -240,7 +240,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'business-management',
-    name: '💼 Business & Management',
+    name: ' Business & Management',
     title: 'Business Leadership',
     subtitle: 'Strategy, projects & operations',
     description: 'Leadership, stakeholder management, and measurable business outcomes.',
@@ -255,7 +255,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Communication', items: 'Presentations, workshops, cross-functional alignment' },
     ],
     roles: [
-      { name: 'Project Manager', icon: '📅', color: 'from-blue-500 to-indigo-600', description: 'Scope, schedule, budget, and delivery across teams' },
+      { name: 'Project Manager', icon: '💼', color: 'from-blue-500 to-indigo-600', description: 'Scope, schedule, budget, and delivery across teams' },
       { name: 'Business Analyst', icon: '📈', color: 'from-cyan-500 to-blue-700', description: 'Requirements, process analysis, and data-informed decisions' },
       { name: 'Operations Manager', icon: '🏭', color: 'from-slate-600 to-slate-900', description: 'Day-to-day operations, efficiency, and team performance' },
       { name: 'Entrepreneur', icon: '🚀', color: 'from-violet-500 to-purple-700', description: 'Venture building, growth, and hands-on leadership' },
@@ -264,7 +264,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'finance-accounting',
-    name: '💰 Finance & Accounting',
+    name: ' Finance & Accounting',
     title: 'Finance & Accounting',
     subtitle: 'Reporting, analysis & advisory',
     description: 'Numbers-driven layout for credentials, systems, and compliance.',
@@ -278,7 +278,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Tools', items: 'Excel, ERP (SAP, Oracle, NetSuite), BI tools' },
     ],
     roles: [
-      { name: 'Accountant', icon: '📒', color: 'from-green-600 to-emerald-800', description: 'Financial records, reporting, and controls' },
+      { name: 'Accountant', icon: '💰', color: 'from-green-600 to-emerald-800', description: 'Financial records, reporting, and controls' },
       { name: 'Auditor', icon: '🔍', color: 'from-teal-600 to-cyan-900', description: 'Assurance, testing, and regulatory standards' },
       { name: 'Financial Analyst', icon: '📊', color: 'from-blue-600 to-indigo-800', description: 'Budgeting, modeling, and business partnering' },
       { name: 'Banker', icon: '🏦', color: 'from-slate-700 to-slate-900', description: 'Lending, relationship management, or retail banking' },
@@ -287,7 +287,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'creative-design',
-    name: '🎨 Creative & Design',
+    name: ' Creative & Design',
     title: 'Creative Industries',
     subtitle: 'Visual, motion & content',
     description: 'Portfolio-friendly sections for work samples and creative impact.',
@@ -303,7 +303,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Delivery', items: 'Deadlines, revisions, client collaboration, file prep' },
     ],
     roles: [
-      { name: 'Graphic Designer', icon: '🖌️', color: 'from-pink-500 to-rose-600', description: 'Visual identity, layout, and digital/print design' },
+      { name: 'Graphic Designer', icon: '📄', color: 'from-pink-500 to-rose-600', description: 'Visual identity, layout, and digital/print design' },
       { name: 'Animator', icon: '🎬', color: 'from-purple-500 to-violet-700', description: 'Motion, character, or FX animation pipelines' },
       { name: 'Video Editor', icon: '🎞️', color: 'from-red-500 to-orange-600', description: 'Editing, color, sound sync, and delivery formats' },
       { name: 'Photographer', icon: '📷', color: 'from-amber-500 to-yellow-700', description: 'Shoots, lighting, retouching, and client projects' },
@@ -312,7 +312,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'marketing-sales',
-    name: '📢 Marketing & Sales',
+    name: ' Marketing & Sales',
     title: 'Growth & Revenue',
     subtitle: 'Digital, brand & pipeline',
     description: 'Campaigns, funnel metrics, and revenue-linked achievements.',
@@ -327,7 +327,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Analytics', items: 'GA4, dashboards, A/B tests, attribution awareness' },
     ],
     roles: [
-      { name: 'Digital Marketer', icon: '📣', color: 'from-orange-500 to-red-600', description: 'Multi-channel campaigns and conversion focus' },
+      { name: 'Digital Marketer', icon: '📢', color: 'from-orange-500 to-red-600', description: 'Multi-channel campaigns and conversion focus' },
       { name: 'SEO Specialist', icon: '🔎', color: 'from-lime-600 to-green-800', description: 'Organic growth, technical SEO, and content strategy' },
       { name: 'Sales Executive', icon: '🤝', color: 'from-blue-600 to-indigo-800', description: 'New business, account growth, and targets' },
       { name: 'Social Media Manager', icon: '💬', color: 'from-pink-500 to-fuchsia-700', description: 'Community, content calendar, and brand voice' },
@@ -336,7 +336,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'legal-government',
-    name: '⚖️ Legal & Government',
+    name: ' Legal & Government',
     title: 'Law & Public Sector',
     subtitle: 'Legal practice & policy',
     description: 'Formal tone with space for admissions, practice areas, and publications.',
@@ -359,7 +359,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'logistics-operations',
-    name: '🚚 Logistics & Operations',
+    name: ' Logistics & Operations',
     title: 'Supply Chain & Logistics',
     subtitle: 'Warehousing, inventory & delivery',
     description: 'Operations metrics, safety, and end-to-end flow.',
@@ -373,7 +373,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Transport', items: 'Routing, fleet basics, last-mile, compliance' },
     ],
     roles: [
-      { name: 'Supply Chain Manager', icon: '🔗', color: 'from-amber-600 to-orange-800', description: 'End-to-end supply network and supplier performance' },
+      { name: 'Supply Chain Manager', icon: '🚚', color: 'from-amber-600 to-orange-800', description: 'End-to-end supply network and supplier performance' },
       { name: 'Warehouse Staff', icon: '📦', color: 'from-yellow-600 to-amber-800', description: 'Receiving, storage, picking, and dispatch' },
       { name: 'Delivery Driver', icon: '🚐', color: 'from-red-600 to-orange-800', description: 'Safe, on-time deliveries and customer handoff' },
       { name: 'Inventory Manager', icon: '📋', color: 'from-stone-600 to-amber-900', description: 'Stock control, forecasting support, and audits' },
@@ -381,7 +381,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'skilled-trades',
-    name: '🛠️ Skilled Trades & Labor',
+    name: ' Skilled Trades & Labor',
     title: 'Trades & Technical',
     subtitle: 'Hands-on technical expertise',
     description: 'Certifications, tools, and job-site or workshop achievements.',
@@ -395,7 +395,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Tools', items: 'Hand/power tools, diagnostics — list your specialties' },
     ],
     roles: [
-      { name: 'Electrician', icon: '🔌', color: 'from-yellow-500 to-amber-700', description: 'Wiring, panels, and electrical systems' },
+      { name: 'Electrician', icon: '🛠️', color: 'from-yellow-500 to-amber-700', description: 'Wiring, panels, and electrical systems' },
       { name: 'Plumber', icon: '🔧', color: 'from-cyan-600 to-blue-900', description: 'Piping, fixtures, and water systems' },
       { name: 'Carpenter', icon: '🪚', color: 'from-amber-700 to-orange-900', description: 'Framing, finishing, and wood construction' },
       { name: 'Mechanic', icon: '🛞', color: 'from-slate-600 to-slate-900', description: 'Vehicle or equipment repair and diagnostics' },
@@ -404,7 +404,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'freelance-remote',
-    name: '🧑‍💻 Freelance & Remote Work',
+    name: ' Freelance & Remote Work',
     title: 'Independent & Remote',
     subtitle: 'Flexible, client-based careers',
     description: 'Emphasize clients, tools, and remote collaboration.',
@@ -418,7 +418,7 @@ export const PROFESSION_CATALOG_RAW = [
       { category: 'Business', items: 'Invoicing, proposals, portfolio, client onboarding' },
     ],
     roles: [
-      { name: 'Freelancer', icon: '🌐', color: 'from-violet-500 to-purple-700', description: 'Independent projects across your specialty' },
+      { name: 'Freelancer', icon: '🧑‍💻', color: 'from-violet-500 to-purple-700', description: 'Independent projects across your specialty' },
       { name: 'Virtual Assistant', icon: '🗂️', color: 'from-fuchsia-500 to-pink-700', description: 'Admin, scheduling, inbox, and operations support' },
       {
         name: 'Remote Developer',
@@ -437,7 +437,7 @@ export const PROFESSION_CATALOG_RAW = [
   },
   {
     id: 'science-research',
-    name: '🧑‍🔬 Science & Research',
+    name: 'Science & Research',
     title: 'Research & Laboratory',
     subtitle: 'Discovery, analysis & publication',
     description: 'Publications, methods, grants, and lab or field work.',
