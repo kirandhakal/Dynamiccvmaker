@@ -16,15 +16,15 @@ export default function TemplateSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
           {professions.map((profession) => {
             const hasRoles = profession.roles && profession.roles.length > 0;
             return (
               <div
                 key={profession.id}
-                className="group relative bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-300 hover:-translate-y-1"
+                className="group relative bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md hover:border-slate-300 transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="p-6">
+                <div className="p-5">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-3xl">{profession.roles?.[0]?.icon || '📄'}</span>
                     <div>
