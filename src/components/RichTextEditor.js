@@ -10,7 +10,7 @@ import Link from '@tiptap/extension-link';
 import { FontSize } from '../extensions/FontSize';
 import {
     Bold, Italic, Underline as UnderlineIcon, AlignLeft, AlignCenter, AlignRight,
-    Palette, Link as LinkIcon, List, ListOrdered
+    Palette, Link as LinkIcon, List, ListOrdered, X
 } from 'lucide-react';
 
 const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', className = '' }) => {
@@ -255,33 +255,45 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
             </div>
 
             {linkDialogOpen && (
-                <div className="absolute inset-0 z-10 flex items-center justify-center bg-slate-900/20 p-4">
+                <div
+                    className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/40 p-4 backdrop-blur-sm"
+                    onMouseDown={() => setLinkDialogOpen(false)}
+                    role="presentation"
+                >
                     <form
-                        className="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-4 shadow-xl"
+                        className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl"
+                        onMouseDown={(event) => event.stopPropagation()}
                         onSubmit={(event) => { event.preventDefault(); saveLink(); }}
                     >
-                        <label className="block text-sm font-semibold text-slate-800" htmlFor="link-url">Add link</label>
+                        <div className="flex items-start justify-between gap-4">
+                            <div>
+                                <h2 className="text-base font-semibold text-slate-900">Add link</h2>
+                                <p className="mt-1 text-sm leading-5 text-slate-500">Use selected text, or provide a label for a new link.</p>
+                            </div>
+                            <button type="button" onClick={() => setLinkDialogOpen(false)} className="-mr-1 -mt-1 flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-800" aria-label="Close link dialog"><X size={18} /></button>
+                        </div>
+                        <label className="mt-5 block text-sm font-medium text-slate-700" htmlFor="link-url">URL</label>
                         <input
                             id="link-url"
                             type="url"
                             value={linkUrl}
                             onChange={(event) => setLinkUrl(event.target.value)}
                             placeholder="https://example.com"
-                            className="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                            className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-200"
                             autoFocus
                         />
-                        <label className="mt-3 block text-sm font-medium text-slate-700" htmlFor="link-text">Link text</label>
+                        <label className="mt-4 block text-sm font-medium text-slate-700" htmlFor="link-text">Display text <span className="font-normal text-slate-400">(optional)</span></label>
                         <input
                             id="link-text"
                             type="text"
                             value={linkText}
                             onChange={(event) => setLinkText(event.target.value)}
-                            placeholder="Optional when text is selected"
-                            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                            placeholder="Example: View my portfolio"
+                            className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-200"
                         />
-                        <div className="mt-3 flex justify-end gap-2">
-                            <button type="button" onClick={() => setLinkDialogOpen(false)} className="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">Cancel</button>
-                            <button type="submit" className="rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-white hover:bg-slate-700">Save link</button>
+                        <div className="mt-6 flex justify-end gap-2 border-t border-slate-100 pt-4">
+                            <button type="button" onClick={() => setLinkDialogOpen(false)} className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100">Cancel</button>
+                            <button type="submit" className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700">Add link</button>
                         </div>
                     </form>
                 </div>
