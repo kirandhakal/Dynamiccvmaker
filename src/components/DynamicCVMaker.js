@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Plus, Download, GripVertical,
-  Sparkles, FileText, Briefcase, GraduationCap, Code, User
+  Download, GripVertical, User
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
 import { getTemplateStyle } from '../config/templateStyles';
 import { renderSection } from './cv/SectionRenderers';
-import { SelectTemplate } from './SelectTemplate';
 import { professions } from '../data/professions';
 
 const DEFAULT_CV = {
@@ -77,12 +75,11 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
   const storageKey = professionId ? `cv_data_${professionId}` : 'cv_data';
   const templateKey = professionId ? `cv_template_${professionId}` : 'cv_template';
 
-  const [currentTemplateId, setCurrentTemplateId] = useState(() => {
+  const [currentTemplateId] = useState(() => {
     const saved = localStorage.getItem(templateKey);
     return saved ? parseInt(saved) : templateStyleId;
   });
 
-  const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const [showExportOptions, setShowExportOptions] = useState(false);
 
   // Find the default CV for the selected profession
@@ -196,6 +193,18 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
         type: "projects",
         items: [{ name: "Project Name", link: "https://...", description: "Description..." }]
       },
+      links: {
+        id: Date.now(),
+        title: 'LINKS',
+        type: 'links',
+        items: [{ label: 'Portfolio', url: 'https://example.com' }]
+      },
+      list: {
+        id: Date.now(),
+        title: 'ADDITIONAL INFORMATION',
+        type: 'list',
+        items: [{ text: 'Add a relevant achievement, certification, or language.' }]
+      },
       experience: {
         id: Date.now(),
         title: "NEW EXPERIENCE SECTION",
@@ -253,6 +262,17 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
 
   const handleDragEnd = () => {
     setDraggedSectionIndex(null);
+  };
+
+  const handleNewSectionDragStart = (event, type) => {
+    event.dataTransfer.setData('application/x-cv-section', type);
+    event.dataTransfer.effectAllowed = 'copy';
+  };
+
+  const handleNewSectionDrop = (event) => {
+    event.preventDefault();
+    const type = event.dataTransfer.getData('application/x-cv-section');
+    if (type) addNewSection(type);
   };
 
   const handlePrint = () => {
@@ -368,10 +388,10 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
       return;
     }
 
-    const filename = `${stripHtml(cv.name).trim().replace(/\s+/g, '-') || 'resume'}`;
+    const filename = `${stripHtml(cv.name).trim().replace(/\s+/g, '-') || 'cv'}`;
     if (format === 'doc') {
       const preview = document.getElementById('cv-content');
-      downloadFile(`<!doctype html><html><head><meta charset="utf-8"><title>Resume</title></head><body>${preview?.innerHTML || ''}</body></html>`, `${filename}.doc`, 'application/msword');
+      downloadFile(`<!doctype html><html><head><meta charset="utf-8"><title>CV</title></head><body>${preview?.innerHTML || ''}</body></html>`, `${filename}.doc`, 'application/msword');
       return;
     }
 
@@ -394,86 +414,56 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
     moveSection,
   };
 
+  const exportMenu = (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setShowExportOptions((open) => !open)}
+        className="flex min-h-9 items-center gap-2 rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-700"
+        aria-expanded={showExportOptions}
+      >
+        <Download size={16} />
+        Export
+      </button>
+      {showExportOptions && (
+        <div className="absolute right-0 z-20 mt-2 w-36 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
+          <button type="button" onClick={() => handleExport('pdf')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">PDF</button>
+          <button type="button" onClick={() => handleExport('doc')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">Word (.doc)</button>
+          <button type="button" onClick={() => handleExport('md')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">Markdown (.md)</button>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 p-4 md:p-8" id="cv-editor-wrapper">
       <div className="mx-auto max-w-[1600px]">
-        {/* Control Panel */}
-        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-smborder border-gray-100 p-6 mb-6 print:hidden print-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <h2 className="text-lg font-bold text-gray-800">Resume Editor</h2>
-            </div>
-
-            <div className="flex gap-3">
-              {/* Design selection is temporarily disabled.
-              {editMode && (
-                <button
-                  onClick={() => setShowTemplateSelector(!showTemplateSelector)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${showTemplateSelector
-                    ? 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white'
-                    : 'bg-white text-gray-700 border border-gray-200'
-                    }`}
-                >
-                  <Sparkles size={18} />
-                  {showTemplateSelector ? 'Close Templates' : 'Change Template'}
-                </button>
-              )} */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setShowExportOptions((open) => !open)}
-                  className="flex items-center gap-2 rounded-xl bg-slate-800 px-4 py-2.5 font-medium text-white transition-colors hover:bg-slate-700"
-                  aria-expanded={showExportOptions}
-                >
-                  <Download size={18} />
-                  Export
-                </button>
-                {showExportOptions && (
-                  <div className="absolute right-0 z-20 mt-2 w-36 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
-                    <button type="button" onClick={() => handleExport('pdf')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">PDF</button>
-                    <button type="button" onClick={() => handleExport('doc')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">Word (.doc)</button>
-                    <button type="button" onClick={() => handleExport('md')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">Markdown (.md)</button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Design selection is temporarily disabled.
-          {showTemplateSelector && editMode && (
-            <div className="mt-6 animate-in fade-in slide-in-from-top-4 duration-300">
-              <SelectTemplate
-                selectedTemplate={currentTemplateId}
-                onSelectTemplate={(id) => {
-                  setCurrentTemplateId(id);
-                  // setShowTemplateSelector(false);
-                }}
-              />
-            </div>
-          )} */}
-
-          {/* <div className="mt-5 border-t border-gray-100 pt-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Resume recommendations</p>
-            <ul className="mt-2 grid gap-1 text-sm text-slate-600 sm:grid-cols-3">
-              <li>Use a clear job title that matches the role.</li>
-              <li>Use standard headings such as Experience and Skills.</li>
-              <li>Lead achievements with measurable results.</li>
-            </ul>
-          </div> */}
-
-        </div>
-
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         {/* Editable form */}
-        <section className="cv-form min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <section
+          className="cv-form min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={handleNewSectionDrop}
+        >
           <div className="border-b border-slate-200 px-5 py-3">
-            <h3 className="text-sm font-semibold text-slate-800">Edit your resume</h3>
+            <h3 className="text-sm font-semibold text-slate-800">Edit your CV</h3>
+            <p className="mt-1 text-xs text-slate-500">Click to add, or drag a section into this panel.</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              <button type="button" onClick={() => addNewSection('text')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add text</button>
-              <button type="button" onClick={() => addNewSection('skills')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add skills</button>
-              <button type="button" onClick={() => addNewSection('education')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add education</button>
-              <button type="button" onClick={() => addNewSection('projects')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add project</button>
-              <button type="button" onClick={() => addNewSection('experience')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add experience</button>
+              {[
+                ['text', 'Text'], ['skills', 'Skills'], ['education', 'Education'], ['projects', 'Project'],
+                ['experience', 'Experience'],
+              ].map(([type, label]) => (
+                <button
+                  key={type}
+                  type="button"
+                  draggable
+                  onDragStart={(event) => handleNewSectionDragStart(event, type)}
+                  onClick={() => addNewSection(type)}
+                  className="cursor-grab rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 active:cursor-grabbing"
+                >
+                  Add {label}
+                </button>
+              ))}
             </div>
           </div>
         <div className={`${styles.pageBg} overflow-hidden`}>
@@ -730,7 +720,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
         <aside className="min-w-0 rounded-xl border border-slate-200 bg-slate-50 shadow-sm">
           <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-3">
             <h3 className="text-sm font-semibold text-slate-800">Live preview</h3>
-            <span className="text-xs font-medium text-emerald-700">Live</span>
+            {exportMenu}
           </div>
           <div className="p-4 sm:p-6">
             <div className={`${styles.pageBg} overflow-hidden bg-white shadow-sm`} id="cv-content">

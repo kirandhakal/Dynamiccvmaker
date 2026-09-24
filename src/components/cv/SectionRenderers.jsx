@@ -366,6 +366,44 @@ export function renderSection(section, ctx) {
         </div>
       );
 
+    case 'links':
+      return (
+        <div className="mb-6 group/section">
+          <div className="flex items-center justify-between mb-3">
+            {editMode ? (
+              <input type="text" value={section.title} onChange={(e) => updateSection(section.id, 'title', e.target.value)} className="cv-section-title flex-1 border-b-2 border-transparent bg-transparent px-2 py-1 focus:border-slate-500 focus:outline-none" />
+            ) : <h2 className="cv-section-title">{section.title}</h2>}
+            {editMode && <button type="button" onClick={() => addSectionItem(section.id, { label: 'Link label', url: 'https://example.com' })} className="ml-2 rounded-lg border border-slate-200 px-2 py-1 text-xs text-slate-700">Add link</button>}
+          </div>
+          <div className="space-y-2">
+            {section.items.map((item, index) => editMode ? (
+              <div key={index} className="flex gap-2">
+                <input value={item.label} onChange={(e) => updateSectionItem(section.id, index, 'label', e.target.value)} className="w-1/3 rounded-lg border border-slate-200 px-2 py-1.5 text-sm" placeholder="Label" />
+                <input type="url" value={item.url} onChange={(e) => updateSectionItem(section.id, index, 'url', e.target.value)} className="flex-1 rounded-lg border border-slate-200 px-2 py-1.5 text-sm" placeholder="https://" />
+                <button type="button" onClick={() => removeSectionItem(section.id, index)} className="rounded-lg px-2 text-sm text-red-600 hover:bg-red-50">Remove</button>
+              </div>
+            ) : <div key={index} className="text-xs"><a className="cv-link" href={item.url}>{item.label || item.url}</a></div>)}
+          </div>
+        </div>
+      );
+
+    case 'list':
+      return (
+        <div className="mb-6 group/section">
+          <div className="flex items-center justify-between mb-3">
+            {editMode ? (
+              <input type="text" value={section.title} onChange={(e) => updateSection(section.id, 'title', e.target.value)} className="cv-section-title flex-1 border-b-2 border-transparent bg-transparent px-2 py-1 focus:border-slate-500 focus:outline-none" />
+            ) : <h2 className="cv-section-title">{section.title}</h2>}
+            {editMode && <button type="button" onClick={() => addSectionItem(section.id, { text: 'New list item' })} className="ml-2 rounded-lg border border-slate-200 px-2 py-1 text-xs text-slate-700">Add item</button>}
+          </div>
+          {editMode ? (
+            <div className="space-y-2">
+              {section.items.map((item, index) => <div key={index} className="flex gap-2"><input value={item.text} onChange={(e) => updateSectionItem(section.id, index, 'text', e.target.value)} className="flex-1 rounded-lg border border-slate-200 px-2 py-1.5 text-sm" /><button type="button" onClick={() => removeSectionItem(section.id, index)} className="rounded-lg px-2 text-sm text-red-600 hover:bg-red-50">Remove</button></div>)}
+            </div>
+          ) : <ul className="list-disc space-y-1 pl-4 text-xs">{section.items.map((item, index) => <li key={index}>{item.text}</li>)}</ul>}
+        </div>
+      );
+
     default:
       return null;
   }

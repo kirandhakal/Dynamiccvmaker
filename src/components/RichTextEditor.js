@@ -6,10 +6,11 @@ import { Color } from '@tiptap/extension-color';
 import { FontFamily } from '@tiptap/extension-font-family';
 import { Underline } from '@tiptap/extension-underline';
 import { TextAlign } from '@tiptap/extension-text-align';
+import Link from '@tiptap/extension-link';
 import { FontSize } from '../extensions/FontSize';
 import {
     Bold, Italic, Underline as UnderlineIcon, AlignLeft, AlignCenter, AlignRight,
-    Palette
+    Palette, Link as LinkIcon, List, ListOrdered
 } from 'lucide-react';
 
 const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', className = '' }) => {
@@ -17,8 +18,6 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
         extensions: [
             StarterKit.configure({
                 heading: false,
-                bulletList: false,
-                orderedList: false,
                 blockquote: false,
                 codeBlock: false,
                 horizontalRule: false,
@@ -30,6 +29,11 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
             Underline,
             TextAlign.configure({
                 types: ['paragraph'],
+            }),
+            Link.configure({
+                openOnClick: false,
+                autolink: true,
+                defaultProtocol: 'https',
             }),
         ],
         content: content || '',
@@ -69,6 +73,7 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
 
     const ToolbarButton = ({ onClick, isActive, children, title }) => (
         <button
+            type="button"
             onClick={onClick}
             className={`p-2 rounded-lg transition-all duration-200 ${
                 isActive 
@@ -80,6 +85,17 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
             {children}
         </button>
     );
+
+    const setLink = () => {
+        const previousUrl = editor.getAttributes('link').href || '';
+        const url = window.prompt('Paste or enter a URL', previousUrl);
+        if (url === null) return;
+        if (url === '') {
+            editor.chain().focus().unsetLink().run();
+            return;
+        }
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    };
 
     return (
         <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
@@ -144,6 +160,32 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
                         title="Underline (Ctrl+U)"
                     >
                         <UnderlineIcon size={15} />
+                    </ToolbarButton>
+                </div>
+
+                <div className="w-px h-6 bg-gradient-to-b from-gray-200 to-gray-300 mx-1 rounded-full"></div>
+
+                <div className="flex items-center bg-white rounded-lg border border-gray-200 p-0.5">
+                    <ToolbarButton
+                        onClick={setLink}
+                        isActive={editor.isActive('link')}
+                        title="Add or edit link"
+                    >
+                        <LinkIcon size={15} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        onClick={() => editor.chain().focus().toggleBulletList().run()}
+                        isActive={editor.isActive('bulletList')}
+                        title="Bullet list"
+                    >
+                        <List size={15} />
+                    </ToolbarButton>
+                    <ToolbarButton
+                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                        isActive={editor.isActive('orderedList')}
+                        title="Numbered list"
+                    >
+                        <ListOrdered size={15} />
                     </ToolbarButton>
                 </div>
 
