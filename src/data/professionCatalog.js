@@ -131,7 +131,7 @@ export const PROFESSION_CATALOG_RAW = [
         description: 'Cloud architecture, migrations, and managed infrastructure',
         includeGithub: true,
         skills: [
-          { category: 'Cloud', items: 'AWS, Azure, or GCP — compute, storage, networking' },
+          { category: 'Cloud', items: 'AWS, Azure, or GCP   compute, storage, networking' },
           { category: 'Infra', items: 'IaC, containers, Kubernetes basics, cost optimization' },
           { category: 'Reliability', items: 'Backups, DR, monitoring, security baselines' },
         ],
@@ -227,7 +227,7 @@ export const PROFESSION_CATALOG_RAW = [
     skillBuckets: [
       { category: 'Technical', items: 'Design calculations, drawings, specifications, QA/QC' },
       { category: 'Site & Delivery', items: 'Scheduling, subcontractors, inspections, handover' },
-      { category: 'Software', items: 'AutoCAD, Revit, BIM tools — tailor to your discipline' },
+      { category: 'Software', items: 'AutoCAD, Revit, BIM tools   tailor to your discipline' },
     ],
     roles: [
       { name: 'Civil Engineer', icon: '🌉', color: 'from-slate-600 to-slate-900', description: 'Infrastructure, structures, and civil systems' },
@@ -299,7 +299,7 @@ export const PROFESSION_CATALOG_RAW = [
     projectsTitle: 'SELECTED WORK',
     skillBuckets: [
       { category: 'Creative', items: 'Concept development, art direction, brand storytelling' },
-      { category: 'Tools', items: 'Adobe CC, Blender, DaVinci — customize for your craft' },
+      { category: 'Tools', items: 'Adobe CC, Blender, DaVinci   customize for your craft' },
       { category: 'Delivery', items: 'Deadlines, revisions, client collaboration, file prep' },
     ],
     roles: [
@@ -392,7 +392,7 @@ export const PROFESSION_CATALOG_RAW = [
     skillBuckets: [
       { category: 'Trade Skills', items: 'Installation, maintenance, troubleshooting, code awareness' },
       { category: 'Safety', items: 'PPE, permits, lockout/tagout, job-site hazard awareness' },
-      { category: 'Tools', items: 'Hand/power tools, diagnostics — list your specialties' },
+      { category: 'Tools', items: 'Hand/power tools, diagnostics   list your specialties' },
     ],
     roles: [
       { name: 'Electrician', icon: '🔌', color: 'from-yellow-500 to-amber-700', description: 'Wiring, panels, and electrical systems' },
@@ -427,7 +427,7 @@ export const PROFESSION_CATALOG_RAW = [
         description: 'Distributed software delivery and collaboration',
         includeGithub: true,
         skills: [
-          { category: 'Development', items: 'Your stack — web, mobile, or backend' },
+          { category: 'Development', items: 'Your stack   web, mobile, or backend' },
           { category: 'Remote', items: 'Git, CI/CD, code review, documentation' },
           { category: 'Collaboration', items: 'Agile ceremonies, written specs, time-zone awareness' },
         ],

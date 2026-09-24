@@ -10,7 +10,7 @@ export default function Hero() {
       <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
           <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-slate-900/10 bg-white/70 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm backdrop-blur">
-            <Sparkles size={16} className="text-amber-500" /> Built for 75+ career paths
+      Built for 75+ career paths
           </div>
           <h1 className="max-w-3xl text-5xl font-black leading-[0.98] tracking-[-0.045em] text-slate-950 sm:text-6xl lg:text-7xl">
             Your experience deserves a CV that
@@ -20,7 +20,7 @@ export default function Hero() {
             </span>
           </h1>
           <p className="mt-8 max-w-2xl text-lg font-medium leading-8 text-slate-600 sm:text-xl">
-            Start with role-specific content, shape every section, and export a clean, ATS-friendly resume—without fighting a rigid template.
+            Start with role-specific content, shape every section, and export a clean, ATS-friendly resume without fighting a rigid template.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link to="/templates" className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-7 py-4 text-base font-bold text-white shadow-xl shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-indigo-700">

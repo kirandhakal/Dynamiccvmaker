@@ -200,7 +200,7 @@ export function renderSection(section, ctx) {
                       </div>
                     ) : [5, 8, 9].includes(templateStyleId) ? (
                       <div className={`mb-1 ${templateStyleId === 8 ? 'text-center' : ''}`}>
-                        <strong className="cv-subheading">{edu.degree}</strong> — <span className="cv-text-desc">{edu.institution} ({edu.period})</span>
+                        <strong className="cv-subheading">{edu.degree}</strong>   <span className="cv-text-desc">{edu.institution} ({edu.period})</span>
                         {edu.description && <div className="text-xs text-gray-600 mt-1" dangerouslySetInnerHTML={{ __html: edu.description }} />}
                       </div>
                     ) : (

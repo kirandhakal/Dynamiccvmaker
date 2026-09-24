@@ -8,7 +8,7 @@ export function slugify(text) {
 }
 
 const genericSummaryFor = (roleTitle) =>
-  `Add a concise professional summary for your background as a ${roleTitle}. Mention experience, core strengths, and the value you bring — replace this text with your own.`;
+  `Add a concise professional summary for your background as a ${roleTitle}. Mention experience, core strengths, and the value you bring   replace this text with your own.`;
 
 const GENERIC_EXPERIENCE = [
   {
@@ -48,7 +48,7 @@ function mergeSkills(roleSkills, professionBuckets) {
   if (professionBuckets && professionBuckets.length) return professionBuckets;
   return [
     { category: 'Core', items: 'Communication, teamwork, problem-solving, time management' },
-    { category: 'Technical', items: 'Industry tools and methods — customize for your background' },
+    { category: 'Technical', items: 'Industry tools and methods   customize for your background' },
     { category: 'Compliance & Quality', items: 'Standards, documentation, safety (as applicable)' },
   ];
 }

@@ -440,7 +440,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
 
     const contact = Object.values(cv.contact).filter(Boolean).join(' | ');
     const sections = cv.sections.map((section) => {
-      const items = section.items?.map((item) => Object.values(item).filter(Boolean).map(stripHtml).join(' — ')).join('\n') || stripHtml(section.content);
+      const items = section.items?.map((item) => Object.values(item).filter(Boolean).map(stripHtml).join('   ')).join('\n') || stripHtml(section.content);
       return `## ${section.title}\n\n${items}`;
     }).join('\n\n');
     downloadFile(`# ${stripHtml(cv.name)}\n\n${stripHtml(cv.title)}\n\n${contact}\n\n${sections}\n`, `${filename}.md`, 'text/markdown');

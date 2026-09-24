@@ -179,7 +179,7 @@ export default function EditorPage() {
           {/* {selectedRole && (
             <div className="mt-12 max-w-2xl mx-auto animate-fade-in">
               <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm">
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Preview — {selectedRole.name}</h3>
+                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Preview   {selectedRole.name}</h3>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <div className={`w-1.5 h-10 rounded-full bg-gradient-to-b ${selectedRole.color}`} />
