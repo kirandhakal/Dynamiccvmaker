@@ -452,54 +452,15 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
             </div>
           )} */}
 
-          <div className="mt-5 border-t border-gray-100 pt-4">
+          {/* <div className="mt-5 border-t border-gray-100 pt-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Resume recommendations</p>
             <ul className="mt-2 grid gap-1 text-sm text-slate-600 sm:grid-cols-3">
               <li>Use a clear job title that matches the role.</li>
               <li>Use standard headings such as Experience and Skills.</li>
               <li>Lead achievements with measurable results.</li>
             </ul>
-          </div>
+          </div> */}
 
-          {editMode && (
-            <div className="border-t border-gray-100 pt-5 mt-5">
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-2">
-                <Plus size={14} /> Add New Section
-              </p>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => addNewSection('text')}
-                  className="flex items-center gap-2 px-4 py-2 bg-purple-50 text-purple-700 text-sm rounded-xl font-medium hover:bg-purple-100 border border-purple-200 transition-all hover:shadow-md"
-                >
-                  <FileText size={16} /> Text
-                </button>
-                <button
-                  onClick={() => addNewSection('skills')}
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 text-sm rounded-xl font-medium hover:bg-indigo-100 border border-indigo-200 transition-all hover:shadow-md"
-                >
-                  <Sparkles size={16} /> Skills
-                </button>
-                <button
-                  onClick={() => addNewSection('education')}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 text-sm rounded-xl font-medium hover:bg-blue-100 border border-blue-200 transition-all hover:shadow-md"
-                >
-                  <GraduationCap size={16} /> Education
-                </button>
-                <button
-                  onClick={() => addNewSection('projects')}
-                  className="flex items-center gap-2 px-4 py-2 bg-teal-50 text-teal-700 text-sm rounded-xl font-medium hover:bg-teal-100 border border-teal-200 transition-all hover:shadow-md"
-                >
-                  <Code size={16} /> Projects
-                </button>
-                <button
-                  onClick={() => addNewSection('experience')}
-                  className="flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-700 text-sm rounded-xl font-medium hover:bg-orange-100 border border-orange-200 transition-all hover:shadow-md"
-                >
-                  <Briefcase size={16} /> Experience
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
@@ -507,6 +468,13 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
         <section className="cv-form min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           <div className="border-b border-slate-200 px-5 py-3">
             <h3 className="text-sm font-semibold text-slate-800">Edit your resume</h3>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button type="button" onClick={() => addNewSection('text')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add text</button>
+              <button type="button" onClick={() => addNewSection('skills')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add skills</button>
+              <button type="button" onClick={() => addNewSection('education')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add education</button>
+              <button type="button" onClick={() => addNewSection('projects')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add project</button>
+              <button type="button" onClick={() => addNewSection('experience')} className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">Add experience</button>
+            </div>
           </div>
         <div className={`${styles.pageBg} overflow-hidden`}>
           <style>{`
