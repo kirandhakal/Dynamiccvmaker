@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Download, GripVertical, User
+  Download, GripVertical, Plus, Trash2, User
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
 import { getTemplateStyle } from '../config/templateStyles';
@@ -26,47 +26,52 @@ const DEFAULT_CV = {
   ],
 };
 
-const CONTACT_FIELD_LABELS = {
-  location: { label: '📍 Location', placeholder: 'City, State/Country' },
-  email: { label: '✉️ Email', placeholder: 'your.email@example.com', type: 'email' },
-  portfolio: { label: '🌐 Portfolio', placeholder: 'https://yourportfolio.com', type: 'url' },
-  linkedin: { label: '💼 LinkedIn', placeholder: 'https://linkedin.com/in/yourprofile', type: 'url' },
-  github: { label: '🐙 GitHub', placeholder: 'https://github.com/yourusername', type: 'url' },
+const detailTypeOptions = [
+  ['text', 'Text'], ['email', 'Email'], ['link', 'Link'], ['address', 'Address'],
+];
+
+const createHeaderDetails = (cv) => {
+  if (Array.isArray(cv.headerDetails)) return cv.headerDetails;
+  const contact = cv.contact || {};
+  const linkDetails = [
+    ['portfolio', 'Portfolio'], ['linkedin', 'LinkedIn'], ['github', 'GitHub'],
+  ].filter(([key]) => contact[key]).map(([key, label]) => ({ id: `header-${key}`, type: 'link', label, value: contact[key] }));
+  return [
+    cv.title && { id: 'header-title', type: 'text', label: 'Professional title', value: cv.title },
+    contact.location && { id: 'header-location', type: 'address', label: 'Address', value: contact.location },
+    contact.email && { id: 'header-email', type: 'email', label: 'Email', value: contact.email },
+    ...linkDetails,
+  ].filter(Boolean);
 };
 
-const renderContactFields = (contact, updateField, editMode) => {
-  return Object.entries(contact).map(([key, value]) => {
-    const fieldConfig = CONTACT_FIELD_LABELS[key];
-    if (!fieldConfig) return null;
-    
-    if (editMode) {
-      return (
-        <div key={key}>
-          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">{fieldConfig.label}</label>
-          <input
-            type={fieldConfig.type || 'text'}
-            value={value || ''}
-            onChange={(e) => updateField(`contact.${key}`, e.target.value)}
-            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-            placeholder={fieldConfig.placeholder}
-          />
+const renderHeaderDetailPreview = (detail) => {
+  if (!detail.value) return null;
+  if (detail.type === 'email') return <a href={`mailto:${detail.value}`} className="cv-link">{detail.value}</a>;
+  if (detail.type === 'link') return <a href={detail.value} className="cv-link">{detail.label || detail.value}</a>;
+  return <span>{detail.value}</span>;
+};
+
+const HeaderPreview = ({ cv, styles, templateId }) => {
+  const centered = templateId === 5 || templateId === 8;
+  const nameClass = templateId === 8 || templateId === 9
+    ? `text-3xl font-serif font-bold uppercase ${styles.headerText}`
+    : `cv-header-name text-2xl font-bold ${styles.headerText}`;
+  const details = (cv.headerDetails || createHeaderDetails(cv)).filter((detail) => detail.value);
+  return (
+    <div className={`${centered ? 'text-center' : ''} mb-2`}>
+      <h1 className={nameClass} dangerouslySetInnerHTML={{ __html: cv.name }} />
+      {details.length > 0 && (
+        <div className={`mt-2 text-xs ${styles.headerText} opacity-80`}>
+          {details.map((detail, index) => (
+            <React.Fragment key={detail.id}>
+              {index > 0 && <span className="mx-1">|</span>}
+              {renderHeaderDetailPreview(detail)}
+            </React.Fragment>
+          ))}
         </div>
-      );
-    }
-    return null;
-  });
-};
-
-const renderContactPreview = (contact) => {
-  const fields = [];
-  
-  if (contact.location) fields.push(<span key="location">{contact.location}</span>);
-  if (contact.email) fields.push(<a key="email" href={`mailto:${contact.email}`} className="cv-link">{contact.email}</a>);
-  if (contact.portfolio) fields.push(<a key="portfolio" href={contact.portfolio} className="cv-link">Portfolio</a>);
-  if (contact.linkedin) fields.push(<a key="linkedin" href={contact.linkedin} className="cv-link">LinkedIn</a>);
-  if (contact.github) fields.push(<a key="github" href={contact.github} className="cv-link">GitHub</a>);
-  
-  return fields;
+      )}
+    </div>
+  );
 };
 
 const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, initialCv }) => {
@@ -88,11 +93,12 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
 
   const [cv, setCv] = useState(() => {
     const saved = localStorage.getItem(storageKey);
-    if (saved) return JSON.parse(saved);
-    return initialCv ? JSON.parse(JSON.stringify(initialCv)) : JSON.parse(JSON.stringify(defaultCv));
+    const source = saved ? JSON.parse(saved) : initialCv ? JSON.parse(JSON.stringify(initialCv)) : JSON.parse(JSON.stringify(defaultCv));
+    return { ...source, headerDetails: createHeaderDetails(source) };
   });
 
   const [draggedSectionIndex, setDraggedSectionIndex] = useState(null);
+  const [draggedHeaderIndex, setDraggedHeaderIndex] = useState(null);
 
   React.useEffect(() => {
     localStorage.setItem(storageKey, JSON.stringify(cv));
@@ -127,6 +133,43 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
         section.id === sectionId ? { ...section, [field]: value } : section
       )
     }));
+  };
+
+  const updateHeaderDetail = (id, field, value) => {
+    setCv(prev => ({
+      ...prev,
+      headerDetails: prev.headerDetails.map(detail => detail.id === id ? { ...detail, [field]: value } : detail),
+    }));
+  };
+
+  const addHeaderDetail = (type = 'text') => {
+    const defaults = {
+      text: { label: 'Detail', value: '' },
+      address: { label: 'Address', value: '' },
+      email: { label: 'Email', value: '' },
+      link: { label: 'Website', value: '' },
+    };
+    setCv(prev => ({
+      ...prev,
+      headerDetails: [...prev.headerDetails, { id: `header-${Date.now()}`, type, ...defaults[type] }],
+    }));
+  };
+
+  const removeHeaderDetail = (id) => {
+    setCv(prev => ({ ...prev, headerDetails: prev.headerDetails.filter(detail => detail.id !== id) }));
+  };
+
+  const handleHeaderDragStart = (index) => setDraggedHeaderIndex(index);
+  const handleHeaderDragOver = (event, index) => {
+    event.preventDefault();
+    if (draggedHeaderIndex === null || draggedHeaderIndex === index) return;
+    setCv(prev => {
+      const headerDetails = [...prev.headerDetails];
+      const [dragged] = headerDetails.splice(draggedHeaderIndex, 1);
+      headerDetails.splice(index, 0, dragged);
+      return { ...prev, headerDetails };
+    });
+    setDraggedHeaderIndex(index);
   };
 
   const updateSectionItem = (sectionId, itemIndex, field, value) => {
@@ -619,73 +662,35 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
                       className="text-2xl font-bold"
                     />
                   </div>
-                  <div className="mb-4">
-                    <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Professional Title</label>
-                    <RichTextEditor
-                      content={cv.title}
-                      onChange={(html) => updateField('title', html)}
-                      placeholder="Your Job Title"
-                      className="text-base"
-                    />
+                  <div className="mb-2 flex items-center justify-between">
+                    <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide">Second-line details</label>
+                    <div className="flex gap-1">
+                      {detailTypeOptions.map(([type, label]) => (
+                        <button key={type} type="button" onClick={() => addHeaderDetail(type)} className="rounded border border-blue-200 px-2 py-1 text-xs text-blue-700 hover:bg-blue-100">
+                          <Plus size={12} className="mr-1 inline" />{label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {renderContactFields(cv.contact, updateField, editMode)}
+                  <p className="mb-3 text-xs text-gray-500">Drag details to change their order. They are shown together beneath your name.</p>
+                  <div className="space-y-2">
+                    {cv.headerDetails.map((detail, index) => (
+                      <div key={detail.id} draggable onDragStart={() => handleHeaderDragStart(index)} onDragOver={(event) => handleHeaderDragOver(event, index)} onDragEnd={() => setDraggedHeaderIndex(null)} className={`grid grid-cols-[auto_110px_1fr_auto] items-center gap-2 rounded-lg border bg-white p-2 ${draggedHeaderIndex === index ? 'opacity-50' : 'border-gray-200'}`}>
+                        <GripVertical size={16} className="cursor-grab text-gray-400" />
+                        <select value={detail.type} onChange={(event) => updateHeaderDetail(detail.id, 'type', event.target.value)} className="rounded border border-gray-200 px-2 py-1.5 text-xs">
+                          {detailTypeOptions.map(([type, label]) => <option key={type} value={type}>{label}</option>)}
+                        </select>
+                        <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                          <input value={detail.label || ''} onChange={(event) => updateHeaderDetail(detail.id, 'label', event.target.value)} placeholder="Label (e.g. Lecturer)" className="rounded border border-gray-200 px-2 py-1.5 text-sm" />
+                          <input type={detail.type === 'email' ? 'email' : detail.type === 'link' ? 'url' : 'text'} value={detail.value || ''} onChange={(event) => updateHeaderDetail(detail.id, 'value', event.target.value)} placeholder={detail.type === 'link' ? 'https://example.com' : 'Value'} className="rounded border border-gray-200 px-2 py-1.5 text-sm" />
+                        </div>
+                        <button type="button" onClick={() => removeHeaderDetail(detail.id)} className="rounded p-1.5 text-red-500 hover:bg-red-50" aria-label={`Remove ${detail.label || 'detail'}`}><Trash2 size={16} /></button>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ) : (
-                <>
-                  {currentTemplateId === 4 ? (
-                    <div className="mb-2">
-                      <h1 className="cv-header-name" dangerouslySetInnerHTML={{ __html: cv.name }} />
-                      <div className="cv-header-contact mb-[16px]">
-                        {renderContactPreview(cv.contact).map((item, index) => (
-                          <React.Fragment key={index}>
-                            {index > 0 && <span className="mx-1">|</span>}
-                            {item}
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </div>
-                  ) : currentTemplateId === 5 ? (
-                    <div className="mb-[18px] text-center">
-                      <h1 className="cv-header-name text-[24px] text-black" dangerouslySetInnerHTML={{ __html: cv.name }} />
-                      <div className="cv-header-contact">
-                        {renderContactPreview(cv.contact).map((item, index) => (
-                          <React.Fragment key={index}>
-                            {index > 0 && <span className="mx-1">|</span>}
-                            {item}
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </div>
-                  ) : currentTemplateId === 8 || currentTemplateId === 9 ? (
-                    <div className={`${currentTemplateId === 8 ? 'text-center' : ''} mb-6`}>
-                      <h1 className={`text-3xl font-serif font-bold uppercase ${styles.headerText}`} dangerouslySetInnerHTML={{ __html: cv.name }} />
-                      <div className="mt-2 text-sm italic opacity-80">
-                        {renderContactPreview(cv.contact).map((item, index) => (
-                          <React.Fragment key={index}>
-                            {index > 0 && <span className="mx-1">|</span>}
-                            {item}
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <h1 className={`text-2xl font-bold ${styles.headerText} mb-1`} dangerouslySetInnerHTML={{ __html: cv.name }} />
-                      <div className={`text-base ${styles.headerText} opacity-90 mb-2`} dangerouslySetInnerHTML={{ __html: cv.title }} />
-                      <div className={`text-xs ${styles.headerText} opacity-80`}>
-                        {renderContactPreview(cv.contact).map((item, index) => (
-                          <React.Fragment key={index}>
-                            {index > 0 && <span className="mx-1">|</span>}
-                            {item}
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    </>
-                  )}
-
-                </>
+                <HeaderPreview cv={cv} styles={styles} templateId={currentTemplateId} />
               )}
             </div>
 
@@ -726,16 +731,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
             <div className={`${styles.pageBg} overflow-hidden bg-white shadow-sm`} id="cv-content">
               <div className="cv-page">
                 <div className={`${styles.headerBg} mb-4 p-6`}>
-                  <h1 className={`mb-1 text-2xl font-bold ${styles.headerText}`} dangerouslySetInnerHTML={{ __html: cv.name }} />
-                  <div className={`mb-2 text-base ${styles.headerText} opacity-90`} dangerouslySetInnerHTML={{ __html: cv.title }} />
-                  <div className={`text-xs ${styles.headerText} opacity-80`}>
-                    {renderContactPreview(cv.contact).map((item, index) => (
-                      <React.Fragment key={index}>
-                        {index > 0 && <span className="mx-1">|</span>}
-                        {item}
-                      </React.Fragment>
-                    ))}
-                  </div>
+                  <HeaderPreview cv={cv} styles={styles} templateId={currentTemplateId} />
                 </div>
                 <div className="p-6">
                   {cv.sections.map((section) => renderSection(section, { ...sectionCtx, editMode: false }))}
