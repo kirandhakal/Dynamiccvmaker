@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Edit2, Plus, Download, Eye, GripVertical,
+  Plus, Download, GripVertical,
   Sparkles, FileText, Briefcase, GraduationCap, Code, User
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
@@ -72,7 +72,8 @@ const renderContactPreview = (contact) => {
 };
 
 const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, initialCv }) => {
-  const [editMode, setEditMode] = useState(true);
+  // The form and preview are shown together, so editing is always available.
+  const editMode = true;
   const storageKey = professionId ? `cv_data_${professionId}` : 'cv_data';
   const templateKey = professionId ? `cv_template_${professionId}` : 'cv_template';
 
@@ -357,7 +358,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-50 p-4 md:p-8" id="cv-editor-wrapper">
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-[1600px]">
         {/* Control Panel */}
         <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-smborder border-gray-100 p-6 mb-6 print:hidden print-hidden">
           <div className="flex flex-wrap items-center justify-between gap-4">
@@ -379,24 +380,12 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
                 </button>
               )}
               <button
-                onClick={() => setEditMode(!editMode)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium shadow-lg transition-all transform hover:scale-105 ${editMode
-                  ? 'bg-gradient-to-r from-violet-500 to-purple-600 text-white'
-                  : 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white'
-                  }`}
+                onClick={handlePrint}
+                className="flex items-center gap-2 rounded-xl bg-slate-800 px-4 py-2.5 font-medium text-white transition-colors hover:bg-slate-700"
               >
-                {editMode ? <Eye size={18} /> : <Edit2 size={18} />}
-                {editMode ? 'Preview' : 'Edit'}
+                <Download size={18} />
+                Export PDF
               </button>
-              {!editMode && (
-                <button
-                  onClick={handlePrint}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-xl font-medium shadow-lg hover:from-emerald-600 hover:to-green-700 transition-all transform hover:scale-105"
-                >
-                  <Download size={18} />
-                  Export PDF
-                </button>
-              )}
             </div>
           </div>
 
@@ -411,6 +400,15 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
               />
             </div>
           )}
+
+          <div className="mt-5 border-t border-gray-100 pt-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">ATS recommendations</p>
+            <ul className="mt-2 grid gap-1 text-sm text-slate-600 sm:grid-cols-3">
+              <li>Use a clear job title that matches the role.</li>
+              <li>Use standard headings such as Experience and Skills.</li>
+              <li>Lead achievements with measurable results.</li>
+            </ul>
+          </div>
 
           {editMode && (
             <div className="border-t border-gray-100 pt-5 mt-5">
@@ -453,8 +451,13 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
           )}
         </div>
 
-        {/* CV Document */}
-        <div className={`${styles.pageBg} shadow-lg rounded-lg overflow-hidden`} id="cv-content">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        {/* Editable form */}
+        <section className="cv-form min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div className="border-b border-slate-200 px-5 py-3">
+            <h3 className="text-sm font-semibold text-slate-800">Edit your resume</h3>
+          </div>
+        <div className={`${styles.pageBg} overflow-hidden`}>
           <style>{`
             @media print {
               @page {
@@ -524,6 +527,12 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
               line-height: 1.4;
               color: #333;
               box-sizing: border-box;
+            }
+
+            .cv-form .cv-page,
+            #cv-content .cv-page {
+              width: 100%;
+              min-height: auto;
             }
             
             /* Tablet responsiveness */
@@ -695,6 +704,37 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
               ))}
             </div>
           </div>
+        </div>
+        </section>
+
+        {/* Live ATS preview */}
+        <aside className="min-w-0 overflow-auto rounded-xl border border-slate-200 bg-slate-50 shadow-sm xl:max-h-[calc(100vh-12rem)]">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-3">
+            <h3 className="text-sm font-semibold text-slate-800">Live preview</h3>
+            <span className="text-xs font-medium text-emerald-700">ATS-ready</span>
+          </div>
+          <div className="p-4 sm:p-6">
+            <div className={`${styles.pageBg} overflow-hidden bg-white shadow-sm`} id="cv-content">
+              <div className="cv-page">
+                <div className={`${styles.headerBg} mb-4 p-6`}>
+                  <h1 className={`mb-1 text-2xl font-bold ${styles.headerText}`} dangerouslySetInnerHTML={{ __html: cv.name }} />
+                  <div className={`mb-2 text-base ${styles.headerText} opacity-90`} dangerouslySetInnerHTML={{ __html: cv.title }} />
+                  <div className={`text-xs ${styles.headerText} opacity-80`}>
+                    {renderContactPreview(cv.contact).map((item, index) => (
+                      <React.Fragment key={index}>
+                        {index > 0 && <span className="mx-1">|</span>}
+                        {item}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-6">
+                  {cv.sections.map((section) => renderSection(section, { ...sectionCtx, editMode: false }))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
         </div>
       </div >
     </div >

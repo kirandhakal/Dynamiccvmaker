@@ -1,6 +1,6 @@
 export const templateStyles = {
   1: {
-    name: 'Standard Resume',
+    name: 'ATS Standard',
     headerBg: 'bg-white',
     headerText: 'text-gray-900',
     accentColor: 'text-gray-700',
@@ -10,25 +10,25 @@ export const templateStyles = {
     pageBg: 'bg-white',
   },
   4: {
-    name: 'Professional',
+    name: 'ATS Professional',
     headerBg: 'bg-white',
     headerText: 'text-[#2c3e50]',
-    accentColor: 'text-[#3498db]',
-    borderColor: 'border-[#333]',
+    accentColor: 'text-slate-700',
+    borderColor: 'border-slate-700',
     sectionTitle:
       'text-[#2c3e50] text-[16px] font-bold border-b-[1.5px] border-[#333] pb-[3px] uppercase tracking-[0.5px]',
-    linkColor: 'text-[#3498db] no-underline',
+    linkColor: 'text-slate-700 no-underline',
     pageBg: 'bg-white',
   },
   5: {
-    name: 'Minimalist',
+    name: 'ATS Minimal',
     headerBg: 'bg-white text-center mb-[18px]',
     headerText: 'text-black',
-    accentColor: 'text-[#0066cc]',
+    accentColor: 'text-slate-700',
     borderColor: 'border-black',
     sectionTitle:
       'text-black text-[11px] font-bold border-b border-black pb-[2px] mb-[8px] mt-[16px] uppercase',
-    linkColor: 'text-[#0066cc] underline',
+    linkColor: 'text-slate-700 underline',
     pageBg: 'bg-white',
   },
   6: {
@@ -42,13 +42,13 @@ export const templateStyles = {
     pageBg: 'bg-white',
   },
   7: {
-    name: 'Combination (Hybrid)',
-    headerBg: 'bg-indigo-900 text-white',
-    headerText: 'text-white',
-    accentColor: 'text-indigo-200',
-    borderColor: 'border-indigo-100',
-    sectionTitle: 'text-indigo-900 border-b border-indigo-200 pb-1 mb-4 font-extrabold',
-    linkColor: 'text-indigo-600',
+    name: 'ATS Hybrid',
+    headerBg: 'bg-white',
+    headerText: 'text-slate-900',
+    accentColor: 'text-slate-700',
+    borderColor: 'border-slate-300',
+    sectionTitle: 'text-slate-900 border-b border-slate-700 pb-1 mb-4 font-bold',
+    linkColor: 'text-slate-700',
     pageBg: 'bg-white',
   },
   // 8: {

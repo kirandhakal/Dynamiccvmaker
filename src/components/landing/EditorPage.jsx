@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { X, Cpu, ArrowLeft, Search } from 'lucide-react';
+import { X, ArrowLeft, Search } from 'lucide-react';
 import DynamicCVMaker from '../DynamicCVMaker';
 import { professions } from '../../data/professions';
 
@@ -71,16 +71,13 @@ export default function EditorPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all"
+              className="flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-800"
             >
               <ArrowLeft size={18} />
               <span className="text-sm font-medium hidden sm:inline">Back</span>
             </button>
             <div className="w-px h-8 bg-gray-300" />
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gray-200 rounded-xl flex items-center justify-center text-gray-700 font-bold shadow">
-                <Cpu size={20} />
-              </div>
               <div className="flex flex-col">
                 <span className="font-bold text-gray-800 leading-none text-lg">{profession.name}</span>
                 <span className="text-gray-500 text-xs font-bold uppercase tracking-wider">
@@ -91,9 +88,10 @@ export default function EditorPage() {
           </div>
           <button
             onClick={() => navigate('/')}
-            className="p-2 hover:bg-gray-100 rounded-full transition-all"
+            aria-label="Close role selection"
+            className="flex h-10 w-10 items-center justify-center rounded-xl p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-800"
           >
-            <X size={24} className="text-gray-500 hover:text-gray-800" />
+            <X size={20} aria-hidden />
           </button>
         </div>
 
@@ -114,18 +112,16 @@ export default function EditorPage() {
               Search role types
             </label>
             <div className="relative">
-              <Search
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-                size={20}
-                aria-hidden
-              />
+              <span className="absolute left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center p-1.5 text-gray-400">
+                <Search size={17} aria-hidden />
+              </span>
               <input
                 id="role-search"
                 type="search"
                 value={roleQuery}
                 onChange={(e) => setRoleQuery(e.target.value)}
                 placeholder="Search roles (e.g. nurse, developer, chef)…"
-                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-12 pr-4 text-gray-800 shadow-sm placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
             <p className="text-center text-sm text-gray-500 mt-2">
@@ -139,7 +135,7 @@ export default function EditorPage() {
               <button
                 key={role.id}
                 onClick={() => handleRoleSelect(role)}
-                className={`group relative text-left rounded-2xl border overflow-hidden transition-all duration-500 transform hover:-translate-y-1 ${selectedRole?.id === role.id
+                className={`group relative text-left rounded-xl border p-5 transition-colors ${selectedRole?.id === role.id
                   ? 'border-indigo-500 bg-indigo-100 shadow-md scale-[1.02]'
                   : 'border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300'
                   }`}
@@ -153,10 +149,10 @@ export default function EditorPage() {
                   </div>
                 )}
 
-                <div className="p-6">
+                <div>
                   {/* Icon and name */}
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-gray-200 flex items-center justify-center text-2xl shadow">
+                  <div className="flex items-center gap-3">
+                    <div className="flex shrink-0 items-center justify-center rounded-xl bg-slate-100 p-3 text-xl leading-none" aria-hidden>
                       {role.icon}
                     </div>
                     <div>
@@ -165,15 +161,6 @@ export default function EditorPage() {
                       </h3>
                       <p className="text-gray-500 text-sm">{role.description}</p>
                     </div>
-                  </div>
-
-                  {/* Preview of what's included */}
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {role.defaultCv.sections.slice(0, 3).map((section, idx) => (
-                      <span key={idx} className="inline-flex items-center px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600 text-xs border border-gray-200">
-                        {section.title}
-                      </span>
-                    ))}
                   </div>
                 </div>
               </button>
@@ -243,16 +230,13 @@ export default function EditorPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/')}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all text-sm"
+            className="flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 text-sm text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800"
           >
             <ArrowLeft size={16} />
             <span className="hidden sm:inline">Home</span>
           </button>
           <div className="w-px h-6 bg-slate-200" />
           <div className="flex items-center gap-2">
-            <div className={`w-8 h-8 bg-gradient-to-tr ${profession.color} rounded-lg flex items-center justify-center text-white shadow-md`}>
-              <Cpu size={16} />
-            </div>
             <div className="flex flex-col">
               <span className="font-bold text-slate-800 leading-none text-sm">{profession.name}</span>
               {selectedRole && (
@@ -268,7 +252,7 @@ export default function EditorPage() {
           {hasRoles && (
             <button
               onClick={handleChangeRole}
-              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 bg-slate-50 hover:bg-indigo-50 rounded-xl border border-slate-200 hover:border-indigo-200 transition-all"
+              className="flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
             >
               <ArrowLeft size={14} />
               Change Role
@@ -276,9 +260,10 @@ export default function EditorPage() {
           )}
           <button
             onClick={() => navigate('/')}
-            className="p-2 hover:bg-slate-100 rounded-full transition-all group"
+            aria-label="Close editor"
+            className="flex h-10 w-10 items-center justify-center rounded-xl p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-800"
           >
-            <X size={20} className="text-slate-400 group-hover:text-slate-800" />
+            <X size={20} aria-hidden />
           </button>
         </div>
       </div>
