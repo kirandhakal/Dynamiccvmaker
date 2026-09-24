@@ -3,6 +3,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tailwind resets list markers; restore them in the editor and CV preview. */
+.ProseMirror ul,
+.cv-page ul {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.ProseMirror ol,
+.cv-page ol {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+  list-style: decimal;
+}
+
+.ProseMirror li,
+.cv-page li {
+  margin: 0.15rem 0;
+}
+
+.ProseMirror a,
+.cv-page a {
+  color: #334155;
+  text-decoration: underline;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

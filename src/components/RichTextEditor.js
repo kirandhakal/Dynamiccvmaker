@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { TextStyle } from '@tiptap/extension-text-style';
@@ -14,10 +14,15 @@ import {
 } from 'lucide-react';
 
 const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', className = '' }) => {
+    const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+    const [linkUrl, setLinkUrl] = useState('');
+    const [linkText, setLinkText] = useState('');
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
                 heading: false,
+                bulletList: { keepMarks: true },
+                orderedList: { keepMarks: true },
                 blockquote: false,
                 codeBlock: false,
                 horizontalRule: false,
@@ -74,6 +79,7 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
     const ToolbarButton = ({ onClick, isActive, children, title }) => (
         <button
             type="button"
+            onMouseDown={(event) => event.preventDefault()}
             onClick={onClick}
             className={`p-2 rounded-lg transition-all duration-200 ${
                 isActive 
@@ -87,18 +93,29 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
     );
 
     const setLink = () => {
-        const previousUrl = editor.getAttributes('link').href || '';
-        const url = window.prompt('Paste or enter a URL', previousUrl);
-        if (url === null) return;
-        if (url === '') {
+        setLinkUrl(editor.getAttributes('link').href || '');
+        const { from, to } = editor.state.selection;
+        setLinkText(editor.state.doc.textBetween(from, to, ' '));
+        setLinkDialogOpen(true);
+    };
+
+    const saveLink = () => {
+        if (linkUrl.trim() === '') {
             editor.chain().focus().unsetLink().run();
-            return;
+        } else if (editor.state.selection.empty) {
+            editor.chain().focus().insertContent({
+                type: 'text',
+                text: linkText.trim() || linkUrl.trim(),
+                marks: [{ type: 'link', attrs: { href: linkUrl.trim() } }],
+            }).run();
+        } else {
+            editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl.trim() }).run();
         }
-        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+        setLinkDialogOpen(false);
     };
 
     return (
-        <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
+        <div className="relative border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
             {/* Modern Toolbar */}
             <div className="flex flex-wrap items-center gap-1 p-2 bg-gradient-to-r from-gray-50 to-slate-50 border-b border-gray-200">
                 {/* Font Family */}
@@ -236,6 +253,39 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
             <div className="p-4 min-h-[70px] bg-white focus-within:bg-blue-50/30 transition-colors duration-300">
                 <EditorContent editor={editor} />
             </div>
+
+            {linkDialogOpen && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-slate-900/20 p-4">
+                    <form
+                        className="w-full max-w-sm rounded-xl border border-slate-200 bg-white p-4 shadow-xl"
+                        onSubmit={(event) => { event.preventDefault(); saveLink(); }}
+                    >
+                        <label className="block text-sm font-semibold text-slate-800" htmlFor="link-url">Add link</label>
+                        <input
+                            id="link-url"
+                            type="url"
+                            value={linkUrl}
+                            onChange={(event) => setLinkUrl(event.target.value)}
+                            placeholder="https://example.com"
+                            className="mt-2 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                            autoFocus
+                        />
+                        <label className="mt-3 block text-sm font-medium text-slate-700" htmlFor="link-text">Link text</label>
+                        <input
+                            id="link-text"
+                            type="text"
+                            value={linkText}
+                            onChange={(event) => setLinkText(event.target.value)}
+                            placeholder="Optional when text is selected"
+                            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                        />
+                        <div className="mt-3 flex justify-end gap-2">
+                            <button type="button" onClick={() => setLinkDialogOpen(false)} className="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">Cancel</button>
+                            <button type="submit" className="rounded-lg bg-slate-800 px-3 py-2 text-sm font-medium text-white hover:bg-slate-700">Save link</button>
+                        </div>
+                    </form>
+                </div>
+            )}
         </div>
     );
 };
