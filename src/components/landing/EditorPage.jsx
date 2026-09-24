@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { X, Cpu, ArrowRight, ArrowLeft, Sparkles, Search } from 'lucide-react';
+import { X, Cpu, ArrowLeft, Search } from 'lucide-react';
 import DynamicCVMaker from '../DynamicCVMaker';
 import { professions } from '../../data/professions';
 
@@ -50,15 +50,10 @@ export default function EditorPage() {
   const hasRoles = profession.roles && profession.roles.length > 0;
 
   const handleRoleSelect = (role) => {
+    // A role card is the action itself; take the user straight to its editor.
+    localStorage.removeItem(`cv_data_${professionId}`);
     setSelectedRole(role);
-  };
-
-  const handleUseTemplate = () => {
-    if (selectedRole) {
-      // Clear any previously saved CV data for this profession so it loads fresh role data
-      localStorage.removeItem(`cv_data_${professionId}`);
-      setEditorMode(true);
-    }
+    setEditorMode(true);
   };
 
   const handleChangeRole = () => {
@@ -189,20 +184,6 @@ export default function EditorPage() {
             <p className="text-center text-gray-500 mb-8">
               No roles match your search. Try a different keyword.
             </p>
-          )}
-
-          {/* CTA */}
-          {selectedRole && (
-            <div className="flex justify-center animate-fade-in">
-              <button
-                onClick={handleUseTemplate}
-                className="group flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-bold text-lg shadow-2xl shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 hover:scale-105 active:scale-100"
-              >
-                <Sparkles size={20} />
-                Use {selectedRole.name} Template
-                <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
-              </button>
-            </div>
           )}
 
           {/* Selected role preview */}
