@@ -23,9 +23,9 @@ export default function FeaturesSection() {
           </div>
           <div className="md:col-span-4 p-10 bg-violet-50 rounded-[2.5rem] border border-violet-100">
             <FileText className="text-violet-600 mb-6" size={40} />
-            <h3 className="text-2xl font-bold mb-4 text-slate-900">Export to PDF</h3>
+            <h3 className="text-2xl font-bold mb-4 text-slate-900">Export to PDF, Word & Markdown</h3>
             <p className="text-slate-600 font-medium">
-              Download your resume as a professional PDF with one click.
+              Download your resume as a professional PDF, word document, or markdown file with one click.
             </p>
           </div>
           <div className="md:col-span-8 p-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-[2.5rem] text-white overflow-hidden relative">

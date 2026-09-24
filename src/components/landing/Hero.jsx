@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, FileDown, GripVertical, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, FileDown, GripVertical } from 'lucide-react';
 
 export default function Hero() {
   return (
