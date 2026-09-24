@@ -37,6 +37,8 @@ const GENERIC_EDUCATION = [
 const DEFAULT_PROJECT_ROW = {
   name: 'Key achievement or project',
   link: '',
+  linkLabel: '',
+  linkEnabled: false,
   description:
     'Describe a concrete outcome (e.g. improved efficiency, revenue, satisfaction) relevant to this role.',
 };

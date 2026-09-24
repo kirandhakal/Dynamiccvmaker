@@ -235,7 +235,7 @@ export function renderSection(section, ctx) {
               <div className="flex gap-1 ml-2 opacity-0 group-hover/section:opacity-100 transition-opacity">
                 <button onClick={() => moveSection(section.id, 'up')} className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition-all"><ChevronUp size={16} /></button>
                 <button onClick={() => moveSection(section.id, 'down')} className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 transition-all"><ChevronDown size={16} /></button>
-                <button onClick={() => addSectionItem(section.id, { name: 'Project', link: 'https://...', description: 'Description...' })} className="p-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-600 transition-all"><Plus size={16} /></button>
+                <button onClick={() => addSectionItem(section.id, { name: 'Project', link: '', linkLabel: '', linkEnabled: false, description: 'Description...' })} className="p-1.5 rounded-lg bg-green-50 hover:bg-green-100 text-green-600 transition-all"><Plus size={16} /></button>
                 <button onClick={() => removeSection(section.id)} className="p-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-500 transition-all"><Trash2 size={16} /></button>
               </div>
             )}
@@ -248,7 +248,24 @@ export function renderSection(section, ctx) {
                     <div className="flex justify-between items-start mb-3">
                       <div className="flex-1 space-y-2">
                         <input type="text" value={project.name} onChange={(e) => updateSectionItem(section.id, index, 'name', e.target.value)} placeholder="Project Name" className="font-semibold text-sm w-full bg-transparent border-b-2 border-teal-200 focus:outline-none focus:border-teal-500 pb-1 transition-all" />
-                        <input type="url" value={project.link} onChange={(e) => updateSectionItem(section.id, index, 'link', e.target.value)} placeholder="https://..." className="text-sm w-full bg-transparent border-b border-teal-100 focus:outline-none focus:border-teal-400 pb-1 text-teal-600 transition-all" />
+                        {(project.linkEnabled || project.link) ? (
+                          <div className="rounded-lg border border-teal-100 bg-white/70 p-2">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-xs font-medium text-teal-700">Project link</span>
+                              <button type="button" onClick={() => {
+                                updateSectionItem(section.id, index, 'linkEnabled', false);
+                                updateSectionItem(section.id, index, 'link', '');
+                                updateSectionItem(section.id, index, 'linkLabel', '');
+                              }} className="text-xs text-slate-500 hover:text-red-600">Remove link</button>
+                            </div>
+                            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                              <input type="text" value={project.linkLabel || ''} onChange={(e) => updateSectionItem(section.id, index, 'linkLabel', e.target.value)} placeholder="Label (e.g. Live site)" className="w-full border-b border-teal-100 bg-transparent pb-1 text-sm focus:border-teal-400 focus:outline-none" />
+                              <input type="url" value={project.link || ''} onChange={(e) => updateSectionItem(section.id, index, 'link', e.target.value)} placeholder="https://..." className="w-full border-b border-teal-100 bg-transparent pb-1 text-sm text-teal-600 focus:border-teal-400 focus:outline-none" />
+                            </div>
+                          </div>
+                        ) : (
+                          <button type="button" onClick={() => updateSectionItem(section.id, index, 'linkEnabled', true)} className="w-fit text-xs font-medium text-teal-700 hover:underline">Add project link</button>
+                        )}
                       </div>
                       <button onClick={() => removeSectionItem(section.id, index)} className="ml-3 p-1.5 rounded-lg opacity-0 group-hover/item:opacity-100 bg-red-50 hover:bg-red-100 text-red-500 transition-all"><Trash2 size={14} /></button>
                     </div>
@@ -263,7 +280,7 @@ export function renderSection(section, ctx) {
                       <div className="project-item">
                         <div className="flex justify-between items-baseline mb-1">
                           <div className="cv-subheading">{project.name}</div>
-                          <a href={project.link} className="cv-link">View Project</a>
+                          {project.link && <a href={project.link} className="cv-link">{project.linkLabel || 'Project link'}</a>}
                         </div>
                         <div className="cv-text-desc pl-5 border-l-2 border-gray-100" dangerouslySetInnerHTML={{ __html: project.description }} />
                       </div>
@@ -271,13 +288,13 @@ export function renderSection(section, ctx) {
                       <div className={`mb-4 ${templateStyleId === 8 ? 'text-center' : ''}`}>
                         <div className="flex justify-between items-baseline">
                           <div className="cv-subheading">{project.name}</div>
-                          <div><a href={project.link} className="cv-link underline">Link</a></div>
+                          {project.link && <div><a href={project.link} className="cv-link underline">{project.linkLabel || 'Project link'}</a></div>}
                         </div>
                         <div className="cv-text-desc mt-1" dangerouslySetInnerHTML={{ __html: project.description }} />
                       </div>
                     ) : (
                       <>
-                        <div className="font-bold text-xs">{project.name} <a href={project.link} className="cv-link underline">View</a></div>
+                        <div className="font-bold text-xs">{project.name} {project.link && <a href={project.link} className="cv-link underline">{project.linkLabel || 'Project link'}</a>}</div>
                         <div className="text-xs" dangerouslySetInnerHTML={{ __html: project.description }} />
                       </>
                     )}

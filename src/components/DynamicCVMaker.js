@@ -22,7 +22,7 @@ const DEFAULT_CV = {
     { id: 2, title: 'TECHNICAL SKILLS', type: 'skills', items: [{ category: 'Category', items: 'Skill 1, Skill 2' }] },
     { id: 3, title: 'WORK EXPERIENCE', type: 'experience', items: [{ position: 'Job Title', company: 'Company', period: 'Dates', description: '' }] },
     { id: 4, title: 'EDUCATION', type: 'education', items: [{ degree: 'Degree', institution: 'School', period: 'Dates' }] },
-    { id: 5, title: 'PROJECTS', type: 'projects', items: [{ name: 'Project', link: 'https://...', description: '' }] },
+    { id: 5, title: 'PROJECTS', type: 'projects', items: [{ name: 'Project', link: '', linkLabel: '', linkEnabled: false, description: '' }] },
   ],
 };
 
@@ -191,7 +191,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
         id: Date.now(),
         title: "NEW PROJECTS SECTION",
         type: "projects",
-        items: [{ name: "Project Name", link: "https://...", description: "Description..." }]
+        items: [{ name: "Project Name", link: "", linkLabel: "", linkEnabled: false, description: "Description..." }]
       },
       links: {
         id: Date.now(),
