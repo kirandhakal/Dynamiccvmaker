@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
-   Cpu,
     ArrowRight,
     Menu,
     X } from 'lucide-react';
@@ -25,9 +24,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/60 border-b border-slate-200/50">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group cursor-pointer">
-          <div className="w-10 h-10 bg-gradient-to-tr from-indigo-600 to-violet-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200 group-hover:scale-110 transition-transform">
-            <Cpu size={22} />
-          </div>
+          <img src="/cv-maker-icon.png" alt="CV Maker" className="h-10 w-10 rounded-xl object-contain shadow-lg shadow-indigo-200 transition-transform group-hover:scale-110" />
           <span className="text-2xl font-black tracking-tight text-slate-800">
             CV<span className="text-indigo-600">MAKER</span>
           </span>
