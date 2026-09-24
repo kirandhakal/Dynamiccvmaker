@@ -1,10 +1,11 @@
+
 name: Cv-maker
 
 on:
   push:
     branches:
       - main
-      - develop
+      # - develop
     # tags:
     #   - 'v*'
   # pull_request:
@@ -22,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: npm
 
       - name: Install Dependencies
         run: npm install
@@ -38,3 +39,25 @@ jobs:
         with:
           name: react-build
           path: build/
+
+      - name: Notify Discord
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            STATUS="✅ Build succeeded"
+            COLOR=3066993
+          else
+            STATUS="❌ Build failed"
+            COLOR=15158332
+          fi
+
+          curl -sf \
+            -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "title": "'"${STATUS}"'",
+                "description": "**Repo:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Commit:** [`${{ github.sha }}`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})\n**Triggered by:** ${{ github.actor }}\n**Run:** [View logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                "color": '"${COLOR}"'
+              }]
+            }' \
+            "${{ secrets.DISCORD_WEBHOOK_URL }}"
