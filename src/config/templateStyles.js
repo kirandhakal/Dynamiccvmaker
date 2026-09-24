@@ -1,6 +1,6 @@
 export const templateStyles = {
   1: {
-    name: 'ATS Standard',
+    name: 'Standard',
     headerBg: 'bg-white',
     headerText: 'text-gray-900',
     accentColor: 'text-gray-700',
@@ -10,7 +10,7 @@ export const templateStyles = {
     pageBg: 'bg-white',
   },
   4: {
-    name: 'ATS Professional',
+    name: 'Professional',
     headerBg: 'bg-white',
     headerText: 'text-[#2c3e50]',
     accentColor: 'text-slate-700',
@@ -21,7 +21,7 @@ export const templateStyles = {
     pageBg: 'bg-white',
   },
   5: {
-    name: 'ATS Minimal',
+    name: 'Minimal',
     headerBg: 'bg-white text-center mb-[18px]',
     headerText: 'text-black',
     accentColor: 'text-slate-700',
@@ -42,7 +42,7 @@ export const templateStyles = {
     pageBg: 'bg-white',
   },
   7: {
-    name: 'ATS Hybrid',
+    name: 'Hybrid',
     headerBg: 'bg-white',
     headerText: 'text-slate-900',
     accentColor: 'text-slate-700',

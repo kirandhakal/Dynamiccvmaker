@@ -83,6 +83,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
   });
 
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
+  const [showExportOptions, setShowExportOptions] = useState(false);
 
   // Find the default CV for the selected profession
   const profession = professions.find((p) => p.id === professionId);
@@ -345,6 +346,43 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
     }, 500);
   };
 
+  const downloadFile = (content, filename, type) => {
+    const url = URL.createObjectURL(new Blob([content], { type }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const stripHtml = (value = '') => {
+    const element = document.createElement('div');
+    element.innerHTML = value;
+    return element.textContent || element.innerText || '';
+  };
+
+  const handleExport = (format) => {
+    setShowExportOptions(false);
+    if (format === 'pdf') {
+      handlePrint();
+      return;
+    }
+
+    const filename = `${stripHtml(cv.name).trim().replace(/\s+/g, '-') || 'resume'}`;
+    if (format === 'doc') {
+      const preview = document.getElementById('cv-content');
+      downloadFile(`<!doctype html><html><head><meta charset="utf-8"><title>Resume</title></head><body>${preview?.innerHTML || ''}</body></html>`, `${filename}.doc`, 'application/msword');
+      return;
+    }
+
+    const contact = Object.values(cv.contact).filter(Boolean).join(' | ');
+    const sections = cv.sections.map((section) => {
+      const items = section.items?.map((item) => Object.values(item).filter(Boolean).map(stripHtml).join(' — ')).join('\n') || stripHtml(section.content);
+      return `## ${section.title}\n\n${items}`;
+    }).join('\n\n');
+    downloadFile(`# ${stripHtml(cv.name)}\n\n${stripHtml(cv.title)}\n\n${contact}\n\n${sections}\n`, `${filename}.md`, 'text/markdown');
+  };
+
   const sectionCtx = {
     editMode,
     templateStyleId: currentTemplateId,
@@ -367,6 +405,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
             </div>
 
             <div className="flex gap-3">
+              {/* Design selection is temporarily disabled.
               {editMode && (
                 <button
                   onClick={() => setShowTemplateSelector(!showTemplateSelector)}
@@ -378,17 +417,29 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
                   <Sparkles size={18} />
                   {showTemplateSelector ? 'Close Templates' : 'Change Template'}
                 </button>
-              )}
-              <button
-                onClick={handlePrint}
-                className="flex items-center gap-2 rounded-xl bg-slate-800 px-4 py-2.5 font-medium text-white transition-colors hover:bg-slate-700"
-              >
-                <Download size={18} />
-                Export PDF
-              </button>
+              )} */}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowExportOptions((open) => !open)}
+                  className="flex items-center gap-2 rounded-xl bg-slate-800 px-4 py-2.5 font-medium text-white transition-colors hover:bg-slate-700"
+                  aria-expanded={showExportOptions}
+                >
+                  <Download size={18} />
+                  Export
+                </button>
+                {showExportOptions && (
+                  <div className="absolute right-0 z-20 mt-2 w-36 rounded-xl border border-slate-200 bg-white p-1 shadow-lg">
+                    <button type="button" onClick={() => handleExport('pdf')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">PDF</button>
+                    <button type="button" onClick={() => handleExport('doc')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">Word (.doc)</button>
+                    <button type="button" onClick={() => handleExport('md')} className="w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100">Markdown (.md)</button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
+          {/* Design selection is temporarily disabled.
           {showTemplateSelector && editMode && (
             <div className="mt-6 animate-in fade-in slide-in-from-top-4 duration-300">
               <SelectTemplate
@@ -399,10 +450,10 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
                 }}
               />
             </div>
-          )}
+          )} */}
 
           <div className="mt-5 border-t border-gray-100 pt-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">ATS recommendations</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Resume recommendations</p>
             <ul className="mt-2 grid gap-1 text-sm text-slate-600 sm:grid-cols-3">
               <li>Use a clear job title that matches the role.</li>
               <li>Use standard headings such as Experience and Skills.</li>
@@ -708,10 +759,10 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
         </section>
 
         {/* Live ATS preview */}
-        <aside className="min-w-0 overflow-auto rounded-xl border border-slate-200 bg-slate-50 shadow-sm xl:max-h-[calc(100vh-12rem)]">
+        <aside className="min-w-0 rounded-xl border border-slate-200 bg-slate-50 shadow-sm">
           <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-3">
             <h3 className="text-sm font-semibold text-slate-800">Live preview</h3>
-            <span className="text-xs font-medium text-emerald-700">ATS-ready</span>
+            <span className="text-xs font-medium text-emerald-700">Live</span>
           </div>
           <div className="p-4 sm:p-6">
             <div className={`${styles.pageBg} overflow-hidden bg-white shadow-sm`} id="cv-content">
