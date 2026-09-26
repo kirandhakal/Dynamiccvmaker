@@ -1,0 +1,11 @@
+{
+  "title": "Privacy Policy",
+  "lastUpdated": "September 24, 2026",
+  "sections": [
+    { "heading": "Information you provide", "body": "CV Maker processes the information you enter into the editor, such as your name, contact details, work history, education, skills, and links." },
+    { "heading": "Local storage", "body": "Your CV content and selected template may be saved in your browser’s local storage so you can continue editing. This data remains on your device unless you clear your browser data." },
+    { "heading": "Exports", "body": "PDF, Word, and Markdown exports are created at your request. Review exported files before sharing them with employers or other people." },
+    { "heading": "Third-party links", "body": "The website may link to external services. Their privacy practices are governed by their own policies." },
+    { "heading": "Contact", "body": "Questions about this policy can be sent to info@dhakalkiran.com.np." }
+  ]
+}

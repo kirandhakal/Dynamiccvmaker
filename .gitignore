@@ -12,6 +12,7 @@
 /build
 /.next
 /out
+*.tsbuildinfo
 
 # misc
 .DS_Store

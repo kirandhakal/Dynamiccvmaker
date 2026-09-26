@@ -1,0 +1,248 @@
+{
+  "metadata": {
+    "/": {
+      "title": "Free CV Maker | Build an ATS-Friendly Resume Online",
+      "description": "Create a professional, ATS-friendly CV with role-specific templates, flexible sections, live preview, and PDF, Word, or Markdown export."
+    },
+    "/templates": {
+      "title": "Professional CV Templates for Every Career | CV Maker",
+      "description": "Explore CV templates for technology, healthcare, education, business, creative work, and more than 75 job roles."
+    },
+    "/features": {
+      "title": "Flexible Resume Builder Features | CV Maker",
+      "description": "Edit rich text, reorder resume sections, customize contact details, preview changes live, and export your finished CV."
+    },
+    "/how-it-works": {
+      "title": "How to Build a Professional CV Online | CV Maker",
+      "description": "Choose your profession, personalize role-specific content, reorder sections, and export a polished CV in three simple steps."
+    },
+    "/pricing": {
+      "title": "Free Online CV Builder | CV Maker",
+      "description": "Start building a professional resume online with flexible templates and simple export options."
+    },
+    "/contact": {
+      "title": "Contact CV Maker | Resume Builder Support",
+      "description": "Contact the CV Maker creator for help, feedback, or questions about templates and the resume editor."
+    },
+    "/privacy": {
+      "title": "Privacy Policy | CV Maker",
+      "description": "How CV Maker handles the information you enter while creating a resume."
+    },
+    "/terms": {
+      "title": "Terms of Use | CV Maker",
+      "description": "The terms that apply when you use CV Maker to create and export a resume."
+    }
+  },
+  "navigation": {
+    "links": [
+      {
+        "name": "Home",
+        "href": "/"
+      },
+      {
+        "name": "Templates",
+        "href": "/templates"
+      },
+      {
+        "name": "Features",
+        "href": "/features"
+      },
+      {
+        "name": "How it Works",
+        "href": "/how-it-works"
+      },
+      {
+        "name": "Contact",
+        "href": "/contact"
+      }
+    ],
+    "startLabel": "Get Started"
+  },
+  "hero": {
+    "eyebrow": "Built for 75+ career paths",
+    "headline": "Your experience deserves a CV that",
+    "headlineAccent": "gets read.",
+    "description": "Start with role-specific content, shape every section, and export a clean, ATS-friendly resume without fighting a rigid template.",
+    "primaryAction": "Build my CV",
+    "secondaryAction": "See how it works",
+    "benefits": [
+      "No sign-up required",
+      "Flexible sections",
+      "PDF, Word & Markdown"
+    ],
+    "previewTitle": "Live CV preview",
+    "previewStatus": "Changes saved in your browser",
+    "previewReady": "Ready",
+    "previewName": "ALEX MORGAN",
+    "previewRole": "Product Designer",
+    "previewLocation": "Kathmandu, Nepal",
+    "previewPortfolio": "Portfolio",
+    "previewSections": [
+      {
+        "title": "PROFILE",
+        "copy": "Designer focused on thoughtful systems and simple experiences."
+      },
+      {
+        "title": "EXPERIENCE",
+        "copy": "Senior Product Designer · Studio North"
+      },
+      {
+        "title": "SKILLS",
+        "copy": "Research · Prototyping · Design systems"
+      }
+    ],
+    "dragLabel": "DRAG TO MOVE",
+    "exportTitle": "Export ready",
+    "exportFormats": "PDF · DOC · MD"
+  },
+  "templates": {
+    "title": "Choose Your Profession",
+    "description": "Pick a template tailored to your field. Select your specific role for personalized content.",
+    "openTemplate": "Open template",
+    "rolesLabel": "roles"
+  },
+  "sectionTypes": {
+    "eyebrow": "Built your way",
+    "title": "Every section you need. None you don’t.",
+    "description": "Add, remove, edit, and reorder sections until the CV tells your story in the right order.",
+    "items": [
+      {
+        "title": "Professional summary",
+        "text": "Introduce your strengths and career direction."
+      },
+      {
+        "title": "Work experience",
+        "text": "Show roles, dates, achievements, and impact."
+      },
+      {
+        "title": "Education",
+        "text": "Add degrees, training, and relevant study."
+      },
+      {
+        "title": "Skills",
+        "text": "Group technical and professional capabilities."
+      },
+      {
+        "title": "Projects & highlights",
+        "text": "Present your best work and measurable results."
+      },
+      {
+        "title": "Links & custom sections",
+        "text": "Add portfolios, profiles, certificates, or anything else."
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "description": "Get your professional resume ready in just three simple steps.",
+    "steps": [
+      {
+        "title": "Choose a Template",
+        "description": "Select from our professionally designed templates tailored for your specific industry and role."
+      },
+      {
+        "title": "Customize Content",
+        "description": "Use our intuitive rich text editor to fill in your details, reorder sections, and adjust styles."
+      },
+      {
+        "title": "Download PDF",
+        "description": "Once you're satisfied, download your resume as a high-quality, ATS-friendly PDF file."
+      }
+    ]
+  },
+  "features": {
+    "cards": [
+      {
+        "title": "Rich Text Editing",
+        "description": "Format your content with bold, italic, custom fonts, colors, and alignment. Make your resume stand out."
+      },
+      {
+        "title": "ATS Friendly",
+        "description": "All templates are optimized to pass Applicant Tracking Systems."
+      },
+      {
+        "title": "Export to PDF, Word & Markdown",
+        "description": "Download your resume as a professional PDF, word document, or markdown file with one click."
+      },
+      {
+        "title": "Drag & Drop Sections",
+        "description": "Reorder sections by dragging. Add or remove sections as needed for your profession."
+      }
+    ]
+  },
+  "contact": {
+    "description": "Have questions about our templates or need help with the editor? We're here to help you build the perfect resume.",
+    "emailLabel": "Email Us",
+    "email": "info@dhakalkiran.com.np",
+    "locationLabel": "Based in",
+    "location": "Kathmandu, Nepal",
+    "successTitle": "Message delivered!",
+    "sendAnother": "Send another message",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "John Doe",
+    "emailFieldLabel": "Email Address",
+    "emailPlaceholder": "john@example.com",
+    "messageLabel": "Message",
+    "messagePlaceholder": "How can we help you?",
+    "messageLength": "10–2,000 characters",
+    "submitLabel": "Send Message",
+    "retryLabel": "Try again",
+    "sendingLabel": "Sending...",
+    "failureMessage": "Unable to send your details. Please try again.",
+    "titleLead": "Get in Touch with our",
+    "titleAccent": "Support Team"
+  },
+  "footer": {
+    "tagline": "A flexible, role-aware CV builder for creating clear and professional resumes.",
+    "exploreLabel": "Explore",
+    "creatorLabel": "Created & designed by",
+    "creatorName": "Kiran Dhakal",
+    "creatorUrl": "https://www.dhakalkiran.com.np/",
+    "email": "info@dhakalkiran.com.np",
+    "copyright": "© 2026 CV Maker. All rights reserved.",
+    "privacyLabel": "Privacy Policy",
+    "termsLabel": "Terms of Use",
+    "links": [
+      {
+        "label": "Templates",
+        "href": "/templates"
+      },
+      {
+        "label": "Features",
+        "href": "/features"
+      },
+      {
+        "label": "How it works",
+        "href": "/how-it-works"
+      },
+      {
+        "label": "Contact",
+        "href": "/contact"
+      }
+    ]
+  },
+  "editor": {
+    "titleSuffix": "CV Templates | CV Maker",
+    "descriptionTemplate": "Choose a {profession} role and build a tailored, ATS-friendly professional CV.",
+    "fallbackTitle": "CV Builder | CV Maker",
+    "fallbackDescription": "Create a professional CV with CV Maker."
+  },
+  "roleSelection": {
+    "back": "Back",
+    "close": "Close role selection",
+    "eyebrow": "Choose Your Role",
+    "questionPrefix": "What's your",
+    "questionNoun": "role",
+    "description": "Choose your specific role to get a tailored CV template with relevant skills, projects, and experience pre-filled.",
+    "searchLabel": "Search role types",
+    "searchPlaceholder": "Search roles (e.g. nurse, developer, chef)…",
+    "countTemplate": "Showing {filtered} of {total} role types",
+    "noResults": "No roles match your search. Try a different keyword.",
+    "previewPrefix": "Preview",
+    "closeEditor": "Close editor"
+  },
+  "editorUi": {
+    "home": "Home",
+    "changeRole": "Change Role"
+  }
+}
