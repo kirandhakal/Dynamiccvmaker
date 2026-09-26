@@ -1,9 +1,12 @@
+'use client';
+
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+
+import { useRouter } from 'next/navigation';
 import { professions } from '../../data/professions';
 
 export default function TemplateSection() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <section id="templates" className="border-y border-slate-100 bg-white py-20">
@@ -22,7 +25,7 @@ export default function TemplateSection() {
               <button
                 key={profession.id}
                 type="button"
-                onClick={() => navigate(`/editor/${profession.id}`)}
+                onClick={() => router.push(`/editor/${profession.id}`)}
                 aria-label={`${hasRoles ? 'Choose a role in' : 'Use'} ${profession.name}`}
                 className="group min-h-48 rounded-2xl border border-slate-200 bg-white p-6 text-left transition-colors hover:border-slate-400 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
               >

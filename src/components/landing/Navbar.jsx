@@ -1,5 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
     ArrowRight,
     Menu,
@@ -7,7 +10,7 @@ import {
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -18,12 +21,12 @@ export default function Navbar() {
     { name: 'Contact', href: '/contact' },
   ];
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => pathname === path;
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/60 border-b border-slate-200/50">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 group cursor-pointer">
+        <Link href="/" className="flex items-center gap-2 group cursor-pointer">
           <img src="/cv-maker-icon.png" alt="CV Maker" className="h-10 w-10 rounded-xl object-contain shadow-lg shadow-indigo-200 transition-transform group-hover:scale-110" />
           <span className="text-2xl font-black tracking-tight text-slate-800">
             CV<span className="text-indigo-600">MAKER</span>
@@ -34,7 +37,7 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
-              to={link.href} 
+              href={link.href} 
               className={`transition-colors hover:text-indigo-600 ${
                 isActive(link.href) ? 'text-indigo-600 font-bold' : 'text-slate-500'
               }`}
@@ -46,7 +49,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           <Link
-            to="/templates"
+            href="/templates"
             className="hidden sm:inline-flex group relative px-6 py-2.5 bg-slate-900 text-white rounded-full font-semibold overflow-hidden transition-all hover:pr-10"
           >
             <span className="relative z-10">Get Started</span>
@@ -69,7 +72,7 @@ export default function Navbar() {
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
-                to={link.href} 
+                href={link.href} 
                 className={`text-lg font-medium transition-colors hover:text-indigo-600 ${
                   isActive(link.href) ? 'text-indigo-600 font-bold' : 'text-slate-600'
                 }`}
@@ -79,7 +82,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              to="/templates"
+              href="/templates"
               className="mt-2 flex items-center justify-center gap-2 w-full py-3 bg-indigo-600 text-white rounded-xl font-bold"
               onClick={() => setIsMenuOpen(false)}
             >

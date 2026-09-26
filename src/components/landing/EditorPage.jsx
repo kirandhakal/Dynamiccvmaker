@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { X, ArrowLeft, Search } from 'lucide-react';
-import DynamicCVMaker from '../DynamicCVMaker';
-import { professions } from '../../data/professions';
-import Seo from '../Seo';
+'use client';
 
-export default function EditorPage() {
-  const { professionId } = useParams();
-  const navigate = useNavigate();
+import React, { useState, useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { X, ArrowLeft, Search } from 'lucide-react';
+const DynamicCVMaker = dynamic(() => import('../DynamicCVMaker'), { ssr: false });
+import { professions } from '../../data/professions';
+
+export default function EditorPage({ professionId }) {
+  const router = useRouter();
+  const navigate = (path) => router.push(path);
 
   const profession = professions.find(p => p.id === professionId);
   const [selectedRole, setSelectedRole] = useState(null);
@@ -67,7 +69,6 @@ export default function EditorPage() {
   if (hasRoles && !editorMode) {
     return (
       <div className="fixed inset-0 z-[100] bg-gray-100 overflow-y-auto">
-        <Seo title={`${profession.name} CV Templates | CV Maker`} description={`Choose a ${profession.name.toLowerCase()} role and build a tailored, ATS-friendly professional CV.`} keywords={`${profession.name} CV, ${profession.name} resume template, ATS resume, professional CV maker`} path={`/editor/${professionId}`} />
         {/* Header */}
         <div className="sticky top-0 z-[110] flex justify-between items-center px-6 py-4 bg-white border-b border-gray-200">
           <div className="flex items-center gap-3">
@@ -227,7 +228,6 @@ export default function EditorPage() {
 
   return (
     <div className="fixed inset-0 z-[100] bg-slate-100 flex flex-col overflow-hidden">
-      <Seo title={`${selectedRole?.name || profession.name} CV Builder | CV Maker`} description={`Create and export a tailored ${selectedRole?.name || profession.name} CV with editable sections and a live preview.`} keywords={`${selectedRole?.name || profession.name} CV, resume builder, job resume template, ATS friendly CV`} path={`/editor/${professionId}`} />
       {/* Top Header Bar */}
       <div className="flex-shrink-0 flex justify-between items-center px-4 py-3 bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm z-[120]">
         <div className="flex items-center gap-3">

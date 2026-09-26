@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { ArrowRight, Check, FileDown, GripVertical } from 'lucide-react';
 
 export default function Hero() {
@@ -23,7 +23,7 @@ export default function Hero() {
             Start with role-specific content, shape every section, and export a clean, ATS-friendly resume without fighting a rigid template.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Link to="/templates" className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-7 py-4 text-base font-bold text-white shadow-xl shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-indigo-700">
+            <Link href="/templates" className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-7 py-4 text-base font-bold text-white shadow-xl shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-indigo-700">
               Build my CV <ArrowRight size={19} />
             </Link>
             <a href="#how-it-works" className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white/60 px-7 py-4 text-base font-bold text-slate-800 transition hover:border-slate-400 hover:bg-white">

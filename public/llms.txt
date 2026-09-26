@@ -1,0 +1,18 @@
+# CV Maker
+
+> A free online CV and resume builder with role specific starting content, flexible editing, a live preview, and PDF, Word, or Markdown export.
+
+CV Maker helps job seekers create professional, ATS friendly resumes without creating an account. CV content is stored in the user's browser and exports are generated on request.
+
+## Main pages
+- [Home](https://cv.dhakalkiran.com.np/): CV maker overview and profession templates.
+- [Templates](https://cv.dhakalkiran.com.np/templates): Browse career categories and role based starting templates.
+- [Features](https://cv.dhakalkiran.com.np/features): Editing, preview, and export features.
+- [How it works](https://cv.dhakalkiran.com.np/how-it-works): CV creation steps.
+- [Contact](https://cv.dhakalkiran.com.np/contact): Contact the creator at info@dhakalkiran.com.np.
+- [Privacy policy](https://cv.dhakalkiran.com.np/privacy): Data handling information.
+- [Terms of use](https://cv.dhakalkiran.com.np/terms): Service terms.
+- [XML sitemap](https://cv.dhakalkiran.com.np/sitemap.xml): Crawlable public page URLs.
+
+## Usage
+Choose a profession, select a role where available, customize the sample content, review the live preview, and export the finished CV. Verify all personal details before sharing an exported document.

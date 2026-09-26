@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Github, Twitter, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 
 const siteLinks = [
@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-12 border-b border-white/10 pb-14 md:grid-cols-3">
           <div className="md:col-span-1">
-            <Link to="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3">
               <img src="/cv-maker-icon.png" alt="" className="h-11 w-11 rounded-xl" />
               <span className="text-xl font-black tracking-tight">CV <span className="text-indigo-400">MAKER</span></span>
             </Link>
@@ -21,7 +21,7 @@ export default function Footer() {
           <div>
             <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-slate-500">Explore</h2>
             <ul className="mt-5 grid grid-cols-2 gap-3">
-              {siteLinks.map(([label, href]) => <li key={label}><Link to={href} className="text-slate-300 transition hover:text-white">{label}</Link></li>)}
+              {siteLinks.map(([label, href]) => <li key={label}><Link href={href} className="text-slate-300 transition hover:text-white">{label}</Link></li>)}
             </ul>
           </div>
           <div>
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
         <div className="flex flex-col gap-4 pt-7 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 CV Maker. All rights reserved.</p>
-          <div className="flex gap-5"><Link to="/privacy" className="hover:text-slate-300">Privacy Policy</Link><Link to="/terms" className="hover:text-slate-300">Terms of Use</Link></div>
+          <div className="flex gap-5"><Link href="/privacy" className="hover:text-slate-300">Privacy Policy</Link><Link href="/terms" className="hover:text-slate-300">Terms of Use</Link></div>
         </div>
       </div>
     </footer>
