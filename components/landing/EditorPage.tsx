@@ -110,10 +110,10 @@ export default function EditorPage({ professionId }: EditorPageProps) {
           {/* Title */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-black mb-4">
-              {copy.questionPrefix} <span className="text-indigo-600">{copy.questionNoun}</span>?
+              {profession.name} <span className="text-indigo-600">CV templates</span>
             </h1>
             <p className="text-gray-500 text-lg max-w-xl mx-auto">
-              {copy.description}
+              {profession.description} {copy.description}
             </p>
           </div>
 

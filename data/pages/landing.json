@@ -158,7 +158,7 @@
       },
       {
         "title": "ATS Friendly",
-        "description": "All templates are optimized to pass Applicant Tracking Systems."
+        "description": "Use clear headings and structured resume sections. Review your exported CV and follow the employer’s requirements; ATS results are not guaranteed."
       },
       {
         "title": "Export to PDF, Word & Markdown",
@@ -218,6 +218,14 @@
       {
         "label": "Contact",
         "href": "/contact"
+      },
+      {
+        "label": "Pricing",
+        "href": "/pricing"
+      },
+      {
+        "label": "AI-readable guide",
+        "href": "/llms.txt"
       }
     ]
   },

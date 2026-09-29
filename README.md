@@ -30,3 +30,7 @@ npm start
 - `public/` — Static images, icons, and downloadable files.
 
 Edit site copy in `data/pages/landing.json`, legal copy in `data/legal/`, and profession/role content in `data/professionCatalog.json`.
+
+## Search engines and AI readers
+
+See [the SEO launch checklist](docs/seo-launch.md) for production deployment, Google/Bing verification, sitemap submission, and curl checks. Public Markdown is available at `/llms.txt` and `/llms-full.txt`; the full guide is generated from shared content at build time.

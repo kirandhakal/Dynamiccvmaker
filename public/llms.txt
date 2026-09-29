@@ -2,13 +2,17 @@
 
 > A free online CV and resume builder with role specific starting content, flexible editing, a live preview, and PDF, Word, or Markdown export.
 
-CV Maker helps job seekers create professional, ATS friendly resumes without creating an account. CV content is stored in the user's browser and exports are generated on request.
+CV Maker helps job seekers create structured professional resumes without creating an account. CV content is stored in the user's browser and exports are generated on request.
+
+## Machine-readable content
+- [Full Markdown guide](https://cv.dhakalkiran.com.np/llms-full.txt): Public features, workflow, profession and role catalog, and policies. No JavaScript needed to read this guide.
 
 ## Main pages
 - [Home](https://cv.dhakalkiran.com.np/): CV maker overview and profession templates.
 - [Templates](https://cv.dhakalkiran.com.np/templates): Browse career categories and role based starting templates.
 - [Features](https://cv.dhakalkiran.com.np/features): Editing, preview, and export features.
 - [How it works](https://cv.dhakalkiran.com.np/how-it-works): CV creation steps.
+- [Pricing](https://cv.dhakalkiran.com.np/pricing): Free use, exports, and account requirements.
 - [Contact](https://cv.dhakalkiran.com.np/contact): Contact the creator at info@dhakalkiran.com.np.
 - [Privacy policy](https://cv.dhakalkiran.com.np/privacy): Data handling information.
 - [Terms of use](https://cv.dhakalkiran.com.np/terms): Service terms.
@@ -16,3 +20,6 @@ CV Maker helps job seekers create professional, ATS friendly resumes without cre
 
 ## Usage
 Choose a profession, select a role where available, customize the sample content, review the live preview, and export the finished CV. Verify all personal details before sharing an exported document.
+
+## Access and limitations
+Public pages are rendered as HTML for readers and crawlers. The interactive editor and downloads require JavaScript. Word exports use .doc; Markdown exports use .md. ATS compatibility and search visibility are not guaranteed. Templates contain examples, not verified applicant credentials. Personal browser drafts are not part of these public resources.

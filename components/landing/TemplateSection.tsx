@@ -2,12 +2,11 @@
 
 import React from 'react';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { professions } from '../../data/professions';
 import { landingContent } from '../../data/pages';
 
 export default function TemplateSection() {
-  const router = useRouter();
   const copy = landingContent.templates;
 
   return (
@@ -24,10 +23,9 @@ export default function TemplateSection() {
           {professions.map((profession) => {
             const hasRoles = profession.roles && profession.roles.length > 0;
             return (
-              <button
+              <Link
                 key={profession.id}
-                type="button"
-                onClick={() => router.push(`/editor/${profession.id}`)}
+                href={`/editor/${profession.id}`}
                 aria-label={`${hasRoles ? 'Choose a role in' : 'Use'} ${profession.name}`}
                 className="group min-h-48 rounded-2xl border border-slate-200 bg-white p-6 text-left transition-colors hover:border-slate-400 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2"
               >
@@ -39,7 +37,7 @@ export default function TemplateSection() {
                     {hasRoles ? `${profession.roles.length} ${copy.rolesLabel}` : copy.openTemplate}
                   </p>
                 </div>
-              </button>
+              </Link>
             );
           })}
         </div>

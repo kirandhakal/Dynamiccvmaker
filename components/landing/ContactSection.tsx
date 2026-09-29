@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { landingContent } from '../../data/pages';
 import { CheckCircle, Mail, MapPin, Send } from 'lucide-react';
