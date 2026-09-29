@@ -62,4 +62,4 @@ export interface LegalPageContent {
   sections: LegalSection[];
 }
 
-export type EditorContent = typeof import('../data/pages/editor.json').default;
+export type EditorContent = Record<string, string | string[][]>;
