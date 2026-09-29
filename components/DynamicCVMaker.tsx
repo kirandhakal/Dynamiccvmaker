@@ -4,12 +4,22 @@ import {
 } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
 import { getTemplateStyle } from '../config/templateStyles';
+import { templateStyles } from '../config/templateStyles';
+// ATS estimate is disabled until it can be validated against real parsing results.
+// import { getAtsEstimate } from '../config/atsScore';
 import { renderSection } from './cv/SectionRenderers';
 import { professions } from '../data/professions';
 import cvDefaults from '../data/cv-defaults.json';
 import { editorContent as uiCopy } from '../data/pages';
 
 const DEFAULT_CV = cvDefaults.emptyCv;
+const paperSizes = {
+  a4: { label: 'A4', width: '210mm', height: '297mm', print: 'A4' },
+  letter: { label: 'US Letter', width: '8.5in', height: '11in', print: 'letter' },
+  legal: { label: 'US Legal', width: '8.5in', height: '14in', print: 'legal' },
+  a3: { label: 'A3', width: '297mm', height: '420mm', print: 'A3' },
+  a5: { label: 'A5', width: '148mm', height: '210mm', print: 'A5' },
+};
 
 const detailTypeOptions = uiCopy.detailTypes;
 
@@ -21,6 +31,7 @@ const createHeaderDetails = (cv) => {
   ].filter(([key]) => contact[key]).map(([key, label]) => ({ id: `header-${key}`, type: 'link', label, value: contact[key] }));
   return [
     cv.title && { id: 'header-title', type: 'text', label: uiCopy.professionalTitle, value: cv.title },
+    contact.phone && { id: 'header-phone', type: 'phone', label: 'Phone', value: contact.phone },
     contact.location && { id: 'header-location', type: 'address', label: uiCopy.addressLabel, value: contact.location },
     contact.email && { id: 'header-email', type: 'email', label: uiCopy.emailLabel, value: contact.email },
     ...linkDetails,
@@ -30,12 +41,13 @@ const createHeaderDetails = (cv) => {
 const renderHeaderDetailPreview = (detail) => {
   if (!detail.value) return null;
   if (detail.type === 'email') return <a href={`mailto:${detail.value}`} className="cv-link">{detail.value}</a>;
+  if (detail.type === 'phone') return <a href={`tel:${detail.value}`} className="cv-link">{detail.value}</a>;
   if (detail.type === 'link') return <a href={detail.value} className="cv-link">{detail.label || detail.value}</a>;
   return <span>{detail.value}</span>;
 };
 
 const HeaderPreview = ({ cv, styles, templateId }) => {
-  const centered = templateId === 5 || templateId === 8;
+  const centered = templateId === 5 || templateId === 8 || templateId === 14;
   const nameClass = templateId === 8 || templateId === 9
     ? `text-3xl font-serif font-bold uppercase ${styles.headerText}`
     : `cv-header-name text-2xl font-bold ${styles.headerText}`;
@@ -63,9 +75,15 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
   const storageKey = professionId ? `cv_data_${professionId}` : 'cv_data';
   const templateKey = professionId ? `cv_template_${professionId}` : 'cv_template';
 
-  const [currentTemplateId] = useState(() => {
+  const [currentTemplateId, setCurrentTemplateId] = useState(() => {
     const saved = localStorage.getItem(templateKey);
-    return saved ? parseInt(saved) : templateStyleId;
+    const id = saved ? parseInt(saved, 10) : templateStyleId;
+    return templateStyles[id] ? id : 1;
+  });
+  const paperKey = professionId ? `cv_paper_${professionId}` : 'cv_paper';
+  const [paperSize, setPaperSize] = useState(() => {
+    const saved = localStorage.getItem(paperKey);
+    return saved && paperSizes[saved] ? saved : 'a4';
   });
 
   const [showExportOptions, setShowExportOptions] = useState(false);
@@ -91,7 +109,13 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
     localStorage.setItem(templateKey, currentTemplateId.toString());
   }, [currentTemplateId, templateKey]);
 
+  React.useEffect(() => {
+    localStorage.setItem(paperKey, paperSize);
+  }, [paperKey, paperSize]);
+
   const styles = getTemplateStyle(currentTemplateId);
+  const paper = paperSizes[paperSize];
+  // const atsEstimate = getAtsEstimate(cv);
 
 
   const updateField = (path, value) => {
@@ -130,6 +154,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
       text: { label: 'Detail', value: '' },
       address: { label: uiCopy.addressLabel, value: '' },
       email: { label: uiCopy.emailLabel, value: '' },
+      phone: { label: 'Phone', value: '' },
       link: { label: 'Website', value: '' },
     };
     setCv(prev => ({
@@ -335,14 +360,14 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
       <!DOCTYPE html>
       <html>
         <head>
-          <title>{uiCopy.exportTitle}</title>
+          <title>${stripHtml(cv.name) || 'CV'}</title>
           <style>
             ${styles}
             ${internalStyles}
             
             @page {
-              margin: 0.5in;
-              size: letter;
+              margin: 0;
+              size: ${paper.print};
             }
             
             * {
@@ -357,18 +382,29 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
               width: 100%;
               height: auto;
             }
+
+            #cv-content {
+              width: 100% !important;
+              max-width: 100% !important;
+              margin: 0 !important;
+              box-shadow: none !important;
+            }
             
             .cv-page {
               width: 100% !important;
               min-height: auto !important;
-              padding: 0 !important;
+              padding: 14mm !important;
               margin: 0 !important;
               box-shadow: none !important;
+              break-inside: auto !important;
+            }
+            .cv-page .group\/section, .cv-page .education-item {
+              break-inside: avoid;
             }
           </style>
         </head>
         <body>
-          ${cvContent.innerHTML}
+          ${cvContent.outerHTML}
         </body>
       </html>
     `);
@@ -417,7 +453,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
     const filename = `${stripHtml(cv.name).trim().replace(/\s+/g, '-') || 'cv'}`;
     if (format === 'doc') {
       const preview = document.getElementById('cv-content');
-      downloadFile(`<!doctype html><html><head><meta charset="utf-8"><title>{uiCopy.wordTitle}</title></head><body>${preview?.innerHTML || ''}</body></html>`, `${filename}.doc`, 'application/msword');
+      downloadFile(`<!doctype html><html><head><meta charset="utf-8"><title>${filename}</title></head><body>${preview?.outerHTML || ''}</body></html>`, `${filename}.doc`, 'application/msword');
       return;
     }
 
@@ -665,7 +701,7 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
                         </select>
                         <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
                           <input value={detail.label || ''} onChange={(event) => updateHeaderDetail(detail.id, 'label', event.target.value)} placeholder={uiCopy.detailLabelPlaceholder} className="rounded border border-gray-200 px-2 py-1.5 text-sm" />
-                          <input type={detail.type === 'email' ? 'email' : detail.type === 'link' ? 'url' : 'text'} value={detail.value || ''} onChange={(event) => updateHeaderDetail(detail.id, 'value', event.target.value)} placeholder={detail.type === 'link' ? uiCopy.urlPlaceholder : uiCopy.valuePlaceholder} className="rounded border border-gray-200 px-2 py-1.5 text-sm" />
+                          <input type={detail.type === 'email' ? 'email' : detail.type === 'link' ? 'url' : detail.type === 'phone' ? 'tel' : 'text'} value={detail.value || ''} onChange={(event) => updateHeaderDetail(detail.id, 'value', event.target.value)} placeholder={detail.type === 'link' ? uiCopy.urlPlaceholder : uiCopy.valuePlaceholder} className="rounded border border-gray-200 px-2 py-1.5 text-sm" />
                         </div>
                         <button type="button" onClick={() => removeHeaderDetail(detail.id)} className="rounded p-1.5 text-red-500 hover:bg-red-50" aria-label={`Remove ${detail.label || uiCopy.removeDetail}`}><Trash2 size={16} /></button>
                       </div>
@@ -704,15 +740,34 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
         </div>
         </section>
 
-        {/* Live ATS preview */}
+        {/* Live CV preview */}
         <aside className="min-w-0 rounded-xl border border-slate-200 bg-slate-50 shadow-sm">
-          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-5 py-3">
-            <h3 className="text-sm font-semibold text-slate-800">{uiCopy.livePreview}</h3>
-            {exportMenu}
+          <div className="sticky top-0 z-10 border-b border-slate-200 bg-white px-5 py-3">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <h3 className="text-sm font-semibold text-slate-800">{uiCopy.livePreview}</h3>
+                <p className="text-xs text-slate-500">Changes here keep all your CV information.</p>
+              </div>
+              {exportMenu}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <label className="flex min-w-[180px] flex-1 flex-col gap-1 text-xs font-medium text-slate-600">
+                Template
+                <select aria-label="CV template" value={currentTemplateId} onChange={(event) => setCurrentTemplateId(Number(event.target.value))} className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800">
+                  {Object.entries(templateStyles).map(([id, template]) => <option key={id} value={id}>{template.name}</option>)}
+                </select>
+              </label>
+              <label className="flex min-w-[145px] flex-col gap-1 text-xs font-medium text-slate-600">
+                Paper size
+                <select aria-label="Paper size" value={paperSize} onChange={(event) => setPaperSize(event.target.value)} className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800">
+                  {Object.entries(paperSizes).map(([id, size]) => <option key={id} value={id}>{size.label}</option>)}
+                </select>
+              </label>
+            </div>
           </div>
-          <div className="p-4 sm:p-6">
-            <div className={`${styles.pageBg} overflow-hidden bg-white shadow-sm`} id="cv-content">
-              <div className="cv-page">
+          <div className="overflow-x-auto p-4 sm:p-6">
+            <div className={`${styles.pageBg} bg-white shadow-sm cv-template-${currentTemplateId}`} id="cv-content" style={{ width: paper.width, maxWidth: 'none', margin: '0 auto' }}>
+              <div className="cv-page" style={{ width: paper.width, minHeight: paper.height, padding: '14mm' }}>
                 <div className={`${styles.headerBg} mb-4 p-6`}>
                   <HeaderPreview cv={cv} styles={styles} templateId={currentTemplateId} />
                 </div>
@@ -722,6 +777,19 @@ const DynamicCVMaker = ({ professionId = 'it-technology', templateStyleId = 1, i
               </div>
             </div>
           </div>
+          {/* ATS estimate is disabled until the scoring method is validated.
+          <div className="mx-4 mb-5 rounded-xl border border-slate-200 bg-white p-4 sm:mx-6">
+            <div className="flex items-baseline justify-between gap-3">
+              <h4 className="text-sm font-semibold text-slate-800">Estimated ATS readiness</h4>
+              <span className="text-lg font-bold text-slate-900">{atsEstimate.score}/100</span>
+            </div>
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-valuenow={atsEstimate.score} aria-valuemin={0} aria-valuemax={100} aria-label="Estimated ATS readiness">
+              <div className="h-full rounded-full bg-indigo-600" style={{ width: `${atsEstimate.score}%` }} />
+            </div>
+            <p className="mt-2 text-xs text-slate-500">A content checklist estimate. Actual ATS results depend on the job and software.</p>
+            {atsEstimate.tips.length > 0 && <ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-slate-700">{atsEstimate.tips.slice(0, 3).map((tip) => <li key={tip}>{tip}</li>)}</ul>}
+          </div>
+          */}
         </aside>
         </div>
       </div >

@@ -168,3 +168,68 @@ code {
 .ProseMirror [style*="text-align: right"] {
   text-align: right;
 }
+
+/* Clean, text-first layouts inspired by the reference CVs. */
+.cv-template-13 .cv-page,
+.cv-template-14 .cv-page {
+  color: #292d30;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1.48;
+}
+
+.cv-template-13 .cv-page > div:first-child {
+  border-bottom: 1.5px solid #444;
+  margin-bottom: 9mm;
+  padding: 0 0 7mm;
+}
+
+.cv-template-13 .cv-header-name {
+  color: #25292b;
+  font-size: 29px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.cv-template-13 .cv-section-title {
+  border: 0;
+  color: #25292b;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  margin-bottom: 3mm;
+}
+
+.cv-template-14 .cv-page > div:first-child {
+  border-bottom: 1px solid #777;
+  margin-bottom: 5mm;
+  padding: 0 0 4mm;
+  text-align: center;
+}
+
+.cv-template-14 .cv-header-name {
+  color: #272727;
+  font-size: 30px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.cv-template-14 .cv-section-title {
+  border-bottom: 1px solid #999;
+  color: #303030;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  margin-bottom: 3mm;
+  padding-bottom: 2mm;
+}
+
+.cv-template-13 .cv-page > div:nth-child(2),
+.cv-template-14 .cv-page > div:nth-child(2) {
+  padding: 0;
+}
+
+@media print {
+  .cv-page .group\/section,
+  .cv-page .education-item {
+    break-inside: avoid;
+  }
+}
