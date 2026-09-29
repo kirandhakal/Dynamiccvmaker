@@ -19,6 +19,10 @@ npm run build
 npm start
 ```
 
+Run `npm run build` before `npm start` when serving locally. The production build lives in `.next/`.
+
+For Vercel, import the repository root as a Next.js project. `vercel.json` selects the Next.js preset and clears the old `build/` output override. Vercel runs the build and serves the app; do not set an Output Directory override to `build`. If you change settings in the dashboard, use **Framework Preset: Next.js**, **Root Directory: `./`**, and leave **Output Directory** on its framework default. Redeploy after pushing these changes.
+
 ## Project structure
 
 - `app/` — App Router pages, metadata, sitemap, robots, and social images.

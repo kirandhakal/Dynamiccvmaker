@@ -1,5 +1,5 @@
 
-name: Cv-maker
+name: CV Maker
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: Build & Test React App
+    name: Check Next.js app
     runs-on: ubuntu-latest
 
     steps:
@@ -26,19 +26,13 @@ jobs:
           cache: npm
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
-      # - name: Run Tests
-      #   run: npm test --watchAll=false --passWithNoTests
+      - name: Check Types
+        run: npm run typecheck
 
       - name: Build Application
         run: npm run build
-
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: react-build
-          path: build/
 
       - name: Notify Discord
         if: always()
