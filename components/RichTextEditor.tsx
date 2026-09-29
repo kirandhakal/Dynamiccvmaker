@@ -19,6 +19,7 @@ const RichTextEditor = ({ content, onChange, placeholder = 'Enter text...', clas
     const [linkUrl, setLinkUrl] = useState('');
     const [linkText, setLinkText] = useState('');
     const editor = useEditor({
+        immediatelyRender: false,
         extensions: [
             StarterKit.configure({
                 heading: false,
