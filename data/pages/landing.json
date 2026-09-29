@@ -222,10 +222,6 @@
       {
         "label": "Pricing",
         "href": "/pricing"
-      },
-      {
-        "label": "AI-readable guide",
-        "href": "/llms.txt"
       }
     ]
   },
