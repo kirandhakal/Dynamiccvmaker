@@ -1,0 +1,18 @@
+{
+  "name": "CV Maker",
+  "url": "https://cv.dhakalkiran.com.np",
+  "creator": "Kiran Dhakal",
+  "publisher": "CV Maker",
+  "keywords": [
+    "free CV maker",
+    "online resume builder",
+    "ATS friendly resume",
+    "professional CV templates"
+  ],
+  "socialProfiles": {
+    "x": "https://x.com/dhakaldiary",
+    "linkedin": "https://www.linkedin.com/in/kirandhakal7/",
+    "github": "https://github.com/kirandhakal"
+  },
+  "shareImageAlt": "Free CV Maker — Build an ATS-friendly resume online"
+}

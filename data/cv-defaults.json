@@ -1,0 +1,129 @@
+{
+  "summaryTemplate": "Add a concise professional summary for your background as a {roleTitle}. Mention experience, core strengths, and the value you bring   replace this text with your own.",
+  "genericExperience": [
+    {
+      "position": "Your Job Title",
+      "company": "Company Name",
+      "period": "Start – Present",
+      "description": "Summarize responsibilities and measurable results. Use action verbs and numbers where possible."
+    },
+    {
+      "position": "Previous Role",
+      "company": "Previous Company",
+      "period": "Start – End",
+      "description": "Highlight achievements relevant to your target role."
+    }
+  ],
+  "genericEducation": [
+    {
+      "degree": "Your Degree or Qualification",
+      "institution": "Institution Name",
+      "period": "Years"
+    }
+  ],
+  "defaultProject": {
+    "name": "Key achievement or project",
+    "link": "",
+    "linkLabel": "",
+    "linkEnabled": false,
+    "description": "Describe a concrete outcome (e.g. improved efficiency, revenue, satisfaction) relevant to this role."
+  },
+  "fallbackSkills": [
+    {
+      "category": "Core",
+      "items": "Communication, teamwork, problem-solving, time management"
+    },
+    {
+      "category": "Technical",
+      "items": "Industry tools and methods   customize for your background"
+    },
+    {
+      "category": "Compliance & Quality",
+      "items": "Standards, documentation, safety (as applicable)"
+    }
+  ],
+  "contactDefaults": {
+    "location": "City, Country",
+    "email": "your.email@example.com",
+    "portfolio": "https://yourportfolio.com",
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "github": "https://github.com/yourusername"
+  },
+  "sectionTitles": {
+    "summary": "PROFESSIONAL SUMMARY",
+    "skills": "KEY SKILLS",
+    "projects": "HIGHLIGHTS",
+    "experience": "WORK EXPERIENCE",
+    "education": "EDUCATION"
+  },
+  "emptyCv": {
+    "name": "JOHN DOE",
+    "title": "Full Stack Developer",
+    "contact": {
+      "location": "San Francisco, CA",
+      "email": "john.doe@example.com",
+      "portfolio": "https://johndoe.dev",
+      "linkedin": "https://www.linkedin.com/in/johndoe",
+      "github": "https://github.com/johndoe"
+    },
+    "sections": [
+      {
+        "id": 1,
+        "title": "PROFESSIONAL SUMMARY",
+        "type": "text",
+        "content": "Add your summary here."
+      },
+      {
+        "id": 2,
+        "title": "TECHNICAL SKILLS",
+        "type": "skills",
+        "items": [
+          {
+            "category": "Category",
+            "items": "Skill 1, Skill 2"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "WORK EXPERIENCE",
+        "type": "experience",
+        "items": [
+          {
+            "position": "Job Title",
+            "company": "Company",
+            "period": "Dates",
+            "description": ""
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "EDUCATION",
+        "type": "education",
+        "items": [
+          {
+            "degree": "Degree",
+            "institution": "School",
+            "period": "Dates"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "PROJECTS",
+        "type": "projects",
+        "items": [
+          {
+            "name": "Project",
+            "link": "",
+            "linkLabel": "",
+            "linkEnabled": false,
+            "description": ""
+          }
+        ]
+      }
+    ]
+  },
+  "defaultName": "YOUR NAME"
+}
